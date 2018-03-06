@@ -1,0 +1,23 @@
+# Single folders
+# --------------
+
+# /Xxxxx
+
+# Single files
+# ------------
+
+# /*.xxx
+
+# Folders everywhere
+# ------------------
+
+.vs
+obj
+bin
+
+# Files everywhere
+# ----------------
+
+*.suo
+*.user
+*.userprefs
