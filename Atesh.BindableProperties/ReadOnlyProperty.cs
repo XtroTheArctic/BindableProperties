@@ -4,7 +4,18 @@ namespace Atesh.BindableProperties
 {
     public class ReadOnlyProperty<T> : IProperty<T>
     {
-        public event ChangedEventHandler<T> Changed;
+        public event ChangedEventHandler<T> Changed
+        {
+            add
+            {
+                _Changed += value;
+
+                value(Owner, Value);
+            }
+            remove => _Changed -= value;
+        }
+
+        event ChangedEventHandler<T> _Changed;
 
         readonly object Owner;
         T Value;
@@ -21,7 +32,7 @@ namespace Atesh.BindableProperties
 
             this.Value = Value;
 
-            Changed?.Invoke(Owner, Value);
+            _Changed?.Invoke(Owner, Value);
         }
 
         // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
