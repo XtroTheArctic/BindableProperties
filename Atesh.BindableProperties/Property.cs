@@ -2,13 +2,10 @@
 {
     public class Property<T> : ReadOnlyProperty<T>
     {
-        public Property(object Owner, out SetValueDelegate SetValueDelegate) : base(Owner, out SetValueDelegate) { }
+        static SetValueDelegate TempDelegate;
 
-        public new void SetValue(T Value)
-        {
-            if (IsSameValue(Value)) return;
+        public readonly SetValueDelegate SetValue;
 
-            base.SetValue(Value);
-        }
+        public Property(object Owner) : base(Owner, out TempDelegate) => SetValue = TempDelegate;
     }
 }

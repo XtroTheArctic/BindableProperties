@@ -9,7 +9,7 @@ namespace BindableProperties.Test
         [Test]
         public void SetValue_DoesntRaiseChangedEventWithSameValue()
         {
-            var Property = new Property<int>(this, out var _);
+            var Property = new Property<int>(this);
             Property.Changed += (Sender, Value) => Assert.Fail();
 
             Property.SetValue(default(int));
@@ -20,7 +20,7 @@ namespace BindableProperties.Test
         {
             const int NewValue = 1;
 
-            var Property = new Property<int>(this, out var _);
+            var Property = new Property<int>(this);
             Property.Changed += (Sender, Value) =>
             {
                 Assert.AreEqual(Sender, this);

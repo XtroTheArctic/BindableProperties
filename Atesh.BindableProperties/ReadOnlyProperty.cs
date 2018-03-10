@@ -2,7 +2,7 @@
 
 namespace Atesh.BindableProperties
 {
-    public class ReadOnlyProperty<T>
+    public class ReadOnlyProperty<T> : IProperty<T>
     {
         public event ChangedEventHandler<T> Changed;
 
@@ -15,7 +15,7 @@ namespace Atesh.BindableProperties
             SetValueDelegate = SetValue;
         }
 
-        protected void SetValue(T Value)
+        void SetValue(T Value)
         {
             if (IsSameValue(Value)) return;
 
