@@ -17,13 +17,15 @@ namespace Atesh.BindableProperties
 
         protected void SetValue(T Value)
         {
-            // We use this instead of object.Equals because this avoids boxing of value types including structs.
-            if (EqualityComparer<T>.Default.Equals(this.Value, Value)) return;
+            if (IsSameValue(Value)) return;
 
             this.Value = Value;
 
             Changed?.Invoke(Owner, Value);
         }
+
+        // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
+        protected bool IsSameValue(T Value) => EqualityComparer<T>.Default.Equals(this.Value, Value);
 
         public delegate void SetValueDelegate(T Value);
     }

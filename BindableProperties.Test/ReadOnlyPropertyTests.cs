@@ -25,7 +25,7 @@ namespace BindableProperties.Test
         }
 
         [Test]
-        public void SetValue_DoesntRaiseChangedEventWithSameValue()
+        public void SetValueDelegate_DoesntRaiseChangedEventWithSameValue()
         {
             var Property = new ReadOnlyProperty<int>(this, out var SetValue);
             Property.Changed += (Sender, Value) => Assert.Fail();
@@ -34,7 +34,7 @@ namespace BindableProperties.Test
         }
 
         [Test]
-        public void SetValue_RaisesChangedEventWithCorrectParameters()
+        public void SetValueDelegate_RaisesChangedEventWithCorrectParameters()
         {
             const int NewValue = 1;
 
