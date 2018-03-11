@@ -29,7 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PropertyTests.cs" />
-    <Compile Include="ReadOnlyPropertyTests.cs" />
+    <Compile Include="OwnerControlledPropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

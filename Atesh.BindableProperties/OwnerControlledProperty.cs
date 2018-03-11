@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Atesh.BindableProperties
 {
-    public class ReadOnlyProperty<T> : IProperty<T>
+    public class OwnerControlledProperty<T> : IProperty<T>
     {
         public event ChangedEventHandler<T> Changed
         {
@@ -22,7 +22,7 @@ namespace Atesh.BindableProperties
         T Value;
         bool IsEmpty;
 
-        public ReadOnlyProperty(object Owner, out SetValueDelegate SetValueDelegate, out Action ClearValueDelegate, bool IsEmpty = false)
+        public OwnerControlledProperty(object Owner, out SetValueDelegate SetValueDelegate, out Action ClearValueDelegate, bool IsEmpty = false)
         {
             this.Owner = Owner ?? throw new ArgumentNullException(nameof(Owner));
             SetValueDelegate = SetValue;
@@ -31,7 +31,7 @@ namespace Atesh.BindableProperties
             this.IsEmpty = IsEmpty;
         }
 
-        public ReadOnlyProperty(object Owner, out SetValueDelegate SetValueDelegate, out Action ClearValueDelegate, T Value) : this(Owner, out SetValueDelegate, out ClearValueDelegate)
+        public OwnerControlledProperty(object Owner, out SetValueDelegate SetValueDelegate, out Action ClearValueDelegate, T Value) : this(Owner, out SetValueDelegate, out ClearValueDelegate)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {

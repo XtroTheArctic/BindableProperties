@@ -39,7 +39,7 @@
     <Compile Include="DependantProperty.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="IProperty.cs" />
-    <Compile Include="ReadOnlyProperty.cs" />
+    <Compile Include="OwnerControlledProperty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -2,7 +2,7 @@
 
 namespace Atesh.BindableProperties
 {
-    public class Property<T> : ReadOnlyProperty<T>
+    public class Property<T> : OwnerControlledProperty<T>
     {
         #region Static
         // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
