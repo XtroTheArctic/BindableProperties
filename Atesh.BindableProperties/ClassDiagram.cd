@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="Atesh.BindableProperties.ReadOnlyProperty&lt;T&gt;">
+    <Position X="0.5" Y="0.5" Width="8.5" />
+    <Compartments>
+      <Compartment Name="Protected" Collapsed="true" />
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Atesh.BindableProperties.ReadOnlyProperty&lt;T&gt;.SetValueDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ReadOnlyProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AABAAACAAQBAAgAABAAAAAAEgAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>ReadOnlyProperty.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Atesh.BindableProperties.Property&lt;T&gt;">
+    <Position X="0.5" Y="3" Width="8.5" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAgAACAAAAAgAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Property.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Atesh.BindableProperties.DependantProperty&lt;T&gt;">
+    <Position X="0.5" Y="5.25" Width="8.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DependantProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="8.88" />
+</ClassDiagram>

@@ -7,15 +7,15 @@ namespace BindableProperties.Test
     public class PropertyTests
     {
         [Test]
-        public void SetValue_DoesntRaiseChangedEventWithSameValue()
+        public void SetValue_DoesNotRaiseChangedEventWithSameValue()
         {
-            int? PropertyValue = null;
+            var PropertyValueReceivedOnce = false;
 
             var Property = new Property<int>(this);
-            Property.Changed += (Sender, Value) =>
+            Property.Changed += (Sender, Args) =>
             {
-                if (PropertyValue.HasValue) Assert.Fail();
-                else PropertyValue = Value;
+                if (PropertyValueReceivedOnce) Assert.Fail();
+                else PropertyValueReceivedOnce = true;
             };
 
             Property.SetValue(default(int));
@@ -25,21 +25,58 @@ namespace BindableProperties.Test
         public void SetValue_RaisesChangedEventWithCorrectParameters()
         {
             const int NewValue = 1;
-            int? PropertyValue = null;
+            var PropertyValueReceivedOnce = false;
 
             var Property = new Property<int>(this);
-            Property.Changed += (Sender, Value) =>
+            Property.Changed += (Sender, Args) =>
             {
-                if (PropertyValue.HasValue)
+                if (PropertyValueReceivedOnce)
                 {
                     Assert.AreEqual(Sender, this);
-                    Assert.AreEqual(Value, NewValue);
+                    Assert.AreEqual(Args.Value, NewValue);
+                    Assert.False(Args.IsEmpty);
                     Assert.Pass();
                 }
-                else PropertyValue = Value;
+                else PropertyValueReceivedOnce = true;
             };
 
             Property.SetValue(NewValue);
+            Assert.Fail();
+        }
+
+        [Test]
+        public void ClearValue_DoesNotRaiseChangedEventWhenEmpty()
+        {
+            var PropertyValueReceivedOnce = false;
+
+            var Property = new Property<int>(this, true);
+            Property.Changed += (Sender, Args) =>
+            {
+                if (PropertyValueReceivedOnce) Assert.Fail();
+                else PropertyValueReceivedOnce = true;
+            };
+
+            Property.ClearValue();
+        }
+
+        [Test]
+        public void ClearValue_RaisesChangedEventWithCorrectParameters()
+        {
+            var PropertyValueReceivedOnce = false;
+
+            var Property = new Property<int>(this);
+            Property.Changed += (Sender, Args) =>
+            {
+                if (PropertyValueReceivedOnce)
+                {
+                    Assert.AreEqual(Sender, this);
+                    Assert.True(Args.IsEmpty);
+                    Assert.Pass();
+                }
+                else PropertyValueReceivedOnce = true;
+            };
+
+            Property.ClearValue();
             Assert.Fail();
         }
     }

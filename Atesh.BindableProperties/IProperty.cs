@@ -1,6 +1,6 @@
 ﻿namespace Atesh.BindableProperties
 {
-    public interface IProperty<out T>
+    public interface IProperty<T>
     {
         event ChangedEventHandler<T> Changed;
     }
