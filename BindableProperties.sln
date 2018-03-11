@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atesh.BindableProperties", "Atesh.BindableProperties\Atesh.BindableProperties.csproj", "{8F662854-FF8C-4A24-82DD-0CD0AA35B119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindableProperties.Test", "BindableProperties.Test\BindableProperties.Test.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atesh.BindableProperties.Test", "BindableProperties.Test\Atesh.BindableProperties.Test.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

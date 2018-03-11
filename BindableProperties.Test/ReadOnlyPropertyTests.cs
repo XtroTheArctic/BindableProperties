@@ -1,8 +1,7 @@
 ﻿using System;
-using Atesh.BindableProperties;
 using NUnit.Framework;
 
-namespace BindableProperties.Test
+namespace Atesh.BindableProperties.Test
 {
     [TestFixture]
     public class ReadOnlyPropertyTests
