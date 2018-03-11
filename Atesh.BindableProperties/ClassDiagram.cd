@@ -1,39 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
-  <Class Name="Atesh.BindableProperties.ReadOnlyProperty&lt;T&gt;">
+  <Class Name="Atesh.BindableProperties.OwnerControlledProperty&lt;T&gt;">
     <Position X="0.5" Y="0.5" Width="8.5" />
     <Compartments>
-      <Compartment Name="Protected" Collapsed="true" />
       <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Protected" Collapsed="true" />
     </Compartments>
     <NestedTypes>
-      <Delegate Name="Atesh.BindableProperties.ReadOnlyProperty&lt;T&gt;.SetValueDelegate" Collapsed="true">
+      <Delegate Name="Atesh.BindableProperties.OwnerControlledProperty&lt;T&gt;.SetValueDelegate" Collapsed="true">
         <TypeIdentifier>
-          <NewMemberFileName>ReadOnlyProperty.cs</NewMemberFileName>
+          <NewMemberFileName>OwnerControlledProperty.cs</NewMemberFileName>
         </TypeIdentifier>
       </Delegate>
+      <Struct Name="Atesh.BindableProperties.OwnerControlledProperty&lt;T&gt;.Delegates" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>OwnerControlledProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
     </NestedTypes>
     <TypeIdentifier>
       <HashCode>AABAAACAAQBAAgAABAAAAAAEgAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>ReadOnlyProperty.cs</FileName>
+      <FileName>OwnerControlledProperty.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Atesh.BindableProperties.Property&lt;T&gt;">
-    <Position X="0.5" Y="3" Width="8.5" />
+    <Position X="9.75" Y="0.5" Width="3.25" />
     <Compartments>
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAgAACAAAAAgAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAEAAgAAAAAAAAAEAAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Property.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Atesh.BindableProperties.DependantProperty&lt;T&gt;">
-    <Position X="0.5" Y="5.25" Width="8.5" />
+  <Class Name="Atesh.BindableProperties.BindableProperty&lt;T&gt;">
+    <Position X="9.75" Y="3.25" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DependantProperty.cs</FileName>
+      <HashCode>AAAAgAAAAAEAAAAAAAAAAAAAAAAAAAAEAAAEAAAAAAg=</HashCode>
+      <FileName>BindableProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Atesh.BindableProperties.OwnerControlledBindableProperty&lt;T&gt;">
+    <Position X="0.5" Y="3.25" Width="8.5" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Atesh.BindableProperties.OwnerControlledBindableProperty&lt;T&gt;.BindToPropertyDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>OwnerControlledBindableProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Atesh.BindableProperties.OwnerControlledBindableProperty&lt;T&gt;.BindToRegularProperty" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>OwnerControlledBindableProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Struct Name="Atesh.BindableProperties.OwnerControlledBindableProperty&lt;T&gt;.Delegates" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>OwnerControlledBindableProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAw=</HashCode>
+      <FileName>OwnerControlledBindableProperty.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="8.88" />
