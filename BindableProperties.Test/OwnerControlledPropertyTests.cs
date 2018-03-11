@@ -10,7 +10,7 @@ namespace Atesh.BindableProperties.Test
         public void Constructor_ParameterValidation()
         {
             // ReSharper disable once ObjectCreationAsStatement
-            var E = Assert.Throws<ArgumentNullException>(() => new OwnerControlledProperty<int>(null, out _, out _));
+            var E = Assert.Throws<ArgumentNullException>(() => new OwnerControlledProperty<int>(null, out _));
             Assert.True(E.ParamName == "Owner");
         }
 
@@ -18,17 +18,17 @@ namespace Atesh.BindableProperties.Test
         public void Constructor_ReturnsDelegates()
         {
             // ReSharper disable once ObjectCreationAsStatement
-            new OwnerControlledProperty<int>(this, out var SetValue, out var ClearValue);
+            new OwnerControlledProperty<int>(this, out var Delegates);
 
-            if (SetValue == null) Assert.Fail();
-            if (ClearValue == null) Assert.Fail();
+            if (Delegates.SetValue == null) Assert.Fail();
+            if (Delegates.ClearValue == null) Assert.Fail();
         }
 
         [Test]
         public void Constructor_StoresCorrectValue()
         {
             const int Value = 1;
-            var Property = new OwnerControlledProperty<int>(this, out var _, out var _, Value);
+            var Property = new OwnerControlledProperty<int>(this, out _, Value);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.AreEqual(Args.Value, Value);
@@ -42,7 +42,7 @@ namespace Atesh.BindableProperties.Test
         [Test]
         public void Constructor_StoresEmptyValue()
         {
-            var Property = new OwnerControlledProperty<int>(this, out var _, out var _, true);
+            var Property = new OwnerControlledProperty<int>(this, out _, true);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.True(Args.IsEmpty);
@@ -57,14 +57,14 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new OwnerControlledProperty<int>(this, out var SetValue, out _);
+            var Property = new OwnerControlledProperty<int>(this, out var Delegates);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
                 else PropertyValueReceivedOnce = true;
             };
 
-            SetValue(default(int));
+            Delegates.SetValue(default(int));
         }
 
         [Test]
@@ -72,20 +72,20 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new OwnerControlledProperty<int>(this, out var _, out var ClearValue, true);
+            var Property = new OwnerControlledProperty<int>(this, out var Delegates, true);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
                 else PropertyValueReceivedOnce = true;
             };
 
-            ClearValue();
+            Delegates.ClearValue();
         }
 
         [Test]
         public void ChangedAdder_RaisesChangedEventImmediatelyWithCorrectParameters()
         {
-            var Property = new OwnerControlledProperty<int>(this, out _, out _);
+            var Property = new OwnerControlledProperty<int>(this, out _);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.AreEqual(Sender, this);
@@ -103,7 +103,7 @@ namespace Atesh.BindableProperties.Test
             const int NewValue = 1;
             var PropertyValueReceivedOnce = false;
 
-            var Property = new OwnerControlledProperty<int>(this, out var SetValue, out var _);
+            var Property = new OwnerControlledProperty<int>(this, out var Delegates);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
@@ -116,7 +116,7 @@ namespace Atesh.BindableProperties.Test
                 else PropertyValueReceivedOnce = true;
             };
 
-            SetValue(NewValue);
+            Delegates.SetValue(NewValue);
             Assert.Fail();
         }
 
@@ -125,7 +125,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new OwnerControlledProperty<int>(this, out var _, out var ClearValue);
+            var Property = new OwnerControlledProperty<int>(this, out var Delegates);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
@@ -137,7 +137,7 @@ namespace Atesh.BindableProperties.Test
                 else PropertyValueReceivedOnce = true;
             };
 
-            ClearValue();
+            Delegates.ClearValue();
             Assert.Fail();
         }
     }

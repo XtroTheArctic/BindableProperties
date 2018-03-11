@@ -8,8 +8,7 @@ namespace Atesh.BindableProperties
         // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
         // ReSharper disable StaticMemberInGenericType
 
-        static SetValueDelegate TempSetValueDelegate;
-        static Action TempClearValueDelegate;
+        static Delegates TempDelegates;
 
         // ReSharper restore StaticMemberInGenericType
         // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
@@ -18,16 +17,16 @@ namespace Atesh.BindableProperties
         public readonly SetValueDelegate SetValue;
         public readonly Action ClearValue;
 
-        public Property(object Owner, bool IsEmpty = false) : base(Owner, out TempSetValueDelegate, out TempClearValueDelegate, IsEmpty)
+        public Property(object Owner, bool IsEmpty = false) : base(Owner, out TempDelegates, IsEmpty)
         {
-            SetValue = TempSetValueDelegate;
-            ClearValue = TempClearValueDelegate;
+            SetValue = TempDelegates.SetValue;
+            ClearValue = TempDelegates.ClearValue;
         }
 
-        public Property(object Owner, T Value) : base(Owner, out TempSetValueDelegate, out TempClearValueDelegate, Value)
+        public Property(object Owner, T Value) : base(Owner, out TempDelegates, Value)
         {
-            SetValue = TempSetValueDelegate;
-            ClearValue = TempClearValueDelegate;
+            SetValue = TempDelegates.SetValue;
+            ClearValue = TempDelegates.ClearValue;
         }
     }
 }

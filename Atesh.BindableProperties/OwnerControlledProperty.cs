@@ -22,16 +22,16 @@ namespace Atesh.BindableProperties
         T Value;
         bool IsEmpty;
 
-        public OwnerControlledProperty(object Owner, out SetValueDelegate SetValueDelegate, out Action ClearValueDelegate, bool IsEmpty = false)
+        public OwnerControlledProperty(object Owner, out Delegates Delegates, bool IsEmpty = false)
         {
             this.Owner = Owner ?? throw new ArgumentNullException(nameof(Owner));
-            SetValueDelegate = SetValue;
-            ClearValueDelegate = ClearValue;
+            Delegates.SetValue = SetValue;
+            Delegates.ClearValue = ClearValue;
 
             this.IsEmpty = IsEmpty;
         }
 
-        public OwnerControlledProperty(object Owner, out SetValueDelegate SetValueDelegate, out Action ClearValueDelegate, T Value) : this(Owner, out SetValueDelegate, out ClearValueDelegate)
+        public OwnerControlledProperty(object Owner, out Delegates Delegates, T Value) : this(Owner, out Delegates)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -64,5 +64,11 @@ namespace Atesh.BindableProperties
         protected bool IsSameValue(T Value) => EqualityComparer<T>.Default.Equals(this.Value, Value);
 
         public delegate void SetValueDelegate(T Value);
+
+        public struct Delegates
+        {
+            public SetValueDelegate SetValue;
+            public Action ClearValue;
+        }
     }
 }
