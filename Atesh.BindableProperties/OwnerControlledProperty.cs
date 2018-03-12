@@ -5,22 +5,24 @@ namespace Atesh.BindableProperties
 {
     public class OwnerControlledProperty<T> : IProperty<T>
     {
+        protected bool IsEmpty { get; private set; }
+
         public event ChangedEventHandler<T> Changed
         {
             add
             {
                 _Changed += value;
 
-                value(Owner, new ChangedEventArgs<T>(IsEmpty, Value));
+                value(this, new ChangedEventArgs<T>(IsEmpty, Value));
             }
             remove => _Changed -= value;
         }
 
         event ChangedEventHandler<T> _Changed;
 
-        readonly object Owner;
+        public readonly object Owner;
+
         T Value;
-        bool IsEmpty;
 
         public OwnerControlledProperty(object Owner, out Delegates Delegates, bool IsEmpty = false)
         {
@@ -39,11 +41,11 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        void OnChanged() => _Changed?.Invoke(Owner, new ChangedEventArgs<T>(IsEmpty, Value));
+        void OnChanged() => _Changed?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
 
         void SetValue(T Value)
         {
-            if (!IsEmpty && IsSameValue(Value)) return;
+            if (IsSameValue(Value)) return;
 
             IsEmpty = false;
             this.Value = Value;
@@ -61,7 +63,7 @@ namespace Atesh.BindableProperties
         }
 
         // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
-        protected bool IsSameValue(T Value) => EqualityComparer<T>.Default.Equals(this.Value, Value);
+        protected bool IsSameValue(T Value) => !IsEmpty && EqualityComparer<T>.Default.Equals(this.Value, Value);
 
         public delegate void SetValueDelegate(T Value);
 

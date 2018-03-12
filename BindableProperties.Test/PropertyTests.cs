@@ -68,7 +68,7 @@ namespace Atesh.BindableProperties.Test
             {
                 if (PropertyValueReceivedOnce)
                 {
-                    Assert.AreEqual(Sender, this);
+                    Assert.AreEqual(Sender, Property);
                     Assert.AreEqual(Args.Value, NewValue);
                     Assert.False(Args.IsEmpty);
                     Assert.Pass();
@@ -105,7 +105,7 @@ namespace Atesh.BindableProperties.Test
             {
                 if (PropertyValueReceivedOnce)
                 {
-                    Assert.AreEqual(Sender, this);
+                    Assert.AreEqual(Sender, Property);
                     Assert.True(Args.IsEmpty);
                     Assert.Pass();
                 }

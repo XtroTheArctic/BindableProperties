@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Atesh.BindableProperties
 {
     public class OwnerControlledBindableProperty<T> : OwnerControlledProperty<T>
     {
+        //todo: Bunlar monitor binding'ler için kullanılacak. İsmi değişebilir.
+        readonly Dictionary<OwnerControlledProperty<T>, BindingRecord> BindingRecords = new Dictionary<OwnerControlledProperty<T>, BindingRecord>();
+        readonly Dictionary<object, Dictionary<PropertyInfo, BindingRecord>> RegularBindingRecords = new Dictionary<object, Dictionary<PropertyInfo, BindingRecord>>();
+
         public OwnerControlledBindableProperty(object Owner, out OwnerControlledProperty<T>.Delegates Delegates, out Delegates BindingDelegates, bool IsEmpty = false) : base(Owner, out Delegates, IsEmpty)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
@@ -32,6 +37,15 @@ namespace Atesh.BindableProperties
 
         void Bind(OwnerControlledProperty<T> Target)
         {
+            if (Target == null) throw new ArgumentNullException(nameof(Target));
+
+            //todo: Önceden bind edilmişse Unbind et.
+
+            Target.Changed += BoundProperty_Changed;
+        }
+
+        void BoundProperty_Changed(OwnerControlledProperty<T> Sender, ChangedEventArgs<T> Args)
+        {
         }
 
         void Unbind(OwnerControlledProperty<T> Target)
@@ -40,6 +54,11 @@ namespace Atesh.BindableProperties
 
         void Bind(object Target, PropertyInfo Property, EventInfo Event)
         {
+            if (Target == null) throw new ArgumentNullException(nameof(Target));
+            if (Property == null) throw new ArgumentNullException(nameof(Property));
+            if (Event == null) throw new ArgumentNullException(nameof(Event));
+
+            if (RegularBindingRecords.TryGetValue(Target, out var Properties) && Properties.ContainsKey(Property)) return;
         }
 
         void Unbind(object Target, PropertyInfo Property, EventInfo Event)
@@ -60,6 +79,11 @@ namespace Atesh.BindableProperties
             public BindToRegularProperty BindRegular;
             public BindToRegularProperty UnbindRegular;
             public Action UnbindAll;
+        }
+
+        //todo: Monitor binding'ler için kullanılacak. İsmi değişebilir.
+        class BindingRecord
+        {
         }
     }
 }
