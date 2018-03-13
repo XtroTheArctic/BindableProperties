@@ -39,7 +39,6 @@
     <Compile Include="BindableProperty.cs" />
     <Compile Include="OwnerControlledBindableProperty.cs" />
     <Compile Include="Property.cs" />
-    <Compile Include="IProperty.cs" />
     <Compile Include="OwnerControlledProperty.cs" />
   </ItemGroup>
   <ItemGroup>

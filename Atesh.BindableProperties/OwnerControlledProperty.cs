@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Atesh.BindableProperties
 {
-    public class OwnerControlledProperty<T> : IProperty<T>
+    public class OwnerControlledProperty<T>
     {
         protected bool IsEmpty { get; private set; }
 

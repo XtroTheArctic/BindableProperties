@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Atesh.BindableProperties
 {
     public class OwnerControlledBindableProperty<T> : OwnerControlledProperty<T>
     {
-        //todo: Bunlar monitor binding'ler için kullanılacak. İsmi değişebilir.
-        readonly Dictionary<OwnerControlledProperty<T>, BindingRecord> BindingRecords = new Dictionary<OwnerControlledProperty<T>, BindingRecord>();
-        readonly Dictionary<object, Dictionary<PropertyInfo, BindingRecord>> RegularBindingRecords = new Dictionary<object, Dictionary<PropertyInfo, BindingRecord>>();
+        OwnerControlledProperty<T> BoundProperty;
 
         public OwnerControlledBindableProperty(object Owner, out OwnerControlledProperty<T>.Delegates Delegates, out Delegates BindingDelegates, bool IsEmpty = false) : base(Owner, out Delegates, IsEmpty)
         // ReSharper disable ArrangeConstructorOrDestructorBody
@@ -30,60 +26,38 @@ namespace Atesh.BindableProperties
         {
             BindingDelegates.Bind = Bind;
             BindingDelegates.Unbind = Unbind;
-            BindingDelegates.BindRegular = Bind;
-            BindingDelegates.UnbindRegular = Unbind;
-            BindingDelegates.UnbindAll = UnbindAll;
         }
 
         void Bind(OwnerControlledProperty<T> Target)
         {
+#pragma warning disable IDE0016 // Use 'throw' expression
             if (Target == null) throw new ArgumentNullException(nameof(Target));
+#pragma warning restore IDE0016 // Use 'throw' expression
 
-            //todo: Önceden bind edilmişse Unbind et.
+            if (BoundProperty != null) Unbind();
 
-            Target.Changed += BoundProperty_Changed;
+            BoundProperty = Target;
+            BoundProperty.Changed += BoundProperty_Changed;
+        }
+
+        void Unbind()
+        {
+            if (BoundProperty == null) return;
+
+            BoundProperty.Changed -= BoundProperty_Changed;
+            BoundProperty = null;
         }
 
         void BoundProperty_Changed(OwnerControlledProperty<T> Sender, ChangedEventArgs<T> Args)
         {
         }
 
-        void Unbind(OwnerControlledProperty<T> Target)
-        {
-        }
-
-        void Bind(object Target, PropertyInfo Property, EventInfo Event)
-        {
-            if (Target == null) throw new ArgumentNullException(nameof(Target));
-            if (Property == null) throw new ArgumentNullException(nameof(Property));
-            if (Event == null) throw new ArgumentNullException(nameof(Event));
-
-            if (RegularBindingRecords.TryGetValue(Target, out var Properties) && Properties.ContainsKey(Property)) return;
-        }
-
-        void Unbind(object Target, PropertyInfo Property, EventInfo Event)
-        {
-        }
-
-        void UnbindAll()
-        {
-        }
-
         public delegate void BindToPropertyDelegate(OwnerControlledProperty<T> Target);
-        public delegate void BindToRegularProperty(object Target, PropertyInfo Property, EventInfo Event);
 
         public new struct Delegates
         {
             public BindToPropertyDelegate Bind;
-            public BindToPropertyDelegate Unbind;
-            public BindToRegularProperty BindRegular;
-            public BindToRegularProperty UnbindRegular;
-            public Action UnbindAll;
-        }
-
-        //todo: Monitor binding'ler için kullanılacak. İsmi değişebilir.
-        class BindingRecord
-        {
+            public Action Unbind;
         }
     }
 }
