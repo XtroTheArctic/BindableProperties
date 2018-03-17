@@ -2,11 +2,11 @@
 
 namespace Atesh.BindableProperties
 {
-    public class OwnerControlledBindableProperty<T> : OwnerControlledProperty<T>
+    public class PrivatelySettablePrivatelyBindableProperty<T> : PrivatelySettableProperty<T>
     {
-        OwnerControlledProperty<T> BoundProperty;
+        PrivatelySettableProperty<T> BoundProperty;
 
-        public OwnerControlledBindableProperty(object Owner, out OwnerControlledProperty<T>.Delegates Delegates, out Delegates BindingDelegates, bool IsEmpty = false) : base(Owner, out Delegates, IsEmpty)
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out PrivatelySettableProperty<T>.Delegates Delegates, out Delegates BindingDelegates, bool IsEmpty = false) : base(Owner, out Delegates, IsEmpty)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -14,7 +14,7 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        public OwnerControlledBindableProperty(object Owner, out OwnerControlledProperty<T>.Delegates Delegates, out Delegates BindingDelegates, T Value) : base(Owner, out Delegates, Value)
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out PrivatelySettableProperty<T>.Delegates Delegates, out Delegates BindingDelegates, T Value) : base(Owner, out Delegates, Value)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -28,7 +28,7 @@ namespace Atesh.BindableProperties
             BindingDelegates.Unbind = Unbind;
         }
 
-        void Bind(OwnerControlledProperty<T> Target)
+        void Bind(PrivatelySettableProperty<T> Target)
         {
 #pragma warning disable IDE0016 // Use 'throw' expression
             if (Target == null) throw new ArgumentNullException(nameof(Target));
@@ -48,11 +48,11 @@ namespace Atesh.BindableProperties
             BoundProperty = null;
         }
 
-        void BoundProperty_Changed(OwnerControlledProperty<T> Sender, ChangedEventArgs<T> Args)
+        void BoundProperty_Changed(PrivatelySettableProperty<T> Sender, ChangedEventArgs<T> Args)
         {
         }
 
-        public delegate void BindToPropertyDelegate(OwnerControlledProperty<T> Target);
+        public delegate void BindToPropertyDelegate(PrivatelySettableProperty<T> Target);
 
         public new struct Delegates
         {

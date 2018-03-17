@@ -1,4 +1,4 @@
 ﻿namespace Atesh.BindableProperties
 {
-    public delegate void ChangedEventHandler<T>(OwnerControlledProperty<T> Sender, ChangedEventArgs<T> Args);
+    public delegate void ChangedEventHandler<T>(PrivatelySettableProperty<T> Sender, ChangedEventArgs<T> Args);
 }
