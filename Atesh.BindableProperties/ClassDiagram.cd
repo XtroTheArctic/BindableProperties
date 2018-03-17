@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
   <Class Name="Atesh.BindableProperties.BindableProperty&lt;T&gt;">
-    <Position X="9.75" Y="4" Width="3.25" />
+    <Position X="10" Y="4" Width="3.25" />
     <Compartments>
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
@@ -11,7 +11,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Atesh.BindableProperties.PrivatelySettablePrivatelyBindableProperty&lt;T&gt;">
-    <Position X="0.5" Y="0.5" Width="8.5" />
+    <Position X="0.5" Y="0.5" Width="8.75" />
     <Compartments>
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
@@ -38,17 +38,17 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AABAgACAAQBAAgAABAABAAAEgAAAAAAAQAAkAAAAAAA=</HashCode>
+      <HashCode>AABAgACAAQFAAgAAJAABAAAEQAAAAAAAQAAkAAAAAAA=</HashCode>
       <FileName>PrivatelySettablePrivatelyBindableProperty.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Atesh.BindableProperties.PrivatelyBindableProperty&lt;T&gt;">
-    <Position X="0.5" Y="4" Width="8.5" />
+    <Position X="0.5" Y="4" Width="8.75" />
     <Compartments>
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAEAAAAAgAAAAAAAAEAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAEAAAAAgAAAAAAAAAAAAQ=</HashCode>
       <FileName>PrivatelyBindableProperty.cs</FileName>
     </TypeIdentifier>
   </Class>
