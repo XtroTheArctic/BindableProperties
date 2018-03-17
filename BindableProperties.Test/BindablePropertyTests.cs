@@ -4,13 +4,13 @@ using NUnit.Framework;
 namespace Atesh.BindableProperties.Test
 {
     [TestFixture]
-    public class PropertyTests
+    public class BindablePropertyTests
     {
         [Test]
         public void Constructor_ParameterValidation()
         {
             // ReSharper disable once ObjectCreationAsStatement
-            var E = Assert.Throws<ArgumentNullException>(() => new Property<int>(null));
+            var E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null));
             Assert.True(E.ParamName == "Owner");
         }
 
@@ -18,7 +18,7 @@ namespace Atesh.BindableProperties.Test
         public void Constructor_StoresCorrectValue()
         {
             const int Value = 1;
-            var Property = new Property<int>(this, Value);
+            var Property = new BindableProperty<int>(this, Value);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.AreEqual(Args.Value, Value);
@@ -32,7 +32,7 @@ namespace Atesh.BindableProperties.Test
         [Test]
         public void Constructor_StoresEmptyValue()
         {
-            var Property = new Property<int>(this, true);
+            var Property = new BindableProperty<int>(this, true);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.True(Args.IsEmpty);
@@ -47,7 +47,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new Property<int>(this);
+            var Property = new BindableProperty<int>(this);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
@@ -63,7 +63,7 @@ namespace Atesh.BindableProperties.Test
             const int NewValue = 1;
             var PropertyValueReceivedOnce = false;
 
-            var Property = new Property<int>(this);
+            var Property = new BindableProperty<int>(this);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
@@ -85,7 +85,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new Property<int>(this, true);
+            var Property = new BindableProperty<int>(this, true);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
@@ -100,7 +100,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new Property<int>(this);
+            var Property = new BindableProperty<int>(this);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)

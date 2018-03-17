@@ -39,8 +39,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BindableProperty.cs" />
     <Compile Include="PrivatelySettablePrivatelyBindableProperty.cs" />
-    <Compile Include="Property.cs" />
-    <Compile Include="PrivatelySettableProperty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

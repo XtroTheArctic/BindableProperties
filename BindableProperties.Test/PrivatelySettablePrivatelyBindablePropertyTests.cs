@@ -4,13 +4,13 @@ using NUnit.Framework;
 namespace Atesh.BindableProperties.Test
 {
     [TestFixture]
-    public class OwnerControlledPropertyTests
+    public class PrivatelySettablePrivatelyBindablePropertyTests
     {
         [Test]
         public void Constructor_ParameterValidation()
         {
             // ReSharper disable once ObjectCreationAsStatement
-            var E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettableProperty<int>(null, out _));
+            var E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettablePrivatelyBindableProperty<int>(null, out _, out _));
             Assert.True(E.ParamName == "Owner");
         }
 
@@ -18,17 +18,19 @@ namespace Atesh.BindableProperties.Test
         public void Constructor_ReturnsDelegates()
         {
             // ReSharper disable once ObjectCreationAsStatement
-            new PrivatelySettableProperty<int>(this, out var Delegates);
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
 
-            if (Delegates.SetValue == null) Assert.Fail();
-            if (Delegates.ClearValue == null) Assert.Fail();
+            if (SetDelegates.SetValue == null) Assert.Fail();
+            if (SetDelegates.ClearValue == null) Assert.Fail();
+            if (BindDelegates.Bind == null) Assert.Fail();
+            if (BindDelegates.Unbind == null) Assert.Fail();
         }
 
         [Test]
         public void Constructor_StoresCorrectValue()
         {
             const int Value = 1;
-            var Property = new PrivatelySettableProperty<int>(this, out _, Value);
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, Value);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.AreEqual(Args.Value, Value);
@@ -42,7 +44,7 @@ namespace Atesh.BindableProperties.Test
         [Test]
         public void Constructor_StoresEmptyValue()
         {
-            var Property = new PrivatelySettableProperty<int>(this, out _, true);
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, true);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.True(Args.IsEmpty);
@@ -57,14 +59,14 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelySettableProperty<int>(this, out var Delegates);
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out _);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
                 else PropertyValueReceivedOnce = true;
             };
 
-            Delegates.SetValue(default(int));
+            SetDelegates.SetValue(default(int));
         }
 
         [Test]
@@ -72,20 +74,20 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelySettableProperty<int>(this, out var Delegates, true);
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out _, true);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
                 else PropertyValueReceivedOnce = true;
             };
 
-            Delegates.ClearValue();
+            SetDelegates.ClearValue();
         }
 
         [Test]
         public void ChangedAdder_RaisesChangedEventImmediatelyWithCorrectParameters()
         {
-            var Property = new PrivatelySettableProperty<int>(this, out _);
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.AreEqual(Sender, Property);
@@ -103,7 +105,7 @@ namespace Atesh.BindableProperties.Test
             const int NewValue = 1;
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelySettableProperty<int>(this, out var Delegates);
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out _);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
@@ -116,7 +118,7 @@ namespace Atesh.BindableProperties.Test
                 else PropertyValueReceivedOnce = true;
             };
 
-            Delegates.SetValue(NewValue);
+            SetDelegates.SetValue(NewValue);
             Assert.Fail();
         }
 
@@ -125,7 +127,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelySettableProperty<int>(this, out var Delegates);
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out _);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
@@ -137,8 +139,8 @@ namespace Atesh.BindableProperties.Test
                 else PropertyValueReceivedOnce = true;
             };
 
-            Delegates.ClearValue();
+            SetDelegates.ClearValue();
             Assert.Fail();
         }
     }
-}
+}                                                                                                            

@@ -5,27 +5,30 @@
         #region Static
         // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
-        static PrivatelySettableProperty<T>.Delegates TempDelegates;
-        static Delegates TempBindingDelegates;
+        static SetDelegates TempSetDelegates;
 
         // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
         #endregion
 
-        new PrivatelySettableProperty<T>.Delegates Delegates;
+        new SetDelegates SetDelegates;
 
-        public PrivatelyBindableProperty(object Owner, out Delegates BindingDelegates, bool IsEmpty = false) : base(Owner, out TempDelegates, out TempBindingDelegates, IsEmpty)
+        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty)
+        // ReSharper disable ArrangeConstructorOrDestructorBody
+        // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
-            Delegates = TempDelegates;
-            BindingDelegates = TempBindingDelegates;
+            SetDelegates = TempSetDelegates;
         }
+        // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        public PrivatelyBindableProperty(object Owner, out Delegates BindingDelegates, T Value) : base(Owner, out TempDelegates, out TempBindingDelegates, Value)
+        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, T Value) : base(Owner, out TempSetDelegates, out BindDelegates, Value)
+        // ReSharper disable ArrangeConstructorOrDestructorBody
+        // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
-            Delegates = TempDelegates;
-            BindingDelegates = TempBindingDelegates;
+            SetDelegates = TempSetDelegates;
         }
+        // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        public void SetValue(T Value) => Delegates.SetValue(Value);
-        public void ClearValue() => Delegates.ClearValue();
+        public void SetValue(T Value) => SetDelegates.SetValue(Value);
+        public void ClearValue() => SetDelegates.ClearValue();
     }
 }

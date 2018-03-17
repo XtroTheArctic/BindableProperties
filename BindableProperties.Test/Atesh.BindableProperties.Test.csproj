@@ -28,8 +28,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PropertyTests.cs" />
-    <Compile Include="OwnerControlledPropertyTests.cs" />
+    <Compile Include="BindablePropertyTests.cs" />
+    <Compile Include="PrivatelySettablePrivatelyBindablePropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
