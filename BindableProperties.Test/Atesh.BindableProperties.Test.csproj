@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindablePropertyTests.cs" />
+    <Compile Include="PrivatelyBindablePropertyTests.cs" />
     <Compile Include="PrivatelySettablePrivatelyBindablePropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

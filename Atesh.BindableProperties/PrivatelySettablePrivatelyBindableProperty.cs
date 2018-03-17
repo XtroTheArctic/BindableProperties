@@ -20,6 +20,10 @@ namespace Atesh.BindableProperties
         event ChangedEventHandler<T> _Changed;
         #endregion
 
+        #region Properties
+        public bool IsBound => BoundProperty != null;
+        #endregion
+
         public readonly object Owner;
 
         T Value;
@@ -52,8 +56,14 @@ namespace Atesh.BindableProperties
 
         void SetValue(T Value)
         {
-            if (IsSameValue(Value)) return;
+            if (BoundProperty != null) Unbind();
 
+            // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
+            if (IsEmpty || !EqualityComparer<T>.Default.Equals(this.Value, Value)) SetAndRaise(Value);
+        }
+
+        void SetAndRaise(T Value)
+        {
             IsEmpty = false;
             this.Value = Value;
 
@@ -62,21 +72,24 @@ namespace Atesh.BindableProperties
 
         void ClearValue()
         {
-            if (IsEmpty) return;
+            if (BoundProperty != null) Unbind();
 
+            if (!IsEmpty) ClearAndRaise();
+        }
+
+        void ClearAndRaise()
+        {
             IsEmpty = true;
 
             OnChanged();
         }
-
-        // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
-        bool IsSameValue(T Value) => !IsEmpty && EqualityComparer<T>.Default.Equals(this.Value, Value);
 
         void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target)
         {
 #pragma warning disable IDE0016 // Use 'throw' expression
             if (Target == null) throw new ArgumentNullException(nameof(Target));
 #pragma warning restore IDE0016 // Use 'throw' expression
+            if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBeBindToItself, nameof(Target));
 
             if (BoundProperty != null) Unbind();
 
@@ -94,6 +107,8 @@ namespace Atesh.BindableProperties
 
         void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
         {
+            if (Args.IsEmpty) ClearAndRaise();
+            else SetAndRaise(Args.Value);
         }
 
         public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target);

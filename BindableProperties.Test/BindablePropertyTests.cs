@@ -7,11 +7,13 @@ namespace Atesh.BindableProperties.Test
     public class BindablePropertyTests
     {
         [Test]
-        public void Constructor_ParameterValidation()
+        public void Constructors_ParameterValidation()
         {
-            // ReSharper disable once ObjectCreationAsStatement
             var E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null));
-            Assert.True(E.ParamName == "Owner");
+            Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
+
+            E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null, 0));
+            Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
         }
 
         [Test]
@@ -43,77 +45,83 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void SetValue_DoesNotRaiseChangedEventWithSameValue()
+        public void Bind_ParameterValidation()
         {
-            var PropertyValueReceivedOnce = false;
-
             var Property = new BindableProperty<int>(this);
-            Property.Changed += (Sender, Args) =>
-            {
-                if (PropertyValueReceivedOnce) Assert.Fail();
-                else PropertyValueReceivedOnce = true;
-            };
 
-            Property.SetValue(default(int));
+            var E = Assert.Throws<ArgumentNullException>(() => Property.Bind(null));
+            Assert.AreEqual(E.ParamName, "Target");
+
+            var E2 = Assert.Throws<ArgumentException>(() => Property.Bind(Property));
+            Assert.AreEqual(E2.ParamName, "Target");
+            Assert.IsTrue(E2.Message.Contains(Strings.PropertyCanNotBeBindToItself));
         }
 
         [Test]
-        public void SetValue_RaisesChangedEventWithCorrectParameters()
+        public void Bind_Binds()
         {
-            const int NewValue = 1;
+            var Property = new BindableProperty<int>(this);
+            var TargetProperty = new BindableProperty<int>(this);
+
+            Assert.IsFalse(Property.IsBound);
+            Property.Bind(TargetProperty);
+            Assert.IsTrue(Property.IsBound);
+        }
+
+        [Test]
+        public void Bind_RaisesChangedEventWithCorrectParameters()
+        {
+            const int ValueOfTarget = 3;
             var PropertyValueReceivedOnce = false;
 
             var Property = new BindableProperty<int>(this);
+            var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
+
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
                 {
                     Assert.AreEqual(Sender, Property);
-                    Assert.AreEqual(Args.Value, NewValue);
+                    Assert.AreEqual(Args.Value, ValueOfTarget);
                     Assert.False(Args.IsEmpty);
                     Assert.Pass();
                 }
                 else PropertyValueReceivedOnce = true;
             };
 
-            Property.SetValue(NewValue);
+            Property.Bind(TargetProperty);
             Assert.Fail();
         }
 
         [Test]
-        public void ClearValue_DoesNotRaiseChangedEventWhenEmpty()
+        public void Unbind_Unbinds()
         {
+            var Property = new BindableProperty<int>(this);
+            var TargetProperty = new BindableProperty<int>(this);
+
+            Property.Bind(TargetProperty);
+            Property.Unbind();
+            Assert.IsFalse(Property.IsBound);
+        }
+
+        [Test]
+        public void Unbind_DoesntRaiseChangedEvent()
+        {
+            const int ValueOfTarget = 3;
             var PropertyValueReceivedOnce = false;
 
-            var Property = new BindableProperty<int>(this, true);
+            var Property = new BindableProperty<int>(this);
+            var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
+
+            Property.Bind(TargetProperty);
+
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
                 else PropertyValueReceivedOnce = true;
             };
 
-            Property.ClearValue();
-        }
-
-        [Test]
-        public void ClearValue_RaisesChangedEventWithCorrectParameters()
-        {
-            var PropertyValueReceivedOnce = false;
-
-            var Property = new BindableProperty<int>(this);
-            Property.Changed += (Sender, Args) =>
-            {
-                if (PropertyValueReceivedOnce)
-                {
-                    Assert.AreEqual(Sender, Property);
-                    Assert.True(Args.IsEmpty);
-                    Assert.Pass();
-                }
-                else PropertyValueReceivedOnce = true;
-            };
-
-            Property.ClearValue();
-            Assert.Fail();
+            Property.Unbind();
         }
     }
 }
