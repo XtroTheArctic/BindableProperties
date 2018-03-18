@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="Atesh.BindableProperties.BindableProperty&lt;T&gt;">
+    <Position X="0.5" Y="5.75" Width="8.75" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAEAAAAAAAAAAAAAAAAAAAAEAAAEAAAAAAA=</HashCode>
+      <FileName>BindableProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Atesh.BindableProperties.PrivatelyBindableProperty&lt;T&gt;">
+    <Position X="0.5" Y="3.25" Width="8.75" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAEAAAAAgAAAAAAAAAAAAQ=</HashCode>
+      <FileName>PrivatelyBindableProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Atesh.BindableProperties.PrivatelySettablePrivatelyBindableProperty&lt;T&gt;">
+    <Position X="0.5" Y="0.5" Width="8.75" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Atesh.BindableProperties.PrivatelySettablePrivatelyBindableProperty&lt;T&gt;.BindToPropertyDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>PrivatelySettablePrivatelyBindableProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Atesh.BindableProperties.PrivatelySettablePrivatelyBindableProperty&lt;T&gt;.SetValueDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>PrivatelySettablePrivatelyBindableProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Struct Name="Atesh.BindableProperties.PrivatelySettablePrivatelyBindableProperty&lt;T&gt;.SetDelegates" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>PrivatelySettablePrivatelyBindableProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="Atesh.BindableProperties.PrivatelySettablePrivatelyBindableProperty&lt;T&gt;.BindDelegates" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>PrivatelySettablePrivatelyBindableProperty.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AABAgACAAQFAAgAAJAABAAAEQAAAAAAAQAAkAAAAAAA=</HashCode>
+      <FileName>PrivatelySettablePrivatelyBindableProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="8.88" />
+</ClassDiagram>

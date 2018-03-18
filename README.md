@@ -1,45 +1,51 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+# Bindable Properties
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+BindableProperties is a class library which provides a bindable properties system similar to "Microsoft WPF Dependency Properties" and "Xamarin Bindable Properties" systems. The biggest difference of BindableProperties to those systems is that it does NOT depend on any other 3rd party platform or framework such as Microsoft WPF and Xamarin so it can be used by almost any kind of .NET projects.
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+# Features
 
----
+* Privately settable property class as well as publicly settle propery class,
+* Ability of binding a property to another property (Both privately and publicly),
+* Support for empty value,
+* Event based value retrieval instead of query based value retrieval which becomes repetitive and leads to programming errors.
 
-## Edit a file
+# Team Members
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+* Project Lead: Onur "Xtro" Er, Atesh Entertainment Inc. onurer@gmail.com
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+# Download and Install
 
----
+You can download the binary package and extract the project assembly into your project
 
-## Create a file
+**OR**
 
-Next, you’ll add a new file to this repository.
+directly install it via NuGet.
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+# Contribution
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
+You can easily contribute to the project by just reporting issues to [here](https://bitbucket.org/XtroTheArctic/bindableproperties/issues)
 
----
+If you want to get involved and contribute to the project actively, you can simply do so by sending pull requests to the project lead via bitbucket.com.
+Project page on Bitbucket: https://bitbucket.org/XtroTheArctic/bindableproperties
+Git Repo URL: git@bitbucket.org:XtroTheArctic/bindableproperties.git
 
-## Clone a repository
+Please feel free to contact the team members via email at any time.
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
+# Planned Features
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+* Examples project,
+* Monitoring other properties system (Other properties of different value types),
+* Optional two-way binding support,
+* Value validation support.
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+# The Unlicense
+
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
+
+In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org>
