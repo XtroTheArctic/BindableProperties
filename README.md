@@ -4,10 +4,10 @@ BindableProperties is a class library which provides a bindable properties syste
 
 # Features
 
-* Privately settable property class as well as publicly settle propery class,
+* Privately settable property class as well as publicly settale one,
 * Ability of binding a property to another property (Both privately and publicly),
 * Support for empty value,
-* Event based value retrieval instead of query based value retrieval which becomes repetitive and leads to programming errors.
+* Event based value retrieval instead of on-demand value retrieval(classical way) which becomes repetitive and leads to programming errors.
 
 # Team Members
 
@@ -15,18 +15,22 @@ BindableProperties is a class library which provides a bindable properties syste
 
 # Download and Install
 
-You can download the binary package and extract the project assembly into your project
+You can directly install BindableProperties via [NuGet](https://www.nuget.org/packages/Atesh.BindableProperties).
 
 **OR**
 
-directly install it via NuGet.
+Download it via "manual download" link in [NuGet](https://www.nuget.org/packages/Atesh.BindableProperties) web page and extract the assembly into your project manually if you don't want to use a NuGet client.
+
+"nupkg" file you downloaded from NuGet web page is a regular zip file. You can change its extension to "zip" and extract it easily.
 
 # Contribution
 
 You can easily contribute to the project by just reporting issues to [here](https://bitbucket.org/XtroTheArctic/bindableproperties/issues)
 
-If you want to get involved and contribute to the project actively, you can simply do so by sending pull requests to the project lead via bitbucket.com.
+If you want to get involved and actively contribute to the project, you can simply do so by sending pull requests to the project lead via bitbucket.com.
+
 Project page on Bitbucket: https://bitbucket.org/XtroTheArctic/bindableproperties
+
 Git Repo URL: git@bitbucket.org:XtroTheArctic/bindableproperties.git
 
 Please feel free to contact the team members via email at any time.
