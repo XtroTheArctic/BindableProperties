@@ -6,6 +6,7 @@ namespace Atesh.BindableProperties
     public class PrivatelySettablePrivatelyBindableProperty<T>
     {
         #region Events
+
         public event ChangedEventHandler<T> Changed
         {
             add
@@ -18,10 +19,13 @@ namespace Atesh.BindableProperties
         }
 
         event ChangedEventHandler<T> _Changed;
+
         #endregion
 
         #region Properties
+
         public bool IsBound => BoundProperty != null;
+
         #endregion
 
         public readonly object Owner;
@@ -31,8 +35,6 @@ namespace Atesh.BindableProperties
         PrivatelySettablePrivatelyBindableProperty<T> BoundProperty;
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false)
-        // ReSharper disable ArrangeConstructorOrDestructorBody
-        // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
             this.Owner = Owner ?? throw new ArgumentNullException(nameof(Owner));
             this.IsEmpty = IsEmpty;
@@ -42,7 +44,6 @@ namespace Atesh.BindableProperties
             BindDelegates.Bind = Bind;
             BindDelegates.Unbind = Unbind;
         }
-        // ReSharper restore ArrangeConstructorOrDestructorBody
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value) : this(Owner, out SetDelegates, out BindDelegates)
         // ReSharper disable ArrangeConstructorOrDestructorBody

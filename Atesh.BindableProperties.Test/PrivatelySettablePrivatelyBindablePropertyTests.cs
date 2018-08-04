@@ -100,7 +100,6 @@ namespace Atesh.BindableProperties.Test
             Assert.Fail();
         }
 
-
         [Test]
         public void SetValueDelegate_Unbinds()
         {
