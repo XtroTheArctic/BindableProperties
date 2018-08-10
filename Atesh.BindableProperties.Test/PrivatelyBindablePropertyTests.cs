@@ -90,7 +90,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.SetValue(0);
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
         }
 
         [Test]
@@ -137,7 +137,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.ClearValue();
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
         }
     }
 }

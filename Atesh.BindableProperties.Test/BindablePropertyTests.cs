@@ -54,7 +54,7 @@ namespace Atesh.BindableProperties.Test
 
             var E2 = Assert.Throws<ArgumentException>(() => Property.Bind(Property));
             Assert.AreEqual(E2.ParamName, "Target");
-            Assert.IsTrue(E2.Message.Contains(Strings.PropertyCanNotBeBindToItself));
+            Assert.True(E2.Message.Contains(Strings.PropertyCanNotBeBindToItself));
         }
 
         [Test]
@@ -63,9 +63,9 @@ namespace Atesh.BindableProperties.Test
             var Property = new BindableProperty<int>(this);
             var TargetProperty = new BindableProperty<int>(this);
 
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
             Property.Bind(TargetProperty);
-            Assert.IsTrue(Property.IsBound);
+            Assert.True(Property.IsBound);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Atesh.BindableProperties.Test
 
             Property.Bind(TargetProperty);
             Property.Unbind();
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
         }
 
         [Test]
