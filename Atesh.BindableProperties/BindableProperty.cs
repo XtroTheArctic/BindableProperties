@@ -5,9 +5,7 @@
         #region Static
 
         // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
-
         static BindDelegates TempDelegates;
-
         // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
 
         #endregion
