@@ -5,25 +5,41 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atesh.BindableProperties.Test", "Tests\Atesh.BindableProperties.Test\Atesh.BindableProperties.Test.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atesh.BindableProperties", "Source\Atesh.BindableProperties\Atesh.BindableProperties.csproj", "{8565D922-A241-42D9-841F-ADACB93DF07B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atesh.BindableProperties", "Source\Atesh.BindableProperties\Atesh.BindableProperties.csproj", "{8565D922-A241-42D9-841F-ADACB93DF07B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE1CECD7-D04F-4A76-992B-6D4FF811D7C7}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{3201A803-278F-4F5B-B671-63FD9E838443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrivatelySettablePrivatelyBindablePropertySample", "Samples\PrivatelySettablePrivatelyBindablePropertySample\PrivatelySettablePrivatelyBindablePropertySample.csproj", "{773E6028-49EE-4A04-8250-C2CCF01BD180}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8565D922-A241-42D9-841F-ADACB93DF07B}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{8565D922-A241-42D9-841F-ADACB93DF07B}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{8565D922-A241-42D9-841F-ADACB93DF07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8565D922-A241-42D9-841F-ADACB93DF07B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{773E6028-49EE-4A04-8250-C2CCF01BD180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{773E6028-49EE-4A04-8250-C2CCF01BD180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{773E6028-49EE-4A04-8250-C2CCF01BD180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{773E6028-49EE-4A04-8250-C2CCF01BD180}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{773E6028-49EE-4A04-8250-C2CCF01BD180} = {3201A803-278F-4F5B-B671-63FD9E838443}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF0AE3B0-7FAC-4AE6-8CD5-8469602BD6DA}

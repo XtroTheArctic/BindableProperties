@@ -234,7 +234,7 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void UnbindDelegate_DoesntRaiseChangedEvent()
+        public void UnbindDelegate_DoesNotRaiseChangedEvent()
         {
             const int ValueOfTarget = 3;
             var PropertyValueReceivedOnce = false;
