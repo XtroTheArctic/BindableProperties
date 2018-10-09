@@ -35,8 +35,12 @@ namespace PrivatelySettablePrivatelyBindablePropertySample
         PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates SetHeightDelegates;
         PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
 
-        public YourClass()
+        readonly string Name; // We use the Name field to distinguish between multiple instances of this example class. It's not related to property system.
+
+        public YourClass(string Name)
         {
+            this.Name = Name;
+
             // Third, in your constructor, you must create an instance of bindable property and receive its delegates.
             // These delegates are the only way to control the value of a bindable property. You will call them whenever you need.
             // You can provide an initial value or mark it as empty while creating. For this example, we keep its value as default by not providing those options.
@@ -47,24 +51,31 @@ namespace PrivatelySettablePrivatelyBindablePropertySample
             Height.Changed += Height_Changed;
         }
 
-        static void Height_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        void Height_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
-            // You can subscribe the same event handler to many bindable properties with the same value type and you can use the Sender parameter to distinguish between those properties.
+            // You can make this same event handler to subscribe to multiple bindable properties with the same value type and you can use the Sender parameter to distinguish between those properties.
+            // This is irrelevant for this example so we don't use the Sender parameter now.
 
             // In fifth step, you get the value of the property here, in this Changed event.
+            // The purpose of this event handler is to use the new value of the property and do some work with it.
             // You can store the new value of the property to a private member as a cache but this is optional.
             // For the sake of this example, we will just consume the new value instead of storing it.
-            // Just don't forget to check if the value is empty or not.
-            if (Args.IsEmpty) MessageBox.Show("I don't have a height info");
+            // Important: Just don't forget to check if the value is empty or not.
+            if (Args.IsEmpty) MessageBox.Show($"{Name} says: I don't have a height info");
             else
             {
-                var Text = Args.Value > 10 ? "greater" : "equal or less";
-                MessageBox.Show($"My height is {Text} than 10.");
+                var Text = $"{Name} says: My height is {Args.Value}.";
+                MessageBox.Show(Text);
             }
         }
 
+        // Since the height property is PrivatelySettablePrivatelyBindableProperty, it can't be set or bound from outside so we implement Grow and Die commands for outside access.
         public void Grow() => SetHeightDelegates.SetValue(new Random().Next(5, 15));
 
         public void Die() => SetHeightDelegates.ClearValue();
+
+        public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => BindHeightDelegates.Bind(Target);
+
+        public void UnbindHeight() => BindHeightDelegates.Unbind();
     }
 }

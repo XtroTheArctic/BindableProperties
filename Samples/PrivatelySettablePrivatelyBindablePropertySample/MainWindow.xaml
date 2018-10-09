@@ -4,8 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="PrivatelySettablePrivatelyBindableProperty Example" Height="450" Width="728.235" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="677*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Grow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52.117,256,0,0" Grid.Column="1" Click="AppleGrowButton_Click"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="46.117,22,0,0" Height="175" Width="552" Grid.Column="1"><Run Text="* This example demonstrates the binding ability of the properties provided in Bindable Properties system."/><LineBreak/><Run/><LineBreak/><Run Text="* There are two instances of YourClass class here. Their names are Apple and Tomato."/><LineBreak/><Run Text="* When you click command buttons (Grow and Die), the Changed property event handlers in YourClass will announce the new height values."/><LineBreak/><Run Text="* If you bind Apple"/><Run Text="'s "/><Run Text="height property"/><Run Text=" "/><Run Text="to Tomato's height property, you can see that Apple will announce its value when you send command to Tomato."/><LineBreak/><Run Text="* Please see the ReadMe.txt for more info about how to implement a bindable property in your own classes."/><LineBreak/><Run/><LineBreak/><Run Text="* Note:"/><Run Text=" If you don't see an announcement after you click a command button, it means that the randomly generated value was the same with the current property value so the Change event "/><Run Text="didn't "/><Run Text="get triggered by the Bindable Properties system."/></TextBlock>
+        <Label Content="Apple" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="3.584,7.149" Grid.Column="1" Margin="52.117,227,0,0" Width="75" Height="24"/>
+        <Button Content="Die" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52.117,281,0,0" Grid.Column="1" Click="AppleDieButton_Click"/>
+        <Button Content="Grow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="302.117,261,0,0" Grid.Column="1" Click="TomatoGrowButton_Click"/>
+        <Label Content="Tomato" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="3.584,7.149" Grid.Column="1" Margin="302.117,232,0,0" Width="75" Height="24"/>
+        <Button Content="Die" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="302.117,286,0,0" Grid.Column="1" Click="TomatoDieButton_Click"/>
+        <Button x:Name="BindButton" Content="Bind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Grid.Column="1" Margin="174.117,217,0,0" Click="BindButton_Click"/>
+        <Button x:Name="UnbindButton" Content="Unbind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Grid.Column="1" Margin="174.117,246,0,0" Click="UnbindButton_Click"/>
     </Grid>
 </Window>
