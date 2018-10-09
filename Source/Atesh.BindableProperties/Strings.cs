@@ -2,6 +2,6 @@
 {
     public static class Strings
     {
-        public const string PropertyCanNotBeBindToItself = "Property can not be bind to itself.";
+        public const string PropertyCanNotBindToItself = "Property can not bind to itself.";
     }
 }

@@ -90,7 +90,7 @@ namespace Atesh.BindableProperties
 #pragma warning disable IDE0016 // Use 'throw' expression
             if (Target == null) throw new ArgumentNullException(nameof(Target));
 #pragma warning restore IDE0016 // Use 'throw' expression
-            if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBeBindToItself, nameof(Target));
+            if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
 
             if (BoundProperty != null) Unbind();
 
@@ -104,6 +104,8 @@ namespace Atesh.BindableProperties
 
             BoundProperty.Changed -= BoundProperty_Changed;
             BoundProperty = null;
+
+            BoundProperty_Changed(this, new ChangedEventArgs<T>(IsEmpty, Value));
         }
 
         void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
