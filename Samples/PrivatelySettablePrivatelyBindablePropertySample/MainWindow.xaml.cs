@@ -15,16 +15,12 @@ namespace PrivatelySettablePrivatelyBindablePropertySample
             Tomato = new YourClass("Tomato");
             Apple = new YourClass("Apple");
 
-            Apple.Height.Changed += Height_Changed;
+            Apple.Height.Changed += Apple_HeightChanged;
+
+            ToggleBindingButtons(Apple.Height.IsBound);
         }
 
-        void Height_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
-        {
-            var IsBound = Sender.IsBound;
-
-            BindButton.IsEnabled = !IsBound;
-            UnbindButton.IsEnabled = IsBound;
-        }
+        void Apple_HeightChanged(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => ToggleBindingButtons(Apple.Height.IsBound);
 
         void AppleGrowButton_Click(object Sender, RoutedEventArgs E) => Apple.Grow();
 
@@ -34,8 +30,24 @@ namespace PrivatelySettablePrivatelyBindablePropertySample
 
         void TomatoDieButton_Click(object Sender, RoutedEventArgs E) => Tomato.Die();
 
-        void BindButton_Click(object Sender, RoutedEventArgs E) => Apple.BindHeight(Tomato.Height);
+        void BindButton_Click(object Sender, RoutedEventArgs E)
+        {
+            Apple.BindHeight(Tomato.Height);
 
-        void UnbindButton_Click(object Sender, RoutedEventArgs E) => Apple.UnbindHeight();
+            ToggleBindingButtons(true);
+        }
+
+        void UnbindButton_Click(object Sender, RoutedEventArgs E)
+        {
+            Apple.UnbindHeight();
+
+            ToggleBindingButtons(false);
+        }
+
+        void ToggleBindingButtons(bool IsBound)
+        {
+            BindButton.IsEnabled = !IsBound;
+            UnbindButton.IsEnabled = IsBound;
+        }
     }
 }
