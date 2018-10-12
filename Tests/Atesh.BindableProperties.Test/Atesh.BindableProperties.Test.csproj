@@ -40,7 +40,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Atesh.BindableProperties\Atesh.BindableProperties.csproj">
+    <ProjectReference Include="..\..\Source\Atesh.BindableProperties\Atesh.BindableProperties.csproj">
       <Project>{8565d922-a241-42d9-841f-adacb93df07b}</Project>
       <Name>Atesh.BindableProperties</Name>
     </ProjectReference>

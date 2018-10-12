@@ -3,11 +3,11 @@
     public class PrivatelyBindableProperty<T> : PrivatelySettablePrivatelyBindableProperty<T>
     {
         #region Static
+
         // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
-
         static SetDelegates TempSetDelegates;
-
         // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
+
         #endregion
 
         new SetDelegates SetDelegates;

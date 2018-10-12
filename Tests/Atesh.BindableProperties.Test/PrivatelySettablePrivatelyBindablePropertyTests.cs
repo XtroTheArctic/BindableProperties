@@ -100,7 +100,6 @@ namespace Atesh.BindableProperties.Test
             Assert.Fail();
         }
 
-
         [Test]
         public void SetValueDelegate_Unbinds()
         {
@@ -109,7 +108,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.SetValue(0);
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
         }
 
         [Test]
@@ -156,7 +155,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.ClearValue();
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
         }
 
         [Test]
@@ -184,7 +183,7 @@ namespace Atesh.BindableProperties.Test
 
             var E2 = Assert.Throws<ArgumentException>(() => BindDelegates.Bind(Property));
             Assert.AreEqual(E2.ParamName, "Target");
-            Assert.IsTrue(E2.Message.Contains(Strings.PropertyCanNotBeBindToItself));
+            Assert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
         }
 
         [Test]
@@ -193,9 +192,9 @@ namespace Atesh.BindableProperties.Test
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
             var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
 
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
             BindDelegates.Bind(TargetProperty);
-            Assert.IsTrue(Property.IsBound);
+            Assert.True(Property.IsBound);
         }
 
         [Test]
@@ -224,6 +223,23 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
+        public void BindDelegate_DoesNotRaiseChangedEventWithSameValue()
+        {
+            var PropertyValueReceivedOnce = false;
+
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+
+            Property.Changed += (Sender, Args) =>
+            {
+                if (PropertyValueReceivedOnce) Assert.Fail();
+                else PropertyValueReceivedOnce = true;
+            };
+
+            BindDelegates.Bind(TargetProperty);
+        }
+
+        [Test]
         public void UnbindDelegate_Unbinds()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
@@ -231,11 +247,11 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             BindDelegates.Unbind();
-            Assert.IsFalse(Property.IsBound);
+            Assert.False(Property.IsBound);
         }
 
         [Test]
-        public void UnbindDelegate_DoesntRaiseChangedEvent()
+        public void UnbindDelegate_DoesNotRaiseChangedEvent()
         {
             const int ValueOfTarget = 3;
             var PropertyValueReceivedOnce = false;

@@ -6,6 +6,7 @@ namespace Atesh.BindableProperties
     public class PrivatelySettablePrivatelyBindableProperty<T>
     {
         #region Events
+
         public event ChangedEventHandler<T> Changed
         {
             add
@@ -18,10 +19,13 @@ namespace Atesh.BindableProperties
         }
 
         event ChangedEventHandler<T> _Changed;
+
         #endregion
 
         #region Properties
+
         public bool IsBound => BoundProperty != null;
+
         #endregion
 
         public readonly object Owner;
@@ -31,8 +35,6 @@ namespace Atesh.BindableProperties
         PrivatelySettablePrivatelyBindableProperty<T> BoundProperty;
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false)
-        // ReSharper disable ArrangeConstructorOrDestructorBody
-        // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
             this.Owner = Owner ?? throw new ArgumentNullException(nameof(Owner));
             this.IsEmpty = IsEmpty;
@@ -42,7 +44,6 @@ namespace Atesh.BindableProperties
             BindDelegates.Bind = Bind;
             BindDelegates.Unbind = Unbind;
         }
-        // ReSharper restore ArrangeConstructorOrDestructorBody
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value) : this(Owner, out SetDelegates, out BindDelegates)
         // ReSharper disable ArrangeConstructorOrDestructorBody
@@ -58,9 +59,11 @@ namespace Atesh.BindableProperties
         {
             if (BoundProperty != null) Unbind();
 
-            // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
-            if (IsEmpty || !EqualityComparer<T>.Default.Equals(this.Value, Value)) SetAndRaise(Value);
+            if (IsEmpty || !ValueEquals(Value)) SetAndRaise(Value);
         }
+
+        // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
+        bool ValueEquals(T Value) => EqualityComparer<T>.Default.Equals(this.Value, Value);
 
         void SetAndRaise(T Value)
         {
@@ -89,7 +92,7 @@ namespace Atesh.BindableProperties
 #pragma warning disable IDE0016 // Use 'throw' expression
             if (Target == null) throw new ArgumentNullException(nameof(Target));
 #pragma warning restore IDE0016 // Use 'throw' expression
-            if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBeBindToItself, nameof(Target));
+            if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
 
             if (BoundProperty != null) Unbind();
 
@@ -107,8 +110,14 @@ namespace Atesh.BindableProperties
 
         void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
         {
-            if (Args.IsEmpty) ClearAndRaise();
-            else SetAndRaise(Args.Value);
+            if (Args.IsEmpty)
+            {
+                if (!IsEmpty) ClearAndRaise();
+            }
+            else
+            {
+                if (IsEmpty || !ValueEquals(Args.Value)) SetAndRaise(Args.Value);
+            }
         }
 
         public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target);
