@@ -223,6 +223,23 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
+        public void BindDelegate_DoesNotRaiseChangedEventWithSameValue()
+        {
+            var PropertyValueReceivedOnce = false;
+
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+
+            Property.Changed += (Sender, Args) =>
+            {
+                if (PropertyValueReceivedOnce) Assert.Fail();
+                else PropertyValueReceivedOnce = true;
+            };
+
+            BindDelegates.Bind(TargetProperty);
+        }
+
+        [Test]
         public void UnbindDelegate_Unbinds()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);

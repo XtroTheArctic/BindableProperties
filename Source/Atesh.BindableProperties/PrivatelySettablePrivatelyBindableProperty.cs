@@ -59,9 +59,11 @@ namespace Atesh.BindableProperties
         {
             if (BoundProperty != null) Unbind();
 
-            // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
-            if (IsEmpty || !EqualityComparer<T>.Default.Equals(this.Value, Value)) SetAndRaise(Value);
+            if (IsEmpty || !ValueEquals(Value)) SetAndRaise(Value);
         }
+
+        // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
+        bool ValueEquals(T Value) => EqualityComparer<T>.Default.Equals(this.Value, Value);
 
         void SetAndRaise(T Value)
         {
@@ -104,14 +106,18 @@ namespace Atesh.BindableProperties
 
             BoundProperty.Changed -= BoundProperty_Changed;
             BoundProperty = null;
-
-            BoundProperty_Changed(this, new ChangedEventArgs<T>(IsEmpty, Value));
         }
 
         void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
         {
-            if (Args.IsEmpty) ClearAndRaise();
-            else SetAndRaise(Args.Value);
+            if (Args.IsEmpty)
+            {
+                if (!IsEmpty) ClearAndRaise();
+            }
+            else
+            {
+                if (IsEmpty || !ValueEquals(Args.Value)) SetAndRaise(Args.Value);
+            }
         }
 
         public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target);
