@@ -2,7 +2,7 @@
 using System.Windows;
 using Atesh.BindableProperties;
 
-namespace PrivatelySettablePrivatelyBindablePropertySample
+namespace PrivatelySettablePrivatelyBindablePropertyExample
 {
     // This class represents your own class which you want to define a bindable property for demonstration purposes.
     class YourClass

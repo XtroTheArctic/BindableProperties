@@ -1,0 +1,6 @@
+﻿namespace PrivatelySettablePrivatelyBindablePropertyExample
+{
+    public partial class App
+    {
+    }
+}

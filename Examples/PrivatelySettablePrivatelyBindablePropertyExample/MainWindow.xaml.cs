@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Atesh.BindableProperties;
 
-namespace PrivatelySettablePrivatelyBindablePropertySample
+namespace PrivatelySettablePrivatelyBindablePropertyExample
 {
     public partial class MainWindow
     {
