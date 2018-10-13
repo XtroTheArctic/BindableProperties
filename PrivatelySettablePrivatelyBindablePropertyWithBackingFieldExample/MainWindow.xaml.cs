@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Atesh.BindableProperties;
 
-namespace PrivatelySettablePrivatelyBindablePropertyExample
+namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
 {
     public partial class MainWindow
     {
@@ -12,21 +12,29 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
         {
             InitializeComponent();
 
-            Tomato = new YourClass("Tomato");
-            Apple = new YourClass("Apple");
+            Tomato = new YourClass();
+            Apple = new YourClass();
 
             Apple.Height.Changed += AppleHeight_Changed;
+            Tomato.Height.Changed += TomatoHeight_Changed;
 
             ToggleBindingButtons(Apple.Height.IsBound);
         }
 
-        void AppleHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => ToggleBindingButtons(Apple.Height.IsBound);
+        void AppleHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        {
+            AppleHeightLabel.Content = Args.Value;
 
-        void AppleGrowButton_Click(object Sender, RoutedEventArgs E) => Apple.GrowRandomly();
+            ToggleBindingButtons(Apple.Height.IsBound);
+        }
+
+        void TomatoHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => TomatoHeightLabel.Content = Args.Value;
+
+        void AppleGrowButton_Click(object Sender, RoutedEventArgs E) => Apple.GrowByOne();
 
         void AppleDieButton_Click(object Sender, RoutedEventArgs E) => Apple.Die();
 
-        void TomatoGrowButton_Click(object Sender, RoutedEventArgs E) => Tomato.GrowRandomly();
+        void TomatoGrowButton_Click(object Sender, RoutedEventArgs E) => Tomato.GrowByOne();
 
         void TomatoDieButton_Click(object Sender, RoutedEventArgs E) => Tomato.Die();
 

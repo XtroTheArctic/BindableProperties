@@ -60,7 +60,7 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
             // The purpose of this event handler is to use the new value of the property and do some work with it.
             // You can store the new value of the property to a private member as a cache but this is optional.
             // For the sake of this example, we will just consume the new value instead of storing it.
-            // Important: Just don't forget to check if the value is empty or not.
+            // IMPORTANT: Don't forget to check the empty value if you plan to use ClearValue method in your class logic to provide empty value support for the bindable property.
             if (Args.IsEmpty) MessageBox.Show($"{Name} says: I don't have a height info");
             else
             {
@@ -69,13 +69,13 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
             }
         }
 
-        // Since the height property is PrivatelySettablePrivatelyBindableProperty, it can't be set or bound from outside so we implement Grow and Die commands for outside access.
-        public void Grow() => SetHeightDelegates.SetValue(new Random().Next(5, 15));
-
-        public void Die() => SetHeightDelegates.ClearValue();
-
+        // Since the height property is PrivatelySettablePrivatelyBindableProperty, it can't be set or bound from outside so we implement GrowRandomly, Die, BindHeight and UnbindHeight commands for outside access.
+        public void GrowRandomly() => SetHeightDelegates.SetValue(new Random().Next(5, 15));
         public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => BindHeightDelegates.Bind(Target);
-
         public void UnbindHeight() => BindHeightDelegates.Unbind();
+
+        // If you want your bindable property to support empty value, you can simple call ClearValue method according to your class logic.
+        // But if you do so, please don't forget to check for empty value in the Changed event handler.
+        public void Die() => SetHeightDelegates.ClearValue();
     }
 }
