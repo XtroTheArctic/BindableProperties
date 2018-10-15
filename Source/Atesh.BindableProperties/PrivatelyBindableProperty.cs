@@ -28,7 +28,7 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        internal PrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty)
+        internal PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
