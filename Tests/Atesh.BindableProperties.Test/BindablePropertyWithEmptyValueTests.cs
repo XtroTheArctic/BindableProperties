@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Atesh.BindableProperties.Test
 {
     [TestFixture]
-    public class BindablePropertyWithEmptyValueWithEmptyValueTests
+    public class BindablePropertyWithEmptyValueTests
     {
         [Test]
         public void Constructors_ParameterValidation()
@@ -45,83 +45,50 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void Bind_ParameterValidation()
+        public void ClearValue_DoesNotRaiseChangedEventWhenEmpty()
         {
-            var Property = new BindablePropertyWithEmptyValue<int>(this);
-
-            var E = Assert.Throws<ArgumentNullException>(() => Property.Bind(null));
-            Assert.AreEqual(E.ParamName, "Target");
-
-            var E2 = Assert.Throws<ArgumentException>(() => Property.Bind(Property));
-            Assert.AreEqual(E2.ParamName, "Target");
-            Assert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
-        }
-
-        [Test]
-        public void Bind_Binds()
-        {
-            var Property = new BindablePropertyWithEmptyValue<int>(this);
-            var TargetProperty = new BindablePropertyWithEmptyValue<int>(this);
-
-            Assert.False(Property.IsBound);
-            Property.Bind(TargetProperty);
-            Assert.True(Property.IsBound);
-        }
-
-        [Test]
-        public void Bind_RaisesChangedEventWithCorrectParameters()
-        {
-            const int ValueOfTarget = 3;
             var PropertyValueReceivedOnce = false;
 
-            var Property = new BindablePropertyWithEmptyValue<int>(this);
-            var TargetProperty = new BindablePropertyWithEmptyValue<int>(this, ValueOfTarget);
-
-            Property.Changed += (Sender, Args) =>
-            {
-                if (PropertyValueReceivedOnce)
-                {
-                    Assert.AreEqual(Sender, Property);
-                    Assert.AreEqual(Args.Value, ValueOfTarget);
-                    Assert.False(Args.IsEmpty);
-                    Assert.Pass();
-                }
-                else PropertyValueReceivedOnce = true;
-            };
-
-            Property.Bind(TargetProperty);
-            Assert.Fail();
-        }
-
-        [Test]
-        public void Unbind_Unbinds()
-        {
-            var Property = new BindablePropertyWithEmptyValue<int>(this);
-            var TargetProperty = new BindablePropertyWithEmptyValue<int>(this);
-
-            Property.Bind(TargetProperty);
-            Property.Unbind();
-            Assert.False(Property.IsBound);
-        }
-
-        [Test]
-        public void Unbind_DoesNotRaiseChangedEvent()
-        {
-            const int ValueOfTarget = 3;
-            var PropertyValueReceivedOnce = false;
-
-            var Property = new BindablePropertyWithEmptyValue<int>(this);
-            var TargetProperty = new BindablePropertyWithEmptyValue<int>(this, ValueOfTarget);
-
-            Property.Bind(TargetProperty);
-
+            var Property = new BindablePropertyWithEmptyValue<int>(this, true);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
                 else PropertyValueReceivedOnce = true;
             };
 
-            Property.Unbind();
+            Property.ClearValue();
+        }
+
+        [Test]
+        public void ClearValue_RaisesChangedEventWithCorrectParameters()
+        {
+            var PropertyValueReceivedOnce = false;
+
+            var Property = new BindablePropertyWithEmptyValue<int>(this);
+            Property.Changed += (Sender, Args) =>
+            {
+                if (PropertyValueReceivedOnce)
+                {
+                    Assert.AreEqual(Sender, Property);
+                    Assert.True(Args.IsEmpty);
+                    Assert.Pass();
+                }
+                else PropertyValueReceivedOnce = true;
+            };
+
+            Property.ClearValue();
+            Assert.Fail();
+        }
+
+        [Test]
+        public void ClearValue_Unbinds()
+        {
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out var BindDelegates);
+            var TargetProperty = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
+
+            BindDelegates.Bind(TargetProperty);
+            Property.ClearValue();
+            Assert.False(Property.IsBound);
         }
     }
 }

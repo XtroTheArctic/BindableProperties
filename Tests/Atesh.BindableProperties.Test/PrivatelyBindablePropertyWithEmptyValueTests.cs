@@ -45,55 +45,6 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void SetValue_DoesNotRaiseChangedEventWithSameValue()
-        {
-            var PropertyValueReceivedOnce = false;
-
-            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
-            Property.Changed += (Sender, Args) =>
-            {
-                if (PropertyValueReceivedOnce) Assert.Fail();
-                else PropertyValueReceivedOnce = true;
-            };
-
-            Property.SetValue(default(int));
-        }
-
-        [Test]
-        public void SetValue_RaisesChangedEventWithCorrectParameters()
-        {
-            const int NewValue = 1;
-            var PropertyValueReceivedOnce = false;
-
-            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
-            Property.Changed += (Sender, Args) =>
-            {
-                if (PropertyValueReceivedOnce)
-                {
-                    Assert.AreEqual(Sender, Property);
-                    Assert.AreEqual(Args.Value, NewValue);
-                    Assert.False(Args.IsEmpty);
-                    Assert.Pass();
-                }
-                else PropertyValueReceivedOnce = true;
-            };
-
-            Property.SetValue(NewValue);
-            Assert.Fail();
-        }
-
-        [Test]
-        public void SetValue_Unbinds()
-        {
-            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
-
-            BindDelegates.Bind(TargetProperty);
-            SetDelegates.SetValue(0);
-            Assert.False(Property.IsBound);
-        }
-
-        [Test]
         public void ClearValue_DoesNotRaiseChangedEventWhenEmpty()
         {
             var PropertyValueReceivedOnce = false;
@@ -132,11 +83,11 @@ namespace Atesh.BindableProperties.Test
         [Test]
         public void ClearValue_Unbinds()
         {
-            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out var BindDelegates);
+            var TargetProperty = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
 
             BindDelegates.Bind(TargetProperty);
-            SetDelegates.ClearValue();
+            Property.ClearValue();
             Assert.False(Property.IsBound);
         }
     }

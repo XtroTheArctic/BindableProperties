@@ -12,6 +12,8 @@ namespace Atesh.BindableProperties
 
         BindDelegates Delegates;
 
+        public BindableProperty(object Owner) : base(Owner, out TempDelegates) => Delegates = TempDelegates;
+
         public BindableProperty(object Owner, T Value) : base(Owner, out TempDelegates, Value) => Delegates = TempDelegates;
 
         internal BindableProperty(object Owner, bool IsEmpty = false) : base(Owner, out TempDelegates, IsEmpty) => Delegates = TempDelegates;
