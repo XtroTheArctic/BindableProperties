@@ -1,18 +1,18 @@
-﻿namespace Atesh.BindableProperties
+﻿using System;
+
+namespace Atesh.BindableProperties
 {
     public class PrivatelyBindableProperty<T> : PrivatelySettablePrivatelyBindableProperty<T>
     {
         #region Static
 
-        // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
-        static SetDelegates TempSetDelegates;
-        // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
+        [ThreadStatic] internal static SetDelegates TempSetDelegates;
 
         #endregion
 
-        new SetDelegates SetDelegates;
+        protected new SetDelegates SetDelegates;
 
-        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty)
+        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates) : base(Owner, out TempSetDelegates, out BindDelegates)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -28,7 +28,14 @@
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
+        internal PrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty)
+        // ReSharper disable ArrangeConstructorOrDestructorBody
+        // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
+        {
+            SetDelegates = TempSetDelegates;
+        }
+        // ReSharper restore ArrangeConstructorOrDestructorBody
+
         public void SetValue(T Value) => SetDelegates.SetValue(Value);
-        public void ClearValue() => SetDelegates.ClearValue();
     }
 }
