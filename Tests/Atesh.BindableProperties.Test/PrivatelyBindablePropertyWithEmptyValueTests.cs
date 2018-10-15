@@ -4,23 +4,23 @@ using NUnit.Framework;
 namespace Atesh.BindableProperties.Test
 {
     [TestFixture]
-    public class PrivatelyBindablePropertyTests
+    public class PrivatelyBindablePropertyWithEmptyValueTests
     {
         [Test]
         public void Constructors_ParameterValidation()
         {
-            var E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _));
-            Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
+            var E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindablePropertyWithEmptyValue<int>(null, out _));
+            Assert.AreEqual(E.ParamName, nameof(PrivatelyBindablePropertyWithEmptyValue<int>.Owner));
 
-            E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _, 0));
-            Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
+            E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindablePropertyWithEmptyValue<int>(null, out _, 0));
+            Assert.AreEqual(E.ParamName, nameof(PrivatelyBindablePropertyWithEmptyValue<int>.Owner));
         }
 
         [Test]
         public void Constructor_StoresCorrectValue()
         {
             const int Value = 1;
-            var Property = new PrivatelyBindableProperty<int>(this, out _, Value);
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _, Value);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.AreEqual(Args.Value, Value);
@@ -34,7 +34,7 @@ namespace Atesh.BindableProperties.Test
         [Test]
         public void Constructor_StoresEmptyValue()
         {
-            var Property = new PrivatelyBindableProperty<int>(this, out _, true);
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _, true);
             Property.Changed += (Sender, Args) =>
             {
                 Assert.True(Args.IsEmpty);
@@ -49,7 +49,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelyBindableProperty<int>(this, out _);
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
@@ -65,7 +65,7 @@ namespace Atesh.BindableProperties.Test
             const int NewValue = 1;
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelyBindableProperty<int>(this, out _);
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
@@ -98,7 +98,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelyBindableProperty<int>(this, out _, true);
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _, true);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce) Assert.Fail();
@@ -113,7 +113,7 @@ namespace Atesh.BindableProperties.Test
         {
             var PropertyValueReceivedOnce = false;
 
-            var Property = new PrivatelyBindableProperty<int>(this, out _);
+            var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
             Property.Changed += (Sender, Args) =>
             {
                 if (PropertyValueReceivedOnce)
