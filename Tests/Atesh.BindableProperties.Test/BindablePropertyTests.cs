@@ -32,19 +32,6 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void Constructor_StoresEmptyValue()
-        {
-            var Property = new BindableProperty<int>(this, true);
-            Property.Changed += (Sender, Args) =>
-            {
-                Assert.True(Args.IsEmpty);
-                Assert.Pass();
-            };
-
-            Assert.Fail();
-        }
-
-        [Test]
         public void Bind_ParameterValidation()
         {
             var Property = new BindableProperty<int>(this);

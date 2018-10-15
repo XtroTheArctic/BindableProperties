@@ -4,7 +4,7 @@ BindableProperties is a class library which provides a bindable properties syste
 
 # Features
 
-* Privately settable property class as well as publicly settale one,
+* Privately settable property class as well as publicly settable one,
 * Ability of binding a property to another property (Both privately and publicly),
 * Support for empty value,
 * Event based value retrieval instead of on-demand value retrieval(classical way) which becomes repetitive and leads to programming errors.
@@ -29,7 +29,7 @@ You can easily contribute to the project by just reporting issues to [here](http
 
 If you want to get involved and actively contribute to the project, you can simply do so by sending pull requests to the project lead via bitbucket.com.
 
-Project page on Bitbucket: https://bitbucket.org/XtroTheArctic/bindableproperties
+Project page on [Bitbucket](https://bitbucket.org/XtroTheArctic/bindableproperties)
 
 Git Repo URL: git@bitbucket.org:XtroTheArctic/bindableproperties.git
 
@@ -38,7 +38,7 @@ Please feel free to contact the team members via email at any time.
 # Planned Features
 
 * Examples project,
-* Monitoring other properties system (Other properties of different value types),
+* Support for monitoring other properties (Other properties of different value types),
 * Optional two-way binding support,
 * Value validation support.
 

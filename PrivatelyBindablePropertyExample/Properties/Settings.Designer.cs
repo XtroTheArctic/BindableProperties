@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrivatelySettablePrivatelyBindablePropertySample.Properties
+namespace PrivatelyBindablePropertyExample.Properties
 {
 
 
