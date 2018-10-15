@@ -10,12 +10,12 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
         // About bindable properties:
         //
         // A bindable property is a value binding target. Other objects or properties can bind to it in order to receive value changed notifications from it.
-        // Also a bindable properties can bind to other value targets so it can reflect the same value as the target.
-        // The value of a bindable property can be set directly but this operation breaks the any existing binding since the property will have its own value.
+        // Also a bindable property can bind to another value target so it can reflect the same value as the target.
+        // The value of a bindable property can be set directly but this operation breaks any existing binding since the property will have its own value.
         //
-        // The important point here is that a bindable property is not directly readable. Even its owner can't read its value directly.
+        // The important point here is that a bindable property is not directly readable. Even its owner can NOT read its value directly.
         // Only way to know its value is to subscribe to its Changed event.
-        // By enforcing these rules, the bindable properties system makes sure that every object in the binding chain gets notified for a value change and none of them left behind with an outdated value. 
+        // By enforcing this rule, the bindable properties system makes sure that every object in the binding chain gets notified for a value change and none of them left behind with an outdated value. 
 
         // Usage:
         //
@@ -59,7 +59,7 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
             // In fifth step, you get the value of the property here, in this Changed event.
             // The purpose of this event handler is to use the new value of the property and do some work with it.
             // You can store the new value of the property to a private member as a cache but this is optional.
-            // For the sake of this example, we will just consume the new value instead of storing it.
+            // For the sake of this example, we will just consume the new value to announce only instead of storing it.
             // IMPORTANT: Don't forget to check the empty value if you plan to use ClearValue method in your class logic to provide empty value support for the bindable property.
             if (Args.IsEmpty) MessageBox.Show($"{Name} says: I don't have a height info");
             else

@@ -21,18 +21,23 @@ namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
             ToggleBindingButtons(Apple.Height.IsBound);
         }
 
-        void AppleHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
-        {
-            AppleHeightLabel.Content = Args.Value;
-
-            ToggleBindingButtons(Apple.Height.IsBound);
-        }
+        void AppleHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => AppleHeightLabel.Content = Args.Value;
 
         void TomatoHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => TomatoHeightLabel.Content = Args.Value;
 
-        void AppleGrowButton_Click(object Sender, RoutedEventArgs E) => Apple.GrowByOne();
+        void AppleGrowButton_Click(object Sender, RoutedEventArgs E)
+        {
+            Apple.GrowByOne();
 
-        void AppleDieButton_Click(object Sender, RoutedEventArgs E) => Apple.Die();
+            ToggleBindingButtons(false);
+        }
+
+        void AppleDieButton_Click(object Sender, RoutedEventArgs E)
+        {
+            Apple.Die();
+
+            ToggleBindingButtons(false);
+        }
 
         void TomatoGrowButton_Click(object Sender, RoutedEventArgs E) => Tomato.GrowByOne();
 

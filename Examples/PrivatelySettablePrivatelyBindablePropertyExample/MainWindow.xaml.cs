@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Atesh.BindableProperties;
 
 namespace PrivatelySettablePrivatelyBindablePropertyExample
 {
@@ -12,19 +11,25 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
         {
             InitializeComponent();
 
-            Tomato = new YourClass("Tomato");
-            Apple = new YourClass("Apple");
-
-            Apple.Height.Changed += AppleHeight_Changed;
+            Tomato = new YourClass(nameof(Tomato));
+            Apple = new YourClass(nameof(Apple));
 
             ToggleBindingButtons(Apple.Height.IsBound);
         }
 
-        void AppleHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => ToggleBindingButtons(Apple.Height.IsBound);
+        void AppleGrowButton_Click(object Sender, RoutedEventArgs E)
+        {
+            Apple.GrowRandomly();
 
-        void AppleGrowButton_Click(object Sender, RoutedEventArgs E) => Apple.GrowRandomly();
+            ToggleBindingButtons(false);
+        }
 
-        void AppleDieButton_Click(object Sender, RoutedEventArgs E) => Apple.Die();
+        void AppleDieButton_Click(object Sender, RoutedEventArgs E)
+        {
+            Apple.Die();
+
+            ToggleBindingButtons(false);
+        }
 
         void TomatoGrowButton_Click(object Sender, RoutedEventArgs E) => Tomato.GrowRandomly();
 
