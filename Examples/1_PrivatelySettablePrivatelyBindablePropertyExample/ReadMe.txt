@@ -5,4 +5,4 @@
 
 * You can run the example project to see the effects of bindable properties system but reading the example comments first is highly recommended.
 
-* Next example: PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
+* Next example: 2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample

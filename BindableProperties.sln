@@ -14,11 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{3201A803-278F-4F5B-B671-63FD9E838443}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrivatelySettablePrivatelyBindablePropertyExample", "Examples\PrivatelySettablePrivatelyBindablePropertyExample\PrivatelySettablePrivatelyBindablePropertyExample.csproj", "{773E6028-49EE-4A04-8250-C2CCF01BD180}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1_PrivatelySettablePrivatelyBindablePropertyExample", "Examples\1_PrivatelySettablePrivatelyBindablePropertyExample\1_PrivatelySettablePrivatelyBindablePropertyExample.csproj", "{773E6028-49EE-4A04-8250-C2CCF01BD180}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample", "PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample\PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample.csproj", "{80C3E224-48B9-448A-A6D8-774511B865F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample", "Examples\2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample\2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample.csproj", "{80C3E224-48B9-448A-A6D8-774511B865F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrivatelyBindablePropertyExample", "PrivatelyBindablePropertyExample\PrivatelyBindablePropertyExample.csproj", "{C9040706-2EC4-47C1-A759-E27A6904DA7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3_PrivatelyBindablePropertyExample", "Examples\3_PrivatelyBindablePropertyExample\3_PrivatelyBindablePropertyExample.csproj", "{C9040706-2EC4-47C1-A759-E27A6904DA7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
