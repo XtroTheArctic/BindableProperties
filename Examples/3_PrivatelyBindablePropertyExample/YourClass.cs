@@ -11,7 +11,7 @@ namespace PrivatelyBindablePropertyExample
         public readonly PrivatelyBindableProperty<int> Height;
 
         // Delegates to control the bindable property.
-        // Unlike the first example, we don't need SetDelegates here because PrivatelyBindableProperty has its own public Set/Clear methods.
+        // Unlike the first example, we don't need SetDelegates here because PrivatelyBindableProperty has its own public SetValue method.
         PrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
 
         readonly string Name; // Just the name of the YourClass instance.
@@ -30,13 +30,8 @@ namespace PrivatelyBindablePropertyExample
         void Height_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
             // For the sake of this example, we will just consume the new value to announce only instead of storing it.
-            // IMPORTANT: Don't forget to check the empty value because the outside sources can call ClearValue at any time.
-            if (Args.IsEmpty) MessageBox.Show($"{Name} says: I don't have a height info");
-            else
-            {
-                var Text = $"{Name} says: My height is {Args.Value}.";
-                MessageBox.Show(Text);
-            }
+            var Text = $"{Name} says: My height is {Args.Value}.";
+            MessageBox.Show(Text);
         }
 
         // Since the height property is PrivatelyBindableProperty, it can't be bound from outside so we implement BindHeight and UnbindHeight commands for outside access.

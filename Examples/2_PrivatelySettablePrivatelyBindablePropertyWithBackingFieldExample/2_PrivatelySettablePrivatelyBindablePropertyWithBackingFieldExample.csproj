@@ -100,10 +100,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\Examples\PrivatelySettablePrivatelyBindablePropertyExample\Arrow.png">
+    <Resource Include="..\1_PrivatelySettablePrivatelyBindablePropertyExample\Arrow.png">
       <Link>Arrow.png</Link>
     </Resource>
   </ItemGroup>
