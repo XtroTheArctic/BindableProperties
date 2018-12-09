@@ -23,6 +23,10 @@ Download it via "manual download" link in [NuGet](https://www.nuget.org/packages
 
 "nupkg" file you downloaded from NuGet web page is a regular zip file. You can change its extension to "zip" and extract it easily.
 
+# Examples
+
+Example projects about how to use BindableProperties can be downloaded [here](https://drive.google.com/file/d/17gmZnbUdmaalmMSvZUryL-OOmORPIo5A/view?usp=sharing).
+
 # Contribution
 
 You can easily contribute to the project by just reporting issues to [here](https://bitbucket.org/XtroTheArctic/bindableproperties/issues)
@@ -37,7 +41,6 @@ Please feel free to contact the team members via email at any time.
 
 # Planned Features
 
-* Examples project,
 * Support for monitoring other properties (Other properties of different value types),
 * Optional two-way binding support,
 * Value validation support.

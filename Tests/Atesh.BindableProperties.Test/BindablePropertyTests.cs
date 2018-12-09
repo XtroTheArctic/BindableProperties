@@ -110,5 +110,40 @@ namespace Atesh.BindableProperties.Test
 
             Property.Unbind();
         }
+
+        [Test]
+        public void Monitor_ParameterValidation()
+        {
+            var Property = new BindableProperty<int>(this);
+
+            var E = Assert.Throws<ArgumentNullException>(() => Property.Monitor(null));
+            Assert.AreEqual(E.ParamName, "Target");
+
+            var E2 = Assert.Throws<ArgumentException>(() => Property.Monitor(Property));
+            Assert.AreEqual(E2.ParamName, "Target");
+            Assert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
+        }
+
+        [Test]
+        public void Monitor_Monitors()
+        {
+            var Property = new BindableProperty<int>(this);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            Property.Monitor(MonitoredProperty);
+        }
+
+        [Test]
+        public void Monitor_WhileBound()
+        {
+            var Property = new BindableProperty<int>(this);
+            var TargetProperty = new BindableProperty<int>(this);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            Property.Bind(TargetProperty);
+
+            var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
+            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterBind, E.Message);
+        }
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace Atesh.BindableProperties
+﻿using System;
+
+namespace Atesh.BindableProperties
 {
     public class PrivatelyBindablePropertyWithEmptyValue<T> : PrivatelyBindableProperty<T>
     {
-        public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false) : base(Owner, out BindDelegates, IsEmpty) { }
+        public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null) : base(Owner, out BindDelegates, IsEmpty, BinderCallback) { }
 
-        public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindDelegates BindDelegates, T Value) : base(Owner, out BindDelegates, Value) { }
+        public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindDelegates BindDelegates, T Value, Action BinderCallback = null) : base(Owner, out BindDelegates, Value, BinderCallback) { }
 
         public void ClearValue() => SetDelegates.ClearValue();
     }

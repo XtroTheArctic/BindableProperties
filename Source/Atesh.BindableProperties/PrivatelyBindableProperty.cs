@@ -12,7 +12,7 @@ namespace Atesh.BindableProperties
 
         protected new SetDelegates SetDelegates;
 
-        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates) : base(Owner, out TempSetDelegates, out BindDelegates)
+        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, Action BinderCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, BinderCallback: BinderCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -20,7 +20,7 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, T Value) : base(Owner, out TempSetDelegates, out BindDelegates, Value)
+        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, T Value, Action BinderCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, Value, BinderCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -28,7 +28,7 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        internal PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty)
+        internal PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty, BinderCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {

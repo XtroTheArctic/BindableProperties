@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Atesh.BindableProperties
 {
-    public class PrivatelySettablePrivatelyBindableProperty<T>
+    public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
     {
         #region Events
 
-        public event ChangedEventHandler<T> Changed
+        public new event ChangedEventHandler<T> Changed
         {
             add
             {
@@ -30,22 +30,26 @@ namespace Atesh.BindableProperties
 
         public readonly object Owner;
 
+        readonly Action BinderCallback;
         T Value;
         bool IsEmpty;
         PrivatelySettablePrivatelyBindableProperty<T> BoundProperty;
+        readonly HashSet<BindablePropertyBase> MonitoredProperties = new HashSet<BindablePropertyBase>();
 
-        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false)
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null)
         {
             this.Owner = Owner ?? throw new ArgumentNullException(nameof(Owner));
             this.IsEmpty = IsEmpty;
+            this.BinderCallback = BinderCallback;
 
             SetDelegates.SetValue = SetValue;
             SetDelegates.ClearValue = ClearValue;
             BindDelegates.Bind = Bind;
             BindDelegates.Unbind = Unbind;
+            BindDelegates.Monitor = Monitor;
         }
 
-        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value) : this(Owner, out SetDelegates, out BindDelegates)
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -53,7 +57,11 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        void OnChanged() => _Changed?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
+        void OnChanged()
+        {
+            base.Changed?.Invoke();
+            _Changed?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
+        }
 
         void SetValue(T Value)
         {
@@ -89,23 +97,59 @@ namespace Atesh.BindableProperties
 
         void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target)
         {
-#pragma warning disable IDE0016 // Use 'throw' expression
             if (Target == null) throw new ArgumentNullException(nameof(Target));
-#pragma warning restore IDE0016 // Use 'throw' expression
             if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
 
             if (BoundProperty != null) Unbind();
 
             BoundProperty = Target;
             BoundProperty.Changed += BoundProperty_Changed;
+
+            MonitorAll();
         }
 
         void Unbind()
         {
             if (BoundProperty == null) return;
 
+            UnmonitorAll();
+
             BoundProperty.Changed -= BoundProperty_Changed;
             BoundProperty = null;
+        }
+
+        void Monitor(BindablePropertyBase Target)
+        {
+            if (Target == null) throw new ArgumentNullException(nameof(Target));
+            if (Target == this) throw new ArgumentException(Strings.PropertyCanNotMonitorItself, nameof(Target));
+            if (IsBound) throw new InvalidOperationException(Strings.PropertyCanNotMonitorAfterBind);
+
+            MonitoredProperties.Add(Target);
+        }
+
+        void MonitorAll()
+        {
+            foreach (var MonitoredProperty in MonitoredProperties)
+            {
+                MonitoredProperty.Changed += MonitoredProperty_Changed;
+            }
+        }
+
+        void UnmonitorAll()
+        {
+            foreach (var MonitoredProperty in MonitoredProperties)
+            {
+                MonitoredProperty.Changed -= MonitoredProperty_Changed;
+            }
+
+            MonitoredProperties.Clear();
+        }
+
+        void MonitoredProperty_Changed()
+        {
+            Unbind();
+
+            BinderCallback?.Invoke();
         }
 
         void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
@@ -124,6 +168,8 @@ namespace Atesh.BindableProperties
 
         public delegate void SetValueDelegate(T Value);
 
+        public delegate void MonitorDelegate(BindablePropertyBase Target);
+
         public struct SetDelegates
         {
             public SetValueDelegate SetValue;
@@ -134,6 +180,7 @@ namespace Atesh.BindableProperties
         {
             public BindToPropertyDelegate Bind;
             public Action Unbind;
+            public MonitorDelegate Monitor;
         }
     }
 }

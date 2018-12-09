@@ -15,16 +15,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
@@ -35,8 +25,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Atesh.BindableProperties, Version=1.0.97.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Atesh.BindableProperties.1.0.0-alpha3\lib\netstandard2.0\Atesh.BindableProperties.dll</HintPath>
+    <Reference Include="Atesh.BindableProperties, Version=1.0.97.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Atesh.BindableProperties.1.0.0-alpha4\lib\netstandard2.0\Atesh.BindableProperties.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -89,6 +79,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -100,10 +91,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\Examples\PrivatelySettablePrivatelyBindablePropertyExample\Arrow.png">
+    <Resource Include="..\1_PrivatelySettablePrivatelyBindablePropertyExample\Arrow.png">
       <Link>Arrow.png</Link>
     </Resource>
   </ItemGroup>
