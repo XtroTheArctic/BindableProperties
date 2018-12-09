@@ -84,7 +84,7 @@ namespace Atesh.BindableProperties.Test
         public void ClearValue_Unbinds()
         {
             var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out var BindDelegates);
-            var TargetProperty = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
+            var TargetProperty = new BindableProperty<int>(this);
 
             BindDelegates.Bind(TargetProperty);
             Property.ClearValue();

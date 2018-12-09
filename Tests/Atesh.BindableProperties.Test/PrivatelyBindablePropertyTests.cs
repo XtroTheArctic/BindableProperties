@@ -73,7 +73,7 @@ namespace Atesh.BindableProperties.Test
         public void SetValue_Unbinds()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            var TargetProperty = new BindableProperty<int>(this);
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.SetValue(0);

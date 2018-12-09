@@ -104,7 +104,7 @@ namespace Atesh.BindableProperties.Test
         public void SetValueDelegate_Unbinds()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            var TargetProperty = new BindableProperty<int>(this);
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.SetValue(0);
@@ -151,7 +151,7 @@ namespace Atesh.BindableProperties.Test
         public void ClearValueDelegate_Unbinds()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            var TargetProperty = new BindableProperty<int>(this);
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.ClearValue();
@@ -190,7 +190,7 @@ namespace Atesh.BindableProperties.Test
         public void BindDelegate_Binds()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            var TargetProperty = new BindableProperty<int>(this);
 
             Assert.False(Property.IsBound);
             BindDelegates.Bind(TargetProperty);
@@ -204,7 +204,7 @@ namespace Atesh.BindableProperties.Test
             var PropertyValueReceivedOnce = false;
 
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, ValueOfTarget);
+            var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
 
             Property.Changed += (Sender, Args) =>
             {
@@ -228,7 +228,7 @@ namespace Atesh.BindableProperties.Test
             var PropertyValueReceivedOnce = false;
 
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            var TargetProperty = new BindableProperty<int>(this);
 
             Property.Changed += (Sender, Args) =>
             {
@@ -243,7 +243,7 @@ namespace Atesh.BindableProperties.Test
         public void UnbindDelegate_Unbinds()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            var TargetProperty = new BindableProperty<int>(this);
 
             BindDelegates.Bind(TargetProperty);
             BindDelegates.Unbind();
@@ -257,7 +257,7 @@ namespace Atesh.BindableProperties.Test
             var PropertyValueReceivedOnce = false;
 
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-            var TargetProperty = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, ValueOfTarget);
+            var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
 
             BindDelegates.Bind(TargetProperty);
 
@@ -268,6 +268,69 @@ namespace Atesh.BindableProperties.Test
             };
 
             BindDelegates.Unbind();
+        }
+
+        [Test]
+        public void MonitorDelegate_ParameterValidation()
+        {
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+
+            var E = Assert.Throws<ArgumentNullException>(() => BindDelegates.Monitor(null));
+            Assert.AreEqual(E.ParamName, "Target");
+
+            var E2 = Assert.Throws<ArgumentException>(() => BindDelegates.Monitor(Property));
+            Assert.AreEqual(E2.ParamName, "Target");
+            Assert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
+        }
+
+        [Test]
+        public void MonitorDelegate_Monitors()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            BindDelegates.Monitor(MonitoredProperty);
+        }
+
+        [Test]
+        public void MonitorDelegate_WhileBound()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+            var TargetProperty = new BindableProperty<int>(this);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            BindDelegates.Bind(TargetProperty);
+
+            var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.Monitor(MonitoredProperty));
+            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterBind, E.Message);
+        }
+
+        [Test]
+        public void ChangedEventOfMonitoredProperty_Unbinds()
+        {
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+            var TargetProperty = new BindableProperty<int>(this);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            BindDelegates.Monitor(MonitoredProperty);
+            BindDelegates.Bind(TargetProperty);
+
+            MonitoredProperty.SetValue(DateTime.Now);
+            Assert.False(Property.IsBound);
+        }
+
+        [Test]
+        public void ChangedEventOfMonitoredProperty_CallsBinderCallback()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates, BinderCallback: Assert.Pass);
+            var TargetProperty = new BindableProperty<int>(this);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            BindDelegates.Monitor(MonitoredProperty);
+            BindDelegates.Bind(TargetProperty);
+
+            MonitoredProperty.SetValue(DateTime.Now);
+            Assert.Fail();
         }
     }
 }
