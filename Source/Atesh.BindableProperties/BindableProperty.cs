@@ -12,13 +12,14 @@ namespace Atesh.BindableProperties
 
         BindDelegates Delegates;
 
-        public BindableProperty(object Owner) : base(Owner, out TempDelegates) => Delegates = TempDelegates;
+        public BindableProperty(object Owner, Action BinderCallback = null) : base(Owner, out TempDelegates, BinderCallback) => Delegates = TempDelegates;
 
-        public BindableProperty(object Owner, T Value) : base(Owner, out TempDelegates, Value) => Delegates = TempDelegates;
+        public BindableProperty(object Owner, T Value, Action BinderCallback = null) : base(Owner, out TempDelegates, Value, BinderCallback) => Delegates = TempDelegates;
 
-        internal BindableProperty(object Owner, bool IsEmpty = false) : base(Owner, out TempDelegates, IsEmpty) => Delegates = TempDelegates;
+        internal BindableProperty(object Owner, bool IsEmpty = false, Action BinderCallback = null) : base(Owner, out TempDelegates, IsEmpty, BinderCallback) => Delegates = TempDelegates;
 
         public void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target) => Delegates.Bind(Target);
         public void Unbind() => Delegates.Unbind();
+        public void Monitor(BindablePropertyBase Target) => Delegates.Monitor(Target);
     }
 }
