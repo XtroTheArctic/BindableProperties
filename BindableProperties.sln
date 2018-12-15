@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3_PrivatelyBindableProperty
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4_BindablePropertyExample", "Examples\4_BindablePropertyExample\4_BindablePropertyExample.csproj", "{8004F766-3E01-4C01-9DE3-0244EB520758}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5_InheritedPropertySystemExampleViaMonitoringSystem", "Examples\5_InheritedPropertySystemExampleViaMonitoringSystem\5_InheritedPropertySystemExampleViaMonitoringSystem.csproj", "{57DBD52F-9791-4043-8447-09F7A21A92A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
@@ -39,6 +41,8 @@ Global
 		{C9040706-2EC4-47C1-A759-E27A6904DA7D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8004F766-3E01-4C01-9DE3-0244EB520758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8004F766-3E01-4C01-9DE3-0244EB520758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57DBD52F-9791-4043-8447-09F7A21A92A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57DBD52F-9791-4043-8447-09F7A21A92A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +52,7 @@ Global
 		{80C3E224-48B9-448A-A6D8-774511B865F9} = {3201A803-278F-4F5B-B671-63FD9E838443}
 		{C9040706-2EC4-47C1-A759-E27A6904DA7D} = {3201A803-278F-4F5B-B671-63FD9E838443}
 		{8004F766-3E01-4C01-9DE3-0244EB520758} = {3201A803-278F-4F5B-B671-63FD9E838443}
+		{57DBD52F-9791-4043-8447-09F7A21A92A2} = {3201A803-278F-4F5B-B671-63FD9E838443}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF0AE3B0-7FAC-4AE6-8CD5-8469602BD6DA}
