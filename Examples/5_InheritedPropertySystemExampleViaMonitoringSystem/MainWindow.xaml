@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         Title="Inherited Property System Example Via Monitoring" Height="450" Width="700" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Stroke="Black" VerticalAlignment="Top" Width="100" Margin="75,224,0,0"/>
+
     </Grid>
 </Window>
