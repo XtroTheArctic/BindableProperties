@@ -6,7 +6,25 @@
         mc:Ignorable="d"
         Title="Inherited Property System Example Via Monitoring" Height="450" Width="700" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Stroke="Black" VerticalAlignment="Top" Width="100" Margin="75,224,0,0"/>
-
+        <Label Content="Object A" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="42,9,0,0"/>
+        <Rectangle Name="RectangleA" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Stroke="Black" VerticalAlignment="Top" Width="100" Margin="42,33,0,0"/>
+        <Label Content="Object B" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="42,188,0,0"/>
+        <Rectangle Name="RectangleB" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Stroke="Black" VerticalAlignment="Top" Width="100" Margin="42,212,0,0"/>
+        <Label Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="342,9,0,0"/>
+        <Rectangle Name="Skin1Rectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="120" Stroke="Black" VerticalAlignment="Top" Width="264" Margin="342,33,0,0"/>
+        <Label Content="BackgroundColor:" HorizontalAlignment="Left" Margin="342,38,0,0" VerticalAlignment="Top"/>
+        <Rectangle Name="Skin1BackgroundColorRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="54" Margin="441,38,0,0"/>
+        <Label Name="Skin1BackgroundColorEmptyLabel" Content="Empty" HorizontalAlignment="Left" Margin="441,38,0,0" VerticalAlignment="Top"/>
+        <Button Name="Skin1BackgroundColorBlueButton" Content="Blue" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="352,67,0,0" Click="Skin1BackgroundColorBlueButton_Click"/>
+        <Button Name="Skin1BackgroundColorRedButton" Content="Red" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="432,67,0,0" Click="Skin1BackgroundColorRedButton_Click"/>
+        <Button Name="Skin1BackgroundColorEmptyButton" Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="512,67,0,0" Click="Skin1BackgroundColorEmptyButton_Click"/>
+        <Label Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="342,191,0,0"/>
+        <Rectangle Name="Skin2Rectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="120" Stroke="Black" VerticalAlignment="Top" Width="264" Margin="342,215,0,0"/>
+        <Label Content="BackgroundColor:" HorizontalAlignment="Left" Margin="342,220,0,0" VerticalAlignment="Top"/>
+        <Rectangle Name="Skin2BackgroundColorRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="54" Margin="441,220,0,0"/>
+        <Label Name="Skin2BackgroundColorEmptyLabel" Content="Empty" HorizontalAlignment="Left" Margin="441,220,0,0" VerticalAlignment="Top"/>
+        <Button Name="Skin2BackgroundColorGreenButton" Content="Green" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="352,249,0,0" Click="Skin2BackgroundColorGreenButton_Click"/>
+        <Button Name="Skin2BackgroundColorYellowButton" Content="Yellow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="432,249,0,0" Click="Skin2BackgroundColorYellowButton_Click"/>
+        <Button Name="Skin2BackgroundColorEmptyButton" Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="512,249,0,0" Click="Skin2BackgroundColorEmptyButton_Click"/>
     </Grid>
 </Window>
