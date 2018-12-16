@@ -25,6 +25,7 @@ namespace Atesh.BindableProperties
         #region Properties
 
         public bool IsBound => BoundProperty != null;
+        public bool IsMonitoringWithoutBinding { get; private set; }
 
         #endregion
 
@@ -47,6 +48,8 @@ namespace Atesh.BindableProperties
             BindDelegates.Bind = Bind;
             BindDelegates.Unbind = Unbind;
             BindDelegates.Monitor = Monitor;
+            BindDelegates.StartMonitoring = StartMonitoring;
+            BindDelegates.StopMonitoring = StopMonitoring;
         }
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback)
@@ -100,19 +103,22 @@ namespace Atesh.BindableProperties
             if (Target == null) throw new ArgumentNullException(nameof(Target));
             if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
 
-            if (BoundProperty != null) Unbind();
+            if (IsMonitoringWithoutBinding) StopMonitoring();
+            else if (BoundProperty != null) Unbind();
+
+            StartMonitoring();
+            IsMonitoringWithoutBinding = false;
 
             BoundProperty = Target;
             BoundProperty.Changed += BoundProperty_Changed;
-
-            MonitorAll();
         }
 
         void Unbind()
         {
-            if (BoundProperty == null) return;
+            if (BoundProperty == null) throw new InvalidOperationException(Strings.PropertyNotBoundYet);
 
-            UnmonitorAll();
+            IsMonitoringWithoutBinding = true;
+            StopMonitoring();
 
             BoundProperty.Changed -= BoundProperty_Changed;
             BoundProperty = null;
@@ -122,32 +128,41 @@ namespace Atesh.BindableProperties
         {
             if (Target == null) throw new ArgumentNullException(nameof(Target));
             if (Target == this) throw new ArgumentException(Strings.PropertyCanNotMonitorItself, nameof(Target));
-            if (IsBound) throw new InvalidOperationException(Strings.PropertyCanNotMonitorAfterBind);
+            if (IsMonitoringWithoutBinding || BoundProperty != null) throw new InvalidOperationException(Strings.PropertyCanNotMonitorAfterMonitoringStarted);
 
             MonitoredProperties.Add(Target);
         }
 
-        void MonitorAll()
+        void StartMonitoring()
         {
+            if (IsMonitoringWithoutBinding || BoundProperty != null) throw new InvalidOperationException(Strings.MonitoringAlreadyStarted);
+
             foreach (var MonitoredProperty in MonitoredProperties)
             {
                 MonitoredProperty.Changed += MonitoredProperty_Changed;
             }
+
+            IsMonitoringWithoutBinding = true;
         }
 
-        void UnmonitorAll()
+        void StopMonitoring()
         {
+            if (!IsMonitoringWithoutBinding) throw new InvalidOperationException(Strings.MonitoringNotStartedYet);
+
             foreach (var MonitoredProperty in MonitoredProperties)
             {
                 MonitoredProperty.Changed -= MonitoredProperty_Changed;
             }
 
             MonitoredProperties.Clear();
+
+            IsMonitoringWithoutBinding = false;
         }
 
         void MonitoredProperty_Changed()
         {
-            Unbind();
+            if (BoundProperty == null) StopMonitoring();
+            else Unbind();
 
             BinderCallback?.Invoke();
         }
@@ -181,6 +196,8 @@ namespace Atesh.BindableProperties
             public BindToPropertyDelegate Bind;
             public Action Unbind;
             public MonitorDelegate Monitor;
+            public Action StartMonitoring;
+            public Action StopMonitoring;
         }
     }
 }

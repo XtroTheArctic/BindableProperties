@@ -4,6 +4,9 @@
     {
         public const string PropertyCanNotBindToItself = "Property can not bind to itself.";
         public const string PropertyCanNotMonitorItself = "Property can not monitor itself.";
-        public const string PropertyCanNotMonitorAfterBind = "Property can not monitor a target after it's bound. Call Monitor method before Bind.";
+        public const string PropertyCanNotMonitorAfterMonitoringStarted = "Property can not monitor a new target after the monitoring started. Please call Monitor method before Bind and StartMonitoring.";
+        public const string MonitoringAlreadyStarted = "Monitoring has already started.";
+        public const string MonitoringNotStartedYet = "Monitoring has not started yet.";
+        public const string PropertyNotBoundYet = "Property is not bound yet.";
     }
 }
