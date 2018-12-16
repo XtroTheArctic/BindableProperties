@@ -3,7 +3,7 @@ using Atesh.BindableProperties;
 
 namespace PrivatelyBindablePropertyExample
 {
-    // IMPORTANT: Please read the first example before this. More info is available in ReadMe.txt of this example project.
+    // IMPORTANT: Please read the first example before this.
     class YourClass
     {
         // In this example, the height property is defined as a PrivatelyBindableProperty.

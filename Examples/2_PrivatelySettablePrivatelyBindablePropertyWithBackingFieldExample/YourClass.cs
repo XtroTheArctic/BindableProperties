@@ -2,7 +2,7 @@
 
 namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
 {
-    // IMPORTANT: Please read the first example before this. More info is available in ReadMe.txt of this example project.
+    // IMPORTANT: Please read the first example before this.
     class YourClass
     {
         // Purpose of this example is to define a backing field for the bindable property to be able to use it when necessary.
