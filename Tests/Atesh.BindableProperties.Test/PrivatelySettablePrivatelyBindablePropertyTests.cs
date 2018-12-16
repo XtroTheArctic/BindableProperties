@@ -112,7 +112,7 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void ClearValueDelegate_DoesNotRaiseChangedEventWhenEmpty()
+        public void ClearValueDelegate_DoesNotRaiseChangedEventWhileEmpty()
         {
             var PropertyValueReceivedOnce = false;
 
@@ -251,6 +251,15 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
+        public void UnbindDelegate_ThrowsExceptionWhileUnbound()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+
+            var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.Unbind());
+            Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
+        }
+
+        [Test]
         public void UnbindDelegate_DoesNotRaiseChangedEvent()
         {
             const int ValueOfTarget = 3;
@@ -268,6 +277,46 @@ namespace Atesh.BindableProperties.Test
             };
 
             BindDelegates.Unbind();
+        }
+
+        [Test]
+        public void StartMonitoringDelegate_StartsMonitoring()
+        {
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+
+            Assert.False(Property.IsMonitoringWithoutBinding);
+            BindDelegates.StartMonitoring();
+            Assert.True(Property.IsMonitoringWithoutBinding);
+        }
+
+        [Test]
+        public void StartMonitoringDelegate_ThrowsExceptionWhileMonitoringWithoutBinding()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+
+            BindDelegates.StartMonitoring();
+
+            var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.StartMonitoring());
+            Assert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
+        }
+
+        [Test]
+        public void StopMonitoringDelegate_StopsMonitoring()
+        {
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+
+            BindDelegates.StartMonitoring();
+            BindDelegates.StopMonitoring();
+            Assert.False(Property.IsMonitoringWithoutBinding);
+        }
+
+        [Test]
+        public void StopMonitoringDelegate_ThrowsExceptionWhileNotMonitoringWithoutBinding()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+
+            var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.StopMonitoring());
+            Assert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
         }
 
         [Test]
@@ -293,7 +342,7 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void MonitorDelegate_WhileBound()
+        public void MonitorDelegate_ThrowsExceptionWhileBound()
         {
             new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
             var TargetProperty = new BindableProperty<int>(this);
@@ -302,7 +351,19 @@ namespace Atesh.BindableProperties.Test
             BindDelegates.Bind(TargetProperty);
 
             var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.Monitor(MonitoredProperty));
-            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterBind, E.Message);
+            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
+        }
+
+        [Test]
+        public void MonitorDelegate_ThrowsExceptionWhileMonitoringWithoutBinding()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            BindDelegates.StartMonitoring();
+
+            var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.Monitor(MonitoredProperty));
+            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
         }
 
         [Test]
@@ -320,7 +381,20 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void ChangedEventOfMonitoredProperty_CallsBinderCallback()
+        public void ChangedEventOfMonitoredProperty_StopsMonitoring()
+        {
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            BindDelegates.Monitor(MonitoredProperty);
+            BindDelegates.StartMonitoring();
+
+            MonitoredProperty.SetValue(DateTime.Now);
+            Assert.False(Property.IsMonitoringWithoutBinding);
+        }
+
+        [Test]
+        public void ChangedEventOfMonitoredProperty_CallsBinderCallbackWhileBound()
         {
             new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates, BinderCallback: Assert.Pass);
             var TargetProperty = new BindableProperty<int>(this);
@@ -328,6 +402,19 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Monitor(MonitoredProperty);
             BindDelegates.Bind(TargetProperty);
+
+            MonitoredProperty.SetValue(DateTime.Now);
+            Assert.Fail();
+        }
+
+        [Test]
+        public void ChangedEventOfMonitoredProperty_CallsBinderCallbackWhileMonitoringWithoutBinding()
+        {
+            new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates, BinderCallback: Assert.Pass);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            BindDelegates.Monitor(MonitoredProperty);
+            BindDelegates.StartMonitoring();
 
             MonitoredProperty.SetValue(DateTime.Now);
             Assert.Fail();

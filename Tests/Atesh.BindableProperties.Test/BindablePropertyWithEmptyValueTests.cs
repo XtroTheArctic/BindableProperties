@@ -45,7 +45,7 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void ClearValue_DoesNotRaiseChangedEventWhenEmpty()
+        public void ClearValue_DoesNotRaiseChangedEventWhileEmpty()
         {
             var PropertyValueReceivedOnce = false;
 
