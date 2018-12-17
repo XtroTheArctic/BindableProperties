@@ -92,6 +92,15 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
+        public void Unbind_ThrowsExceptionWhileUnbound()
+        {
+            var Property = new BindableProperty<int>(this);
+
+            var E = Assert.Throws<InvalidOperationException>(() => Property.Unbind());
+            Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
+        }
+
+        [Test]
         public void Unbind_DoesNotRaiseChangedEvent()
         {
             const int ValueOfTarget = 3;
@@ -109,6 +118,46 @@ namespace Atesh.BindableProperties.Test
             };
 
             Property.Unbind();
+        }
+
+        [Test]
+        public void StartMonitoring_StartsMonitoring()
+        {
+            var Property = new BindableProperty<int>(this);
+
+            Assert.False(Property.IsMonitoringWithoutBinding);
+            Property.StartMonitoring();
+            Assert.True(Property.IsMonitoringWithoutBinding);
+        }
+
+        [Test]
+        public void StartMonitoring_ThrowsExceptionWhileMonitoringWithoutBinding()
+        {
+            var Property = new BindableProperty<int>(this);
+
+            Property.StartMonitoring();
+
+            var E = Assert.Throws<InvalidOperationException>(() => Property.StartMonitoring());
+            Assert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
+        }
+
+        [Test]
+        public void StopMonitoring_StopsMonitoring()
+        {
+            var Property = new BindableProperty<int>(this);
+
+            Property.StartMonitoring();
+            Property.StopMonitoring();
+            Assert.False(Property.IsMonitoringWithoutBinding);
+        }
+
+        [Test]
+        public void StopMonitoring_ThrowsExceptionWhileNotMonitoringWithoutBinding()
+        {
+            var Property = new BindableProperty<int>(this);
+
+            var E = Assert.Throws<InvalidOperationException>(() => Property.StopMonitoring());
+            Assert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
         }
 
         [Test]
@@ -134,7 +183,7 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
-        public void Monitor_WhileBound()
+        public void Monitor_ThrowsExceptionWhileBound()
         {
             var Property = new BindableProperty<int>(this);
             var TargetProperty = new BindableProperty<int>(this);
@@ -143,7 +192,19 @@ namespace Atesh.BindableProperties.Test
             Property.Bind(TargetProperty);
 
             var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
-            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterBind, E.Message);
+            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
+        }
+
+        [Test]
+        public void Monitor_ThrowsExceptionWhileMonitoringWithoutBinding()
+        {
+            var Property = new BindableProperty<int>(this);
+            var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+            Property.StartMonitoring();
+
+            var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
+            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
         }
     }
 }

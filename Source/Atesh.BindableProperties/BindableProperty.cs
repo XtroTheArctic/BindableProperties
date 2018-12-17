@@ -21,5 +21,7 @@ namespace Atesh.BindableProperties
         public void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target) => Delegates.Bind(Target);
         public void Unbind() => Delegates.Unbind();
         public void Monitor(BindablePropertyBase Target) => Delegates.Monitor(Target);
+        public void StartMonitoring() => Delegates.StartMonitoring();
+        public void StopMonitoring() => Delegates.StopMonitoring();
     }
 }

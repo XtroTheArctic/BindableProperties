@@ -3,7 +3,7 @@ using Atesh.BindableProperties;
 
 namespace BindablePropertyExample
 {
-    // IMPORTANT: Please read the first example before this. More info is available in ReadMe.txt of this example project.
+    // IMPORTANT: Please read the first example before this.
     class YourClass
     {
         // This is the simplest example because BindableProperty class doesn't have any restriction on setting a value or binding to another target.
