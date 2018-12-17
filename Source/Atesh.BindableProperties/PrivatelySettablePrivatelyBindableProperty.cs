@@ -62,8 +62,8 @@ namespace Atesh.BindableProperties
 
         void OnChanged()
         {
-            base.Changed?.Invoke();
             _Changed?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
+            base.Changed?.Invoke();
         }
 
         void SetValue(T Value)
