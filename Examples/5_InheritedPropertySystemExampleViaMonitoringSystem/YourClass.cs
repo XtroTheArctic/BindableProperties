@@ -90,44 +90,53 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             // If the property have a value and coming from monitoring system(BinderCallback) 
             if (!LastBackgroundColorIsEmpty) return;
 
+            if (BackgroundColor.IsMonitoringWithoutBinding) BindBackgroundColorDelegates.StopMonitoring();
+
             var P = this;
 
-            // Starting from "this", we traverse the parent chain upwards.
-            while (true)
+            try
             {
-                if (P == null) return;
-
-                // First, we check the BackgroundColor of the current parent step (Except "this" step).
-                if (P != this)
+                // Starting from "this", we traverse the parent chain upwards.
+                while (true)
                 {
-                    if (!P.LastBackgroundColorIsEmpty)
-                    {
-                        BindBackgroundColorDelegates.Bind(P.BackgroundColor);
+                    if (P == null) return;
 
-                        return;
+                    // First, we check the BackgroundColor of the current parent step (Except "this" step).
+                    if (P != this)
+                    {
+                        if (!P.LastBackgroundColorIsEmpty)
+                        {
+                            BindBackgroundColorDelegates.Bind(P.BackgroundColor);
+
+                            return;
+                        }
+
+                        BindBackgroundColorDelegates.Monitor(P.BackgroundColor);
                     }
 
-                    BindBackgroundColorDelegates.Monitor(P.BackgroundColor);
-                }
+                    BindBackgroundColorDelegates.Monitor(P.Skin);
 
-                BindBackgroundColorDelegates.Monitor(P.Skin);
-
-                if (P._Skin != null)
-                {
-                    // Second, we check the BackgroundColor of the skin of current parent step.
-                    if (!P._Skin.BackgroundColorIsEmpty)
+                    if (P._Skin != null)
                     {
-                        BindBackgroundColorDelegates.Bind(P._Skin.BackgroundColor);
+                        // Second, we check the BackgroundColor of the skin of current parent step.
+                        if (!P._Skin.BackgroundColorIsEmpty)
+                        {
+                            BindBackgroundColorDelegates.Bind(P._Skin.BackgroundColor);
 
-                        return;
+                            return;
+                        }
+
+                        BindBackgroundColorDelegates.Monitor(P._Skin.BackgroundColor);
                     }
 
-                    BindBackgroundColorDelegates.Monitor(P._Skin.BackgroundColor);
+                    BindBackgroundColorDelegates.Monitor(P.Parent);
+
+                    P = P._Parent;
                 }
-
-                BindBackgroundColorDelegates.Monitor(P.Parent);
-
-                P = P._Parent;
+            }
+            finally
+            {
+                if (!BackgroundColor.IsBound) BindBackgroundColorDelegates.StartMonitoring();
             }
         }
     }
