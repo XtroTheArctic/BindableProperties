@@ -90,6 +90,8 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             // If the property have a value and coming from monitoring system(BinderCallback) 
             if (!LastBackgroundColorIsEmpty) return;
 
+            if (BackgroundColor.IsMonitoringWithoutBinding) BindBackgroundColorDelegates.StopMonitoring();
+
             var P = this;
 
             try
