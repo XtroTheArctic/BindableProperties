@@ -32,7 +32,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         // Our example inherited properties system also has skinning support.
         //todo: Skin property doesn't need to be a bindable property but we need it as a monitoring target until regular property targeting support gets implemented.
         public readonly PrivatelyBindableProperty<Skin> Skin;
-        
+
         // Delegates to control the bindable property.
         PrivatelyBindableProperty<Color>.BindDelegates BindBackgroundColorDelegates;
 
@@ -40,7 +40,8 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 
         YourClass _Parent;
         Skin _Skin;
-        bool LastBackgroundColorIsEmpty;
+        bool UnboundBackgroundColorIsEmpty;
+        bool ExecutingBindBackgroundColor;
 
         public YourClass(Rectangle Rectangle)
         {
@@ -64,16 +65,19 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 
         void BackgroundColor_Changed(PrivatelySettablePrivatelyBindableProperty<Color> Sender, ChangedEventArgs<Color> Args)
         {
-            LastBackgroundColorIsEmpty = Args.IsEmpty;
+            if (!BackgroundColor.IsBound) UnboundBackgroundColorIsEmpty = Args.IsEmpty;
 
-            if (LastBackgroundColorIsEmpty)
+            if (Args.IsEmpty)
             {
-                if (!Sender.IsBound)
+                if (!ExecutingBindBackgroundColor)
                 {
-                    BindBackgroundColor();
+                    if (!BackgroundColor.IsBound)
+                    {
+                        BindBackgroundColor();
 
-                    // If got bound above
-                    if (Sender.IsBound) return;
+                        // If got bound above
+                        if (BackgroundColor.IsBound) return;
+                    }
                 }
 
                 Rectangle.Fill = new SolidColorBrush(DefaultBackgroundColor);
@@ -88,7 +92,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         void BindBackgroundColor()
         {
             // If the property have a value and coming from monitoring system(BinderCallback) 
-            if (!LastBackgroundColorIsEmpty) return;
+            if (!UnboundBackgroundColorIsEmpty) return;
 
             if (BackgroundColor.IsMonitoringWithoutBinding) BindBackgroundColorDelegates.StopMonitoring();
 
@@ -104,7 +108,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
                     // First, we check the BackgroundColor of the current parent step (Except "this" step).
                     if (P != this)
                     {
-                        if (!P.LastBackgroundColorIsEmpty)
+                        if (!P.UnboundBackgroundColorIsEmpty)
                         {
                             BindBackgroundColorDelegates.Bind(P.BackgroundColor);
 
@@ -136,7 +140,25 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             }
             finally
             {
-                if (!BackgroundColor.IsBound) BindBackgroundColorDelegates.StartMonitoring();
+                if (!BackgroundColor.IsBound)
+                {
+                    if (UnboundBackgroundColorIsEmpty)
+                    {
+                        // Prevent recursion.
+                        ExecutingBindBackgroundColor = true;
+
+                        try
+                        {
+                            BackgroundColor.ClearValue();
+                        }
+                        finally
+                        {
+                            ExecutingBindBackgroundColor = false;
+                        }
+                    }
+
+                    BindBackgroundColorDelegates.StartMonitoring();
+                }
             }
         }
     }

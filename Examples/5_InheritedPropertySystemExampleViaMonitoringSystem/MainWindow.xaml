@@ -23,12 +23,12 @@
 
         <Label Content="Object B" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="42,191,0,0"/>
         <Rectangle Name="RectangleB" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="153" Stroke="Black" VerticalAlignment="Top" Width="266" Margin="42,215,0,0"/>
-        <Label Content="Parent:" HorizontalAlignment="Left" Margin="42,220,0,0" VerticalAlignment="Top"/>
-        <Label Name="ObjectB_ParentLabel" Content="[parent]" HorizontalAlignment="Left" Margin="86,220,0,0" VerticalAlignment="Top"/>
+        <Label Content="Parent:" HorizontalAlignment="Left" Margin="42,217,0,0" VerticalAlignment="Top"/>
+        <Label Name="ObjectB_ParentLabel" Content="[parent]" HorizontalAlignment="Left" Margin="86,217,0,0" VerticalAlignment="Top"/>
         <Button x:Name="ObjectB_ParentA_Button" Content="Object A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,243,0,0" Click="ObjectB_ParentA_Button_Click"/>
         <Button x:Name="ObjectB_ParentNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,243,0,0" Click="ObjectB_ParentNullButton_Click"/>
-        <Label Content="Skin:" HorizontalAlignment="Left" Margin="42,259,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.923,3.053"/>
-        <Label Name="ObjectB_SkinLabel" Content="[skin]" HorizontalAlignment="Left" Margin="74,259,0,0" VerticalAlignment="Top"/>
+        <Label Content="Skin:" HorizontalAlignment="Left" Margin="42,263,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.923,3.053"/>
+        <Label Name="ObjectB_SkinLabel" Content="[skin]" HorizontalAlignment="Left" Margin="74,263,0,0" VerticalAlignment="Top"/>
         <Button x:Name="ObjectB_Skin1Button" Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,288,0,0" Click="ObjectB_Skin1Button_Click"/>
         <Button x:Name="ObjectB_Skin2Button" Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,288,0,0" Click="ObjectB_Skin2Button_Click"/>
         <Button x:Name="ObjectB_SkinNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,288,0,0" Click="ObjectB_SkinNullButton_Click"/>
@@ -41,13 +41,13 @@
 
         <Label Content="Object C" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="42,373,0,0"/>
         <Rectangle Name="RectangleC" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="153" Stroke="Black" VerticalAlignment="Top" Width="266" Margin="42,397,0,0"/>
-        <Label Content="Parent:" HorizontalAlignment="Left" Margin="42,402,0,0" VerticalAlignment="Top"/>
-        <Label Name="ObjectC_ParentLabel" Content="[parent]" HorizontalAlignment="Left" Margin="86,402,0,0" VerticalAlignment="Top"/>
+        <Label Content="Parent:" HorizontalAlignment="Left" Margin="42,400,0,0" VerticalAlignment="Top"/>
+        <Label Name="ObjectC_ParentLabel" Content="[parent]" HorizontalAlignment="Left" Margin="86,400,0,0" VerticalAlignment="Top"/>
         <Button x:Name="ObjectC_ParentA_Button" Content="Object A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,425,0,0" Click="ObjectC_ParentA_Button_Click"/>
         <Button x:Name="ObjectC_ParentBButton" Content="Object B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,425,0,0" Click="ObjectC_ParentB_Button_Click"/>
         <Button x:Name="ObjectC_ParentNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,426,0,0" Click="ObjectC_ParentNullButton_Click"/>
-        <Label Content="Skin:" HorizontalAlignment="Left" Margin="42,441,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.923,3.053"/>
-        <Label Name="ObjectC_SkinLabel" Content="[skin]" HorizontalAlignment="Left" Margin="74,441,0,0" VerticalAlignment="Top"/>
+        <Label Content="Skin:" HorizontalAlignment="Left" Margin="42,446,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.923,3.053"/>
+        <Label Name="ObjectC_SkinLabel" Content="[skin]" HorizontalAlignment="Left" Margin="74,446,0,0" VerticalAlignment="Top"/>
         <Button x:Name="ObjectC_Skin1Button" Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,470,0,0" Click="ObjectC_Skin1Button_Click"/>
         <Button x:Name="ObjectC_Skin2Button" Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,470,0,0" Click="ObjectC_Skin2Button_Click"/>
         <Button x:Name="ObjectC_SkinNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,470,0,0" Click="ObjectC_SkinNullButton_Click"/>
