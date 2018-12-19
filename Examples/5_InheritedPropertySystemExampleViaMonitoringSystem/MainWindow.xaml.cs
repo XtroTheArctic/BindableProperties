@@ -90,7 +90,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
                 BackgroundColorRectangle = Skin2BackgroundColorRectangle;
             }
 
-            if (Sender.IsBound || Args.IsEmpty)
+            if (Sender.BoundProperty != null || Args.IsEmpty)
             {
                 EmptyLabel.Visibility = Visibility.Visible;
                 BackgroundColorRectangle.Visibility = Visibility.Hidden;

@@ -65,24 +65,32 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 
         void BackgroundColor_Changed(PrivatelySettablePrivatelyBindableProperty<Color> Sender, ChangedEventArgs<Color> Args)
         {
-            if (!BackgroundColor.IsBound) UnboundBackgroundColorIsEmpty = Args.IsEmpty;
+            if (BackgroundColor.BoundProperty == null) UnboundBackgroundColorIsEmpty = Args.IsEmpty;
+
+            var BoundPropertyIsBoundToo = BackgroundColor.BoundProperty?.BoundProperty != null;
+            if (BoundPropertyIsBoundToo) BindBackgroundColorDelegates.Unbind();
 
             if (Args.IsEmpty)
             {
                 if (!ExecutingBindBackgroundColor)
                 {
-                    if (!BackgroundColor.IsBound)
+                    if (BackgroundColor.BoundProperty == null)
                     {
                         BindBackgroundColor();
 
                         // If got bound above
-                        if (BackgroundColor.IsBound) return;
+                        if (BackgroundColor.BoundProperty != null) return;
                     }
                 }
 
                 Rectangle.Fill = new SolidColorBrush(DefaultBackgroundColor);
             }
-            else Rectangle.Fill = new SolidColorBrush(Args.Value);
+            else
+            {
+                if (BoundPropertyIsBoundToo) BindBackgroundColor();
+
+                Rectangle.Fill = new SolidColorBrush(Args.Value);
+            }
         }
 
         // This is where all the binding magic happens.
@@ -140,7 +148,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             }
             finally
             {
-                if (!BackgroundColor.IsBound)
+                if (BackgroundColor.BoundProperty == null)
                 {
                     if (UnboundBackgroundColorIsEmpty)
                     {
