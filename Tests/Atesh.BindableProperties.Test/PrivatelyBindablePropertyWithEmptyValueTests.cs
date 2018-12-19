@@ -88,7 +88,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             Property.ClearValue();
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
         }
     }
 }

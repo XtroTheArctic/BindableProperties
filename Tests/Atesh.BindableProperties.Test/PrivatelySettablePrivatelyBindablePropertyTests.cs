@@ -108,7 +108,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.SetValue(0);
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             SetDelegates.ClearValue();
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
         }
 
         [Test]
@@ -192,9 +192,9 @@ namespace Atesh.BindableProperties.Test
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
             var TargetProperty = new BindableProperty<int>(this);
 
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
             BindDelegates.Bind(TargetProperty);
-            Assert.True(Property.IsBound);
+            Assert.NotNull(Property.BoundProperty);
         }
 
         [Test]
@@ -247,7 +247,7 @@ namespace Atesh.BindableProperties.Test
 
             BindDelegates.Bind(TargetProperty);
             BindDelegates.Unbind();
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
         }
 
         [Test]
@@ -377,7 +377,7 @@ namespace Atesh.BindableProperties.Test
             BindDelegates.Bind(TargetProperty);
 
             MonitoredProperty.SetValue(DateTime.Now);
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
         }
 
         [Test]

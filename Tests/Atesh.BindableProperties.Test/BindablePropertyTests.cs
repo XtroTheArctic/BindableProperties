@@ -50,9 +50,9 @@ namespace Atesh.BindableProperties.Test
             var Property = new BindableProperty<int>(this);
             var TargetProperty = new BindableProperty<int>(this);
 
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
             Property.Bind(TargetProperty);
-            Assert.True(Property.IsBound);
+            Assert.NotNull(Property.BoundProperty);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace Atesh.BindableProperties.Test
 
             Property.Bind(TargetProperty);
             Property.Unbind();
-            Assert.False(Property.IsBound);
+            Assert.Null(Property.BoundProperty);
         }
 
         [Test]
