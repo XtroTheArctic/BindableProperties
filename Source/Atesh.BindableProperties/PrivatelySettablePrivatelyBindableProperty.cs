@@ -24,7 +24,7 @@ namespace Atesh.BindableProperties
 
         #region Properties
 
-        public bool IsBound => BoundProperty != null;
+        public PrivatelySettablePrivatelyBindableProperty<T> BoundProperty { get; private set; }
         public bool IsMonitoringWithoutBinding { get; private set; }
 
         #endregion
@@ -34,7 +34,6 @@ namespace Atesh.BindableProperties
         readonly Action BinderCallback;
         T Value;
         bool IsEmpty;
-        PrivatelySettablePrivatelyBindableProperty<T> BoundProperty;
         readonly HashSet<BindablePropertyBase> MonitoredProperties = new HashSet<BindablePropertyBase>();
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null)
@@ -169,6 +168,9 @@ namespace Atesh.BindableProperties
 
         void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
         {
+            // If Sender and BoundProperty aren't the same, ignore this Changed call. The new BoundProperty should call Changed event handler with correct value.
+            if (Sender != BoundProperty) return;
+
             if (Args.IsEmpty)
             {
                 if (!IsEmpty) ClearAndRaise();
