@@ -14,7 +14,7 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
             Tomato = new YourClass(nameof(Tomato));
             Apple = new YourClass(nameof(Apple));
 
-            ToggleBindingButtons(Apple.Height.IsBound);
+            ToggleBindingButtons(Apple.Height.BoundProperty != null);
         }
 
         void AppleGrowButton_Click(object Sender, RoutedEventArgs E)

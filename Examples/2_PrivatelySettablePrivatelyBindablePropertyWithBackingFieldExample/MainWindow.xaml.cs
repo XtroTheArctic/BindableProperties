@@ -18,7 +18,7 @@ namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
             Apple.Height.Changed += AppleHeight_Changed;
             Tomato.Height.Changed += TomatoHeight_Changed;
 
-            ToggleBindingButtons(Apple.Height.IsBound);
+            ToggleBindingButtons(Apple.Height.BoundProperty != null);
         }
 
         void AppleHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => AppleHeightLabel.Content = Args.Value;
