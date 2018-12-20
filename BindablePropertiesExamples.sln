@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1_PrivatelySettablePrivatelyBindablePropertyExample", "1_PrivatelySettablePrivatelyBindablePropertyExample\1_PrivatelySettablePrivatelyBindablePropertyExample.csproj", "{773E6028-49EE-4A04-8250-C2CCF01BD180}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1_PrivatelySettablePrivatelyBindablePropertyExample", "Examples\1_PrivatelySettablePrivatelyBindablePropertyExample\1_PrivatelySettablePrivatelyBindablePropertyExample.csproj", "{773E6028-49EE-4A04-8250-C2CCF01BD180}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample", "2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample\2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample.csproj", "{80C3E224-48B9-448A-A6D8-774511B865F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample", "Examples\2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample\2_PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample.csproj", "{80C3E224-48B9-448A-A6D8-774511B865F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3_PrivatelyBindablePropertyExample", "3_PrivatelyBindablePropertyExample\3_PrivatelyBindablePropertyExample.csproj", "{C9040706-2EC4-47C1-A759-E27A6904DA7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3_PrivatelyBindablePropertyExample", "Examples\3_PrivatelyBindablePropertyExample\3_PrivatelyBindablePropertyExample.csproj", "{C9040706-2EC4-47C1-A759-E27A6904DA7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4_BindablePropertyExample", "4_BindablePropertyExample\4_BindablePropertyExample.csproj", "{8004F766-3E01-4C01-9DE3-0244EB520758}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4_BindablePropertyExample", "Examples\4_BindablePropertyExample\4_BindablePropertyExample.csproj", "{8004F766-3E01-4C01-9DE3-0244EB520758}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5_InheritedPropertySystemExampleViaMonitoringSystem", "5_InheritedPropertySystemExampleViaMonitoringSystem\5_InheritedPropertySystemExampleViaMonitoringSystem.csproj", "{57DBD52F-9791-4043-8447-09F7A21A92A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5_InheritedPropertySystemExampleViaMonitoringSystem", "Examples\5_InheritedPropertySystemExampleViaMonitoringSystem\5_InheritedPropertySystemExampleViaMonitoringSystem.csproj", "{57DBD52F-9791-4043-8447-09F7A21A92A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
