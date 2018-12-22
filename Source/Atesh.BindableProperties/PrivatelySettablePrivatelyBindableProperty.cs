@@ -34,6 +34,7 @@ namespace Atesh.BindableProperties
         readonly Action BinderCallback;
         T Value;
         bool IsEmpty;
+        bool TwoWay;
         readonly HashSet<BindablePropertyBase> MonitoredProperties = new HashSet<BindablePropertyBase>();
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null)
@@ -67,7 +68,7 @@ namespace Atesh.BindableProperties
 
         void SetValue(T Value)
         {
-            if (BoundProperty != null) Unbind();
+            if (BoundProperty != null && !TwoWay) Unbind();
 
             if (IsEmpty || !ValueEquals(Value)) SetAndRaise(Value);
         }
@@ -97,7 +98,7 @@ namespace Atesh.BindableProperties
             OnChanged();
         }
 
-        void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target)
+        void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false)
         {
             if (Target == null) throw new ArgumentNullException(nameof(Target));
             if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
@@ -107,6 +108,14 @@ namespace Atesh.BindableProperties
 
             StartMonitoring();
             IsMonitoringWithoutBinding = false;
+
+            this.TwoWay = TwoWay;
+
+            if (TwoWay)
+            {
+                Target.Bind(this);
+                Target.TwoWay = true;
+            }
 
             BoundProperty = Target;
             BoundProperty.Changed += BoundProperty_Changed;
@@ -118,6 +127,12 @@ namespace Atesh.BindableProperties
 
             IsMonitoringWithoutBinding = true;
             StopMonitoring();
+
+            if (TwoWay)
+            {
+                BoundProperty.TwoWay = false;
+                BoundProperty.Unbind();
+            }
 
             BoundProperty.Changed -= BoundProperty_Changed;
             BoundProperty = null;
@@ -181,7 +196,7 @@ namespace Atesh.BindableProperties
             }
         }
 
-        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target);
+        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> TargetTwoWay, bool TwoWay = false);
 
         public delegate void SetValueDelegate(T Value);
 
