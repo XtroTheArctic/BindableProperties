@@ -12,7 +12,7 @@
       <Compartment Name="Internal" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAEAAAAAAACAAAAAAAAAAAAEAAAEAAAAAAA=</HashCode>
+      <HashCode>AAIAgAAAAAEAAQAAAACAAAAAAAAAAAAEAAAEAAAAAAA=</HashCode>
       <FileName>BindableProperty.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -59,21 +59,20 @@
       <Event Name="_Changed" Hidden="true" />
       <Method Name="Bind" Hidden="true" />
       <Field Name="BinderCallback" Hidden="true" />
-      <Field Name="BoundProperty" Hidden="true" />
       <Method Name="BoundProperty_Changed" Hidden="true" />
       <Method Name="ClearAndRaise" Hidden="true" />
       <Method Name="ClearValue" Hidden="true" />
       <Field Name="IsEmpty" Hidden="true" />
       <Method Name="Monitor" Hidden="true" />
-      <Method Name="MonitorAll" Hidden="true" />
       <Field Name="MonitoredProperties" Hidden="true" />
       <Method Name="MonitoredProperty_Changed" Hidden="true" />
       <Method Name="OnChanged" Hidden="true" />
       <Method Name="PrivatelySettablePrivatelyBindableProperty" Hidden="true" />
       <Method Name="SetAndRaise" Hidden="true" />
       <Method Name="SetValue" Hidden="true" />
+      <Method Name="StartMonitoring" Hidden="true" />
+      <Method Name="StopMonitoring" Hidden="true" />
       <Method Name="Unbind" Hidden="true" />
-      <Method Name="UnmonitorAll" Hidden="true" />
       <Field Name="Value" Hidden="true" />
       <Method Name="ValueEquals" Hidden="true" />
     </Members>
@@ -105,7 +104,7 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>ACBAgACAAQFAAgABJBCBAEAEQAAAAAAAQAAkAAAAAAA=</HashCode>
+      <HashCode>ACJggACAAQFAAwAAJBCBAAAEAAAAAAAAQAAkAAAAAAA=</HashCode>
       <FileName>PrivatelySettablePrivatelyBindableProperty.cs</FileName>
     </TypeIdentifier>
   </Class>

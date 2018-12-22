@@ -5,7 +5,7 @@ using Atesh.BindableProperties;
 namespace InheritedPropertySystemExampleViaMonitoringSystem
 {
     // IMPORTANT: Please read the first example before this.
-    class YourClass
+    public class YourClass
     {
         // Purpose of this example is to show how to use the monitoring system for implementing an inherited property system.
 
@@ -19,7 +19,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         // 6) Monitoring system calls the BinderCallback which performs the steps number 2 and 3 so the automated binding/unbinding cycle continues from the step number 4.
 
         // This class gets a visual rectangle object and controls its color according to BackgroundColor property.
-        readonly Rectangle Rectangle;
+        public readonly Rectangle Rectangle;
 
         // We want the background property to be set publicly and it needs to support the empty value for inherited property system so we use PrivatelyBindablePropertyWithEmptyValue type.
         // No need for a backing field because we will consume the new background color value in BackgroundColor_Changed handler by assigning it to the rectangle object.
@@ -74,13 +74,12 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             {
                 if (!ExecutingBindBackgroundColor)
                 {
-                    if (BackgroundColor.BoundProperty == null)
-                    {
-                        BindBackgroundColor();
+                    if (BackgroundColor.BoundProperty != null) BindBackgroundColorDelegates.Unbind();
 
-                        // If got bound above
-                        if (BackgroundColor.BoundProperty != null) return;
-                    }
+                    BindBackgroundColor();
+
+                    // If got bound above
+                    if (BackgroundColor.BoundProperty != null) return;
                 }
 
                 Rectangle.Fill = new SolidColorBrush(DefaultBackgroundColor);

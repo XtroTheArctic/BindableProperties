@@ -121,6 +121,56 @@ namespace Atesh.BindableProperties.Test
         }
 
         [Test]
+        public void BindDelegate_TwoWayBinding()
+        {
+            var Counter = 0;
+            var ValueA = 0;
+            var ValueB = 0;
+
+            void Property_ChangedA(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+            {
+                // ReSharper disable once AccessToModifiedClosure
+                Counter++;
+                ValueA = Args.Value;
+            }
+
+            void Property_ChangedB(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+            {
+                // ReSharper disable once AccessToModifiedClosure
+                Counter++;
+                ValueB = Args.Value;
+            }
+
+            var PropertyA = new BindableProperty<int>(this);
+            var PropertyB = new BindableProperty<int>(this);
+
+            PropertyA.Changed += Property_ChangedA;
+            PropertyB.Changed += Property_ChangedB;
+
+            PropertyA.Bind(PropertyB, true);
+
+            Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+            Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+            Assert.AreEqual(2, Counter);
+
+            Counter = 0;
+            PropertyA.SetValue(3);
+            Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+
+            Assert.AreEqual(2, Counter);
+            Assert.AreEqual(3, ValueA);
+            Assert.AreEqual(3, ValueB);
+
+            Counter = 0;
+            PropertyB.SetValue(5);
+            Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+
+            Assert.AreEqual(2, Counter);
+            Assert.AreEqual(5, ValueA);
+            Assert.AreEqual(5, ValueB);
+        }
+
+        [Test]
         public void StartMonitoring_StartsMonitoring()
         {
             var Property = new BindableProperty<int>(this);
