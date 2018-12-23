@@ -32,16 +32,18 @@ namespace Atesh.BindableProperties
         public readonly object Owner;
 
         readonly Action BinderCallback;
+        readonly CoerceValueDelegate CoerceValueCallback;
         T Value;
         bool IsEmpty;
         bool TwoWay;
         readonly HashSet<BindablePropertyBase> MonitoredProperties = new HashSet<BindablePropertyBase>();
 
-        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null)
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null)
         {
             this.Owner = Owner ?? throw new ArgumentNullException(nameof(Owner));
             this.IsEmpty = IsEmpty;
             this.BinderCallback = BinderCallback;
+            this.CoerceValueCallback = CoerceValueCallback;
 
             SetDelegates.SetValue = SetValue;
             SetDelegates.ClearValue = ClearValue;
@@ -52,7 +54,7 @@ namespace Atesh.BindableProperties
             BindDelegates.StopMonitoring = StopMonitoring;
         }
 
-        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback)
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -70,7 +72,23 @@ namespace Atesh.BindableProperties
         {
             if (BoundProperty != null && !TwoWay) Unbind();
 
-            if (IsEmpty || !ValueEquals(Value)) SetAndRaise(Value);
+            if (IsEmpty || !ValueEquals(Value))
+            {
+                if (CoerceValueCallback == null) SetAndRaise(Value);
+                else
+                {
+                    var Args = new CoerceValueDelegateArgs<T> { Value = Value, IsEmpty = false };
+                    CoerceValue(Args);
+                }
+            }
+        }
+
+        void CoerceValue(CoerceValueDelegateArgs<T> Args)
+        {
+            CoerceValueCallback(Args);
+
+            if (Args.IsEmpty) ClearAndRaise();
+            else SetAndRaise(Args.Value);
         }
 
         // We use EqualityComparer instead of object.Equals because it avoids boxing of value types including structs.
@@ -88,7 +106,15 @@ namespace Atesh.BindableProperties
         {
             if (BoundProperty != null) Unbind();
 
-            if (!IsEmpty) ClearAndRaise();
+            if (!IsEmpty)
+            {
+                if (CoerceValueCallback == null) ClearAndRaise();
+                else
+                {
+                    var Args = new CoerceValueDelegateArgs<T> { IsEmpty = true };
+                    CoerceValue(Args);
+                }
+            }
         }
 
         void ClearAndRaise()
@@ -199,6 +225,8 @@ namespace Atesh.BindableProperties
         public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> TargetTwoWay, bool TwoWay = false);
 
         public delegate void SetValueDelegate(T Value);
+
+        public delegate void CoerceValueDelegate(CoerceValueDelegateArgs<T> Args);
 
         public delegate void MonitorDelegate(BindablePropertyBase Target);
 

@@ -3,15 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Release</Configurations>
-    <Version>1.0-alpha9</Version>
+    <Version>1.0-beta1</Version>
     <Company>Atesh Entertainment Inc.</Company>
     <Product>BindableProperties</Product>
     <Authors>The team members are listed in README.md file on project web page.</Authors>
     <PackageLicenseUrl>http://unlicense.org</PackageLicenseUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Property, BindablePropery, Binding</PackageTags>
-    <AssemblyVersion>1.0.97.9</AssemblyVersion>
-    <FileVersion>1.0.97.9</FileVersion>
+    <AssemblyVersion>1.0.98.1</AssemblyVersion>
+    <FileVersion>1.0.98.1</FileVersion>
     <PackageProjectUrl>https://bitbucket.org/XtroTheArctic/bindableproperties</PackageProjectUrl>
     <RepositoryUrl>git@bitbucket.org:XtroTheArctic/bindableproperties.git</RepositoryUrl>
     <Description>BindableProperties is a class library which provides a bindable properties system similar to "Microsoft WPF Dependency Properties" and "Xamarin Bindable Properties" systems. The biggest difference of BindableProperties to those systems is that it does NOT depend on any other 3rd party platform or framework such as Microsoft WPF and Xamarin so it can be used by almost any kind of .NET projects.</Description>

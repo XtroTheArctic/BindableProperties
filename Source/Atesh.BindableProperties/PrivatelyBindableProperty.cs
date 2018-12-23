@@ -12,7 +12,7 @@ namespace Atesh.BindableProperties
 
         protected new SetDelegates SetDelegates;
 
-        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, Action BinderCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, BinderCallback: BinderCallback)
+        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -20,7 +20,7 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, T Value, Action BinderCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, Value, BinderCallback)
+        public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, Value, BinderCallback, CoerceValueCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
@@ -28,7 +28,7 @@ namespace Atesh.BindableProperties
         }
         // ReSharper restore ArrangeConstructorOrDestructorBody
 
-        internal PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty, BinderCallback)
+        internal PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty, BinderCallback, CoerceValueCallback)
         // ReSharper disable ArrangeConstructorOrDestructorBody
         // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
         {
