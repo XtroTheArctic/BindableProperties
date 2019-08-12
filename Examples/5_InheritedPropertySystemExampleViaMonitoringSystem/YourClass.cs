@@ -127,17 +127,19 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 
                     BindBackgroundColorDelegates.Monitor(P.Skin);
 
-                    if (P._Skin != null)
+                    var P_Skin = P._Skin;
+
+                    if (P_Skin != null)
                     {
                         // Second, we check the BackgroundColor of the skin of current parent step.
-                        if (!P._Skin.BackgroundColorIsEmpty)
+                        if (!P_Skin.BackgroundColorIsEmpty)
                         {
-                            BindBackgroundColorDelegates.Bind(P._Skin.BackgroundColor);
+                            BindBackgroundColorDelegates.Bind(P_Skin.BackgroundColor);
 
                             return;
                         }
 
-                        BindBackgroundColorDelegates.Monitor(P._Skin.BackgroundColor);
+                        BindBackgroundColorDelegates.Monitor(P_Skin.BackgroundColor);
                     }
 
                     BindBackgroundColorDelegates.Monitor(P.Parent);
