@@ -222,7 +222,7 @@ namespace Atesh.BindableProperties
             }
         }
 
-        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> TargetTwoWay, bool TwoWay = false);
+        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
 
         public delegate void SetValueDelegate(T Value);
 

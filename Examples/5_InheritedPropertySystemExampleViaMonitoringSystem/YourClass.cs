@@ -9,9 +9,9 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
     {
         // Purpose of this example is to show how to use the monitoring system for implementing an inherited property system.
 
-        // Monitoring system helps you unbind a bindable property and bind it again to the correct target automatically when one of the monitored targets change.
+        // Monitoring system helps you unbind a bindable property and rebind it to the correct target automatically when one of the monitored targets change.
         // Monitoring system works in the order described below.
-        // 1) You provide a callback "BinderCallback" when you fist create the bindable property instance. BinderCallback you implement must perform the steps 2 and 3 below.
+        // 1) You provide a callback "BinderCallback" when you first create the bindable property instance. BinderCallback you implement must perform the steps 2 and 3 below.
         // 2) You register the target properties one by one to the monitoring list of a bindable property by calling Monitor method.
         // 3) You bind the bindable property to a target (which isn't monitored). You can't add to the monitoring list after the binding.
         // 4) Monitoring system will detect a change on one of the monitored targets and it will unbind the bindable property automatically.
@@ -26,11 +26,9 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         public readonly PrivatelyBindablePropertyWithEmptyValue<Color> BackgroundColor;
 
         // Parent property for inherited properties system.
-        //todo: Parent property doesn't need to be a bindable property but we need it as a monitoring target until regular property targeting support gets implemented.
         public readonly PrivatelyBindableProperty<YourClass> Parent;
 
         // Our example inherited properties system also has skinning support.
-        //todo: Skin property doesn't need to be a bindable property but we need it as a monitoring target until regular property targeting support gets implemented.
         public readonly PrivatelyBindableProperty<Skin> Skin;
 
         // Delegates to control the bindable property.
@@ -127,17 +125,19 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 
                     BindBackgroundColorDelegates.Monitor(P.Skin);
 
-                    if (P._Skin != null)
+                    var P_Skin = P._Skin;
+
+                    if (P_Skin != null)
                     {
                         // Second, we check the BackgroundColor of the skin of current parent step.
-                        if (!P._Skin.BackgroundColorIsEmpty)
+                        if (!P_Skin.BackgroundColorIsEmpty)
                         {
-                            BindBackgroundColorDelegates.Bind(P._Skin.BackgroundColor);
+                            BindBackgroundColorDelegates.Bind(P_Skin.BackgroundColor);
 
                             return;
                         }
 
-                        BindBackgroundColorDelegates.Monitor(P._Skin.BackgroundColor);
+                        BindBackgroundColorDelegates.Monitor(P_Skin.BackgroundColor);
                     }
 
                     BindBackgroundColorDelegates.Monitor(P.Parent);

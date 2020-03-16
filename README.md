@@ -8,8 +8,9 @@ BindableProperties is a class library which provides a bindable properties syste
 * Ability of binding a property to another property (Both privately and publicly),
 * Support for empty value,
 * Event based value retrieval instead of on-demand value retrieval(classical way) which becomes repetitive and leads to programming errors,
-* Mechanism of monitoring other properties (with different value types) for auto-rebindind,
+* Mechanism of monitoring other properties (with different value types) for auto-rebinding,
 * Optional two-way binding support.
+* Value coercing (including validation) support.
 
 # Team Members
 
@@ -42,10 +43,6 @@ Project page on [Bitbucket](https://bitbucket.org/XtroTheArctic/bindableproperti
 Git Repo URL: git@bitbucket.org:XtroTheArctic/bindableproperties.git
 
 Please feel free to contact the team members via email at any time.
-
-# Planned Features
-
-* Value validation support.
 
 # The Unlicense
 
