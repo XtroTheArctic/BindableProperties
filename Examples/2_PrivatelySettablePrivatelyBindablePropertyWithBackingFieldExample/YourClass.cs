@@ -14,8 +14,8 @@ namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
         public readonly PrivatelySettablePrivatelyBindableProperty<int> Height;
 
         // Delegates to control the bindable property.
-        PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates SetHeightDelegates;
-        PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
+        readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates SetHeightDelegates;
+        readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
 
         public YourClass()
         {

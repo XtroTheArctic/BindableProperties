@@ -74,7 +74,7 @@ namespace Atesh.BindableProperties.Test
                 else PropertyValueReceivedOnce = true;
             };
 
-            SetDelegates.SetValue(default(int));
+            SetDelegates.SetValue(default);
         }
 
         [Test]

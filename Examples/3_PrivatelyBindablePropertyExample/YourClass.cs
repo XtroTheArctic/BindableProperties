@@ -12,7 +12,7 @@ namespace PrivatelyBindablePropertyExample
 
         // Delegates to control the bindable property.
         // Unlike the first example, we don't need SetDelegates here because PrivatelyBindableProperty has its own public SetValue method.
-        PrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
+        readonly PrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
 
         readonly string Name; // Just the name of the YourClass instance.
 

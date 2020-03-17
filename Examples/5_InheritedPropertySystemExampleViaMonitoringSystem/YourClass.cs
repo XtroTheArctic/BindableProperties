@@ -32,7 +32,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         public readonly PrivatelyBindableProperty<Skin> Skin;
 
         // Delegates to control the bindable property.
-        PrivatelyBindableProperty<Color>.BindDelegates BindBackgroundColorDelegates;
+        readonly PrivatelyBindableProperty<Color>.BindDelegates BindBackgroundColorDelegates;
 
         readonly Color DefaultBackgroundColor = Colors.Gray;
 

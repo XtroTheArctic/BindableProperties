@@ -10,7 +10,7 @@ namespace Atesh.BindableProperties
 
         #endregion
 
-        BindDelegates Delegates;
+        readonly BindDelegates Delegates;
 
         public BindableProperty(object Owner, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
 

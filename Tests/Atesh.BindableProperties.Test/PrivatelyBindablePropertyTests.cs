@@ -43,7 +43,7 @@ namespace Atesh.BindableProperties.Test
                 else PropertyValueReceivedOnce = true;
             };
 
-            Property.SetValue(default(int));
+            Property.SetValue(default);
         }
 
         [Test]
