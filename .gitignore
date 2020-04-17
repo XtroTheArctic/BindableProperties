@@ -1,8 +1,7 @@
 # Absolute folders
 # --------------
 
-/packages
-Examples/packages
+#/Xxxx/xxxx
 
 # Absolute files
 # ------------
@@ -13,8 +12,8 @@ Examples/packages
 # ------------------
 
 .vs
-obj
 bin
+obj
 
 # Files everywhere
 # ----------------
