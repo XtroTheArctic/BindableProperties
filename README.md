@@ -28,7 +28,7 @@ Download it via "manual download" link in [NuGet](https://www.nuget.org/packages
 
 # Examples
 
-Example projects about how to use BindableProperties can be downloaded [here](https://drive.google.com/file/d/17gmZnbUdmaalmMSvZUryL-OOmORPIo5A/view?usp=sharing).
+Example projects about how to use BindableProperties can be downloaded [here](https://bitbucket.org/XtroTheArctic/bindableproperties/downloads/BindablePropertiesExamples.zip).
 
 **Important:** You may need to restore NuGet packages via the solution right-click menu if you get compile errors.
 
