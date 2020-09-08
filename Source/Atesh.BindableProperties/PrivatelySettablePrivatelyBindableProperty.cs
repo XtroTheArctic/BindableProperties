@@ -3,32 +3,8 @@ using System.Collections.Generic;
 
 namespace Atesh.BindableProperties
 {
-    public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
+    public partial class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
     {
-        #region Events
-
-        public new event ChangedEventHandler<T> Changed
-        {
-            add
-            {
-                _Changed += value;
-
-                value(this, new ChangedEventArgs<T>(IsEmpty, Value));
-            }
-            remove => _Changed -= value;
-        }
-
-        event ChangedEventHandler<T> _Changed;
-
-        #endregion
-
-        #region Properties
-
-        public PrivatelySettablePrivatelyBindableProperty<T> BoundProperty { get; private set; }
-        public bool IsMonitoringWithoutBinding { get; private set; }
-
-        #endregion
-
         public readonly object Owner;
 
         readonly Action BinderCallback;
