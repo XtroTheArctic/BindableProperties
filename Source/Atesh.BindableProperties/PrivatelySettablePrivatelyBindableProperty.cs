@@ -5,14 +5,8 @@ namespace Atesh.BindableProperties
 {
     public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
     {
-        #region Properties
-
         public PrivatelySettablePrivatelyBindableProperty<T> BoundProperty { get; private set; }
         public bool IsMonitoringWithoutBinding { get; private set; }
-
-        #endregion
-
-        #region Events
 
         public new event ChangedEventHandler<T> Changed
         {
@@ -26,8 +20,6 @@ namespace Atesh.BindableProperties
         }
         
         event ChangedEventHandler<T> _Changed;
-
-        #endregion
 
         public readonly object Owner;
 
