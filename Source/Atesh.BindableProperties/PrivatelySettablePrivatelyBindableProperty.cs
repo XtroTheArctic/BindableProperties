@@ -222,14 +222,6 @@ namespace Atesh.BindableProperties
             }
         }
 
-        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
-
-        public delegate void SetValueDelegate(T Value);
-
-        public delegate void CoerceValueDelegate(CoerceValueDelegateArgs<T> Args);
-
-        public delegate void MonitorDelegate(BindablePropertyBase Target);
-
         public struct SetDelegates
         {
             public SetValueDelegate SetValue;
@@ -244,5 +236,13 @@ namespace Atesh.BindableProperties
             public Action StartMonitoring;
             public Action StopMonitoring;
         }
+
+        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
+
+        public delegate void SetValueDelegate(T Value);
+
+        public delegate void CoerceValueDelegate(CoerceValueDelegateArgs<T> Args);
+
+        public delegate void MonitorDelegate(BindablePropertyBase Target);
     }
 }

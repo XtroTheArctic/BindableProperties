@@ -5,13 +5,13 @@ namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
     // IMPORTANT: Please read the first example before this.
     class YourClass
     {
+        // Bindable property definition.
+        public readonly PrivatelySettablePrivatelyBindableProperty<int> Height;
+
         // Purpose of this example is to define a backing field for the bindable property to be able to use it when necessary.
         // Storing the actual value of a bindable property in a backing field is completely OPTIONAL but in most cases you will need to do so.
         // You must define the backing field as private to make sure it's only used by your class.
         int _Height;
-
-        // Bindable property definition.
-        public readonly PrivatelySettablePrivatelyBindableProperty<int> Height;
 
         // Delegates to control the bindable property.
         readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates SetHeightDelegates;

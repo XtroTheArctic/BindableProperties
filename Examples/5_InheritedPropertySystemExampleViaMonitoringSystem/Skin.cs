@@ -5,9 +5,9 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 {
     public class Skin
     {
-        public readonly PrivatelyBindablePropertyWithEmptyValue<Color> BackgroundColor;
-
         public bool BackgroundColorIsEmpty { get; private set; }
+
+        public readonly PrivatelyBindablePropertyWithEmptyValue<Color> BackgroundColor;
 
         public Skin()
         {
