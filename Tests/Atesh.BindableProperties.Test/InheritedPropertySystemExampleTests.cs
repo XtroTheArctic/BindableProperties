@@ -7,9 +7,11 @@ namespace Atesh.BindableProperties.Test
 {
     [TestFixture]
     [Apartment(ApartmentState.STA)]
-    public partial class InheritedPropertySystemExampleTests
+    public class InheritedPropertySystemExampleTests
     {
         MainWindow MainWindow;
+
+        Color GetRectangleColor(YourClass Object) => ((SolidColorBrush)Object.Rectangle.Fill).Color;
 
         [SetUp]
         public void SetUp() => MainWindow = new MainWindow();

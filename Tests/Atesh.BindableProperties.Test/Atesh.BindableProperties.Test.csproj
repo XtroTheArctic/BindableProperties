@@ -35,7 +35,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InheritedPropertySystemExampleTests_Static.cs" />
     <Compile Include="InheritedPropertySystemExampleTests.cs" />
     <Compile Include="BindablePropertyTests.cs" />
     <Compile Include="BindablePropertyWithEmptyValueTests.cs" />
