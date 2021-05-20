@@ -12,14 +12,14 @@ namespace Atesh.BindableProperties
         {
             add
             {
-                _Changed += value;
+                Changed_ += value;
 
                 value(this, new ChangedEventArgs<T>(IsEmpty, Value));
             }
-            remove => _Changed -= value;
+            remove => Changed_ -= value;
         }
         
-        event ChangedEventHandler<T> _Changed;
+        event ChangedEventHandler<T> Changed_;
 
         public readonly object Owner;
 
@@ -56,7 +56,7 @@ namespace Atesh.BindableProperties
 
         void OnChanged()
         {
-            _Changed?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
+            Changed_?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
             base.Changed?.Invoke();
         }
 
