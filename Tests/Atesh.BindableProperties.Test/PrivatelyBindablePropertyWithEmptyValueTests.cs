@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable ObjectCreationAsStatement
+
+using System;
 using NUnit.Framework;
 
 namespace Atesh.BindableProperties.Test
