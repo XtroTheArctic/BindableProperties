@@ -23,25 +23,16 @@ namespace Atesh.BindableProperties.Test
         {
             const int Value = 1;
             var Property = new BindablePropertyWithEmptyValue<int>(this, Value);
-            Property.Changed += (Sender, Args) =>
-            {
-                Assert.AreEqual(Args.Value, Value);
-                Assert.False(Args.IsEmpty);
-                Assert.Pass();
-            };
-
-            Assert.Fail();
+            Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
+            Assert.False(IsEmpty);
         }
 
         [Test]
         public void Constructor_StoresEmptyValue()
         {
             var Property = new BindablePropertyWithEmptyValue<int>(this, true);
-            Property.Changed += (Sender, Args) =>
-            {
-                Assert.True(Args.IsEmpty);
-                Assert.Pass();
-            };
+            Property.GetValueVeryExpensively(out var IsEmpty);
+            Assert.True(IsEmpty);
 
             Assert.Fail();
         }

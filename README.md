@@ -9,8 +9,9 @@ BindableProperties is a class library which provides a bindable properties syste
 * Support for empty value,
 * Event based value retrieval instead of on-demand value retrieval(classical way) which becomes repetitive and leads to programming errors,
 * Mechanism of monitoring other properties (with different value types) for auto-rebinding,
-* Optional two-way binding support.
-* Value coercing (including validation) support.
+* Optional two-way binding support,
+* Value coercing (including validation) support,
+* On-demand value retrieval is possible via GetValueVeryExpensively method (Calling it should be avoided to the maximum extend).
 
 # Team Members
 

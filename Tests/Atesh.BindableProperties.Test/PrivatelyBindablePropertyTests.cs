@@ -23,14 +23,8 @@ namespace Atesh.BindableProperties.Test
         {
             const int Value = 1;
             var Property = new PrivatelyBindableProperty<int>(this, out _, Value);
-            Property.Changed += (Sender, Args) =>
-            {
-                Assert.AreEqual(Args.Value, Value);
-                Assert.False(Args.IsEmpty);
-                Assert.Pass();
-            };
-
-            Assert.Fail();
+            Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
+            Assert.False(IsEmpty);
         }
 
         [Test]

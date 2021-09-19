@@ -28,6 +28,7 @@ namespace Atesh.BindableProperties
         T Value;
         bool IsEmpty;
         bool TwoWay;
+        DateTime? LastGetValueTime = DateTime.MinValue;
         readonly HashSet<BindablePropertyBase> MonitoredProperties = new HashSet<BindablePropertyBase>();
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null)
@@ -207,6 +208,24 @@ namespace Atesh.BindableProperties
                 if (IsEmpty || !ValueEquals(Args.Value)) SetAndRaise(Args.Value);
             }
         }
+
+        public T GetValueVeryExpensively(out bool IsEmpty)
+        {
+            if (LastGetValueTime.HasValue)
+            {
+                var Now = DateTime.Now;
+
+                if ((Now - LastGetValueTime.Value).TotalSeconds < 1) throw new InvalidOperationException(Strings.GetValueMethodIsNotSupposedToBeCalledFrequently);
+
+                LastGetValueTime = Now;
+            }
+
+            IsEmpty = this.IsEmpty;
+
+            return Value;
+        }
+
+        public void DisableGetValueTimeCheckAsALastResort() => LastGetValueTime = null;
 
         public struct SetDelegates
         {

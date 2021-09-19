@@ -41,27 +41,16 @@ namespace Atesh.BindableProperties.Test
         {
             const int Value = 1;
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, Value);
-            Property.Changed += (Sender, Args) =>
-            {
-                Assert.AreEqual(Args.Value, Value);
-                Assert.False(Args.IsEmpty);
-                Assert.Pass();
-            };
-
-            Assert.Fail();
+            Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
+            Assert.False(IsEmpty);
         }
 
         [Test]
         public void Constructor_StoresEmptyValue()
         {
             var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, true);
-            Property.Changed += (Sender, Args) =>
-            {
-                Assert.True(Args.IsEmpty);
-                Assert.Pass();
-            };
-
-            Assert.Fail();
+            Property.GetValueVeryExpensively(out var IsEmpty);
+            Assert.True(IsEmpty);
         }
 
         [Test]
@@ -470,6 +459,26 @@ namespace Atesh.BindableProperties.Test
 
             MonitoredProperty.SetValue(DateTime.Now);
             Assert.Fail();
+        }
+
+        [Test]
+        public void GetValueVeryExpensively_ThrowsExceptionWhenCalledFrequently()
+        {
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+
+            Property.GetValueVeryExpensively(out _);
+            var E = Assert.Throws<InvalidOperationException>(() => Property.GetValueVeryExpensively(out _));
+            Assert.AreEqual(Strings.GetValueMethodIsNotSupposedToBeCalledFrequently, E.Message);
+        }
+
+        [Test]
+        public void DisableGetValueTimeCheckAsALastResort_DisablesFrequentGetValueException()
+        {
+            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+            Property.DisableGetValueTimeCheckAsALastResort();
+
+            Property.GetValueVeryExpensively(out _);
+            Property.GetValueVeryExpensively(out _);
         }
     }
 }
