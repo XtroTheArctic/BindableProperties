@@ -11,7 +11,7 @@ namespace Atesh.BindableProperties.Test
     {
         MainWindow MainWindow;
 
-        static Color GetRectangleColor(YourClass Object) => ((SolidColorBrush)Object.Rectangle.Fill).Color;
+        Color GetRectangleColor(YourClass Object) => ((SolidColorBrush)Object.Rectangle.Fill).Color;
 
         [SetUp]
         public void SetUp() => MainWindow = new MainWindow();

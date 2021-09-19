@@ -9,8 +9,9 @@ BindableProperties is a class library which provides a bindable properties syste
 * Support for empty value,
 * Event based value retrieval instead of on-demand value retrieval(classical way) which becomes repetitive and leads to programming errors,
 * Mechanism of monitoring other properties (with different value types) for auto-rebinding,
-* Optional two-way binding support.
-* Value coercing (including validation) support.
+* Optional two-way binding support,
+* Value coercing (including validation) support,
+* On-demand value retrieval is possible via GetValueVeryExpensively method (Calling it should be avoided to the maximum extend).
 
 # Team Members
 
@@ -28,7 +29,7 @@ Download it via "manual download" link in [NuGet](https://www.nuget.org/packages
 
 # Examples
 
-Example projects about how to use BindableProperties can be downloaded [here](https://drive.google.com/file/d/17gmZnbUdmaalmMSvZUryL-OOmORPIo5A/view?usp=sharing).
+Example projects about how to use BindableProperties can be downloaded [here](https://bitbucket.org/XtroTheArctic/bindableproperties/downloads/BindablePropertiesExamples.zip).
 
 **Important:** You may need to restore NuGet packages via the solution right-click menu if you get compile errors.
 

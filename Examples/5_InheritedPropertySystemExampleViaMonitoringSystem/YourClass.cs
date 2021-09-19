@@ -32,12 +32,12 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         public readonly PrivatelyBindableProperty<Skin> Skin;
 
         // Delegates to control the bindable property.
-        PrivatelyBindableProperty<Color>.BindDelegates BindBackgroundColorDelegates;
+        readonly PrivatelyBindableProperty<Color>.BindDelegates BindBackgroundColorDelegates;
 
         readonly Color DefaultBackgroundColor = Colors.Gray;
 
-        YourClass _Parent;
-        Skin _Skin;
+        YourClass Parent_;
+        Skin Skin_;
         bool UnboundBackgroundColorIsEmpty;
         bool ExecutingBindBackgroundColor;
 
@@ -58,8 +58,8 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             BackgroundColor.Changed += BackgroundColor_Changed;
         }
 
-        void Skin_Changed(PrivatelySettablePrivatelyBindableProperty<Skin> Sender, ChangedEventArgs<Skin> Args) => _Skin = Args.Value;
-        void Parent_Changed(PrivatelySettablePrivatelyBindableProperty<YourClass> Sender, ChangedEventArgs<YourClass> Args) => _Parent = Args.Value;
+        void Skin_Changed(PrivatelySettablePrivatelyBindableProperty<Skin> Sender, ChangedEventArgs<Skin> Args) => Skin_ = Args.Value;
+        void Parent_Changed(PrivatelySettablePrivatelyBindableProperty<YourClass> Sender, ChangedEventArgs<YourClass> Args) => Parent_ = Args.Value;
 
         void BackgroundColor_Changed(PrivatelySettablePrivatelyBindableProperty<Color> Sender, ChangedEventArgs<Color> Args)
         {
@@ -125,7 +125,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 
                     BindBackgroundColorDelegates.Monitor(P.Skin);
 
-                    var P_Skin = P._Skin;
+                    var P_Skin = P.Skin_;
 
                     if (P_Skin != null)
                     {
@@ -142,7 +142,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 
                     BindBackgroundColorDelegates.Monitor(P.Parent);
 
-                    P = P._Parent;
+                    P = P.Parent_;
                 }
             }
             finally

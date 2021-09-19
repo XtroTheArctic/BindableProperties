@@ -32,8 +32,8 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
 
         // Second, you must define required delegate containers. Please see the comments in class constructor for more info.
         // Keep these as private since you are defining a PrivatelySettablePrivatelyBindableProperty.
-        PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates SetHeightDelegates;
-        PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
+        readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates SetHeightDelegates;
+        readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
 
         readonly string Name; // We use the Name field to distinguish between multiple instances of this example class. It's not related to property system.
 

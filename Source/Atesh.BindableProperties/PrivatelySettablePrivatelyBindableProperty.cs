@@ -5,29 +5,21 @@ namespace Atesh.BindableProperties
 {
     public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
     {
-        #region Events
+        public PrivatelySettablePrivatelyBindableProperty<T> BoundProperty { get; private set; }
+        public bool IsMonitoringWithoutBinding { get; private set; }
 
         public new event ChangedEventHandler<T> Changed
         {
             add
             {
-                _Changed += value;
+                Changed_ += value;
 
                 value(this, new ChangedEventArgs<T>(IsEmpty, Value));
             }
-            remove => _Changed -= value;
+            remove => Changed_ -= value;
         }
-
-        event ChangedEventHandler<T> _Changed;
-
-        #endregion
-
-        #region Properties
-
-        public PrivatelySettablePrivatelyBindableProperty<T> BoundProperty { get; private set; }
-        public bool IsMonitoringWithoutBinding { get; private set; }
-
-        #endregion
+        
+        event ChangedEventHandler<T> Changed_;
 
         public readonly object Owner;
 
@@ -36,6 +28,7 @@ namespace Atesh.BindableProperties
         T Value;
         bool IsEmpty;
         bool TwoWay;
+        DateTime? LastGetValueTime = DateTime.MinValue;
         readonly HashSet<BindablePropertyBase> MonitoredProperties = new HashSet<BindablePropertyBase>();
 
         public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null)
@@ -54,17 +47,11 @@ namespace Atesh.BindableProperties
             BindDelegates.StopMonitoring = StopMonitoring;
         }
 
-        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback)
-        // ReSharper disable ArrangeConstructorOrDestructorBody
-        // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
-        {
-            this.Value = Value;
-        }
-        // ReSharper restore ArrangeConstructorOrDestructorBody
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback) => this.Value = Value;
 
         void OnChanged()
         {
-            _Changed?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
+            Changed_?.Invoke(this, new ChangedEventArgs<T>(IsEmpty, Value));
             base.Changed?.Invoke();
         }
 
@@ -222,13 +209,23 @@ namespace Atesh.BindableProperties
             }
         }
 
-        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
+        public T GetValueVeryExpensively(out bool IsEmpty)
+        {
+            if (LastGetValueTime.HasValue)
+            {
+                var Now = DateTime.Now;
 
-        public delegate void SetValueDelegate(T Value);
+                if ((Now - LastGetValueTime.Value).TotalSeconds < 1) throw new InvalidOperationException(Strings.GetValueMethodIsNotSupposedToBeCalledFrequently);
 
-        public delegate void CoerceValueDelegate(CoerceValueDelegateArgs<T> Args);
+                LastGetValueTime = Now;
+            }
 
-        public delegate void MonitorDelegate(BindablePropertyBase Target);
+            IsEmpty = this.IsEmpty;
+
+            return Value;
+        }
+
+        public void DisableGetValueTimeCheckAsALastResort() => LastGetValueTime = null;
 
         public struct SetDelegates
         {
@@ -244,5 +241,13 @@ namespace Atesh.BindableProperties
             public Action StartMonitoring;
             public Action StopMonitoring;
         }
+
+        public delegate void BindToPropertyDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
+
+        public delegate void SetValueDelegate(T Value);
+
+        public delegate void CoerceValueDelegate(CoerceValueDelegateArgs<T> Args);
+
+        public delegate void MonitorDelegate(BindablePropertyBase Target);
     }
 }

@@ -2,15 +2,9 @@
 
 namespace Atesh.BindableProperties
 {
-    public class BindableProperty<T> : PrivatelyBindableProperty<T>
+    public partial class BindableProperty<T> : PrivatelyBindableProperty<T>
     {
-        #region Static
-
-        [ThreadStatic] static BindDelegates TempDelegates;
-
-        #endregion
-
-        BindDelegates Delegates;
+        readonly BindDelegates Delegates;
 
         public BindableProperty(object Owner, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
 
