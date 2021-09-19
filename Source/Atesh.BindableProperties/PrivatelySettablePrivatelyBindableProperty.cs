@@ -46,13 +46,7 @@ namespace Atesh.BindableProperties
             BindDelegates.StopMonitoring = StopMonitoring;
         }
 
-        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback)
-        // ReSharper disable ArrangeConstructorOrDestructorBody
-        // We can't convert this to expression body because of a Resharper bug which complains about out parameters not being assigned upon exit.
-        {
-            this.Value = Value;
-        }
-        // ReSharper restore ArrangeConstructorOrDestructorBody
+        public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback) => this.Value = Value;
 
         void OnChanged()
         {
