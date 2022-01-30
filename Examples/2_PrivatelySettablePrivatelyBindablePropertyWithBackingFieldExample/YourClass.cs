@@ -14,13 +14,13 @@ namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
         int Height_;
 
         // Delegates to control the bindable property.
-        readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates SetHeightDelegates;
-        readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
+        readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates Height_SetDelegates;
+        readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates Height_BindDelegates;
 
         public YourClass()
         {
             // Create the bindable property and get the delegates back.
-            Height = new PrivatelySettablePrivatelyBindableProperty<int>(this, out SetHeightDelegates, out BindHeightDelegates);
+            Height = new PrivatelySettablePrivatelyBindableProperty<int>(this, out Height_SetDelegates, out Height_BindDelegates);
 
             // Subscribe to the Changed event of the bindable property.
             Height.Changed += Height_Changed;
@@ -32,9 +32,9 @@ namespace PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample
         void Height_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => Height_ = Args.Value;
 
         // Commands for outside access.
-        public void GrowByOne() => SetHeightDelegates.SetValue(Height_ + 1);
-        public void Die() => SetHeightDelegates.SetValue(0);
-        public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => BindHeightDelegates.Bind(Target);
-        public void UnbindHeight() => BindHeightDelegates.Unbind();
+        public void GrowByOne() => Height_SetDelegates.SetValue(Height_ + 1);
+        public void Die() => Height_SetDelegates.SetValue(0);
+        public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => Height_BindDelegates.Bind(Target);
+        public void UnbindHeight() => Height_BindDelegates.Unbind();
     }
 }
