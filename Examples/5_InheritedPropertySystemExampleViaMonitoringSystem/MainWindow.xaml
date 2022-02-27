@@ -11,69 +11,69 @@
         <Label Content="Parent: Null" HorizontalAlignment="Left" Margin="42,38,0,0" VerticalAlignment="Top"/>
         <Label Content="Skin:" HorizontalAlignment="Left" Margin="42,77,0,0" VerticalAlignment="Top"/>
         <Label Name="ObjectA_SkinLabel" Content="[skin]" HorizontalAlignment="Left" Margin="74,77,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ObjectA_Skin1Button" Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,106,0,0" Click="ObjectA_Skin1Button_Click"/>
-        <Button x:Name="ObjectA_Skin2Button" Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,106,0,0" Click="ObjectA_Skin2Button_Click"/>
-        <Button x:Name="ObjectA_SkinNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,106,0,0" Click="ObjectA_SkinNullButton_Click"/>
+        <Button Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,106,0,0" Click="ObjectA_Skin1Button_Click"/>
+        <Button Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,106,0,0" Click="ObjectA_Skin2Button_Click"/>
+        <Button Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,106,0,0" Click="ObjectA_SkinNullButton_Click"/>
         <Label Content="BackgroundColor:" HorizontalAlignment="Left" Margin="42,132,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.484,-2.537"/>
         <Rectangle x:Name="ObjectA_BackgroundColorRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="54" Margin="139,132,0,0"/>
         <Label x:Name="ObjectA_BackgroundColorEmptyLabel" Content="Empty" HorizontalAlignment="Left" Margin="139,132,0,0" VerticalAlignment="Top" RenderTransformOrigin="-7.138,-0.255"/>
-        <Button x:Name="ObjectA_BackgroundColorOrangeButton" Content="Orange" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,160,0,0" Click="ObjectA_BackgroundColorOrangeButton_Click"/>
-        <Button x:Name="ObjectA_BackgroundColorPurpleButton" Content="Purple" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,160,0,0" Click="ObjectA_BackgroundColorPurpleButton_Click"/>
-        <Button x:Name="ObjectA_BackgroundColorEmptyButton" Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,160,0,0" Click="ObjectA_BackgroundColorEmptyButton_Click"/>
+        <Button Content="Orange" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,160,0,0" Click="ObjectA_BackgroundColorOrangeButton_Click"/>
+        <Button Content="Purple" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,160,0,0" Click="ObjectA_BackgroundColorPurpleButton_Click"/>
+        <Button Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,160,0,0" Click="ObjectA_BackgroundColorEmptyButton_Click"/>
 
         <Label Content="Object B" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="42,191,0,0"/>
         <Rectangle Name="RectangleB" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="153" Stroke="Black" VerticalAlignment="Top" Width="266" Margin="42,215,0,0"/>
         <Label Content="Parent:" HorizontalAlignment="Left" Margin="42,217,0,0" VerticalAlignment="Top"/>
         <Label Name="ObjectB_ParentLabel" Content="[parent]" HorizontalAlignment="Left" Margin="86,217,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ObjectB_ParentA_Button" Content="Object A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,243,0,0" Click="ObjectB_ParentA_Button_Click"/>
-        <Button x:Name="ObjectB_ParentNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,243,0,0" Click="ObjectB_ParentNullButton_Click"/>
+        <Button Content="Object A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,243,0,0" Click="ObjectB_ParentA_Button_Click"/>
+        <Button Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,243,0,0" Click="ObjectB_ParentNullButton_Click"/>
         <Label Content="Skin:" HorizontalAlignment="Left" Margin="42,263,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.923,3.053"/>
         <Label Name="ObjectB_SkinLabel" Content="[skin]" HorizontalAlignment="Left" Margin="74,263,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ObjectB_Skin1Button" Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,288,0,0" Click="ObjectB_Skin1Button_Click"/>
-        <Button x:Name="ObjectB_Skin2Button" Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,288,0,0" Click="ObjectB_Skin2Button_Click"/>
-        <Button x:Name="ObjectB_SkinNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,288,0,0" Click="ObjectB_SkinNullButton_Click"/>
+        <Button Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,288,0,0" Click="ObjectB_Skin1Button_Click"/>
+        <Button Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,288,0,0" Click="ObjectB_Skin2Button_Click"/>
+        <Button Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,288,0,0" Click="ObjectB_SkinNullButton_Click"/>
         <Label Content="BackgroundColor:" HorizontalAlignment="Left" Margin="42,314,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.484,-2.537"/>
         <Rectangle x:Name="ObjectB_BackgroundColorRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="54" Margin="139,314,0,0"/>
         <Label x:Name="ObjectB_BackgroundColorEmptyLabel" Content="Empty" HorizontalAlignment="Left" Margin="139,314,0,0" VerticalAlignment="Top" RenderTransformOrigin="-7.138,-0.255"/>
-        <Button x:Name="ObjectB_BackgroundColorWhiteButton" Content="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,342,0,0" Click="ObjectB_BackgroundColorWhiteButton_Click"/>
-        <Button x:Name="ObjectB_BackgroundColorAquaButton" Content="Aqua" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,342,0,0" Click="ObjectB_BackgroundColorAquaButton_Click"/>
-        <Button x:Name="ObjectB_BackgroundColorEmptyButton" Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,342,0,0" Click="ObjectB_BackgroundColorEmptyButton_Click"/>
+        <Button Content="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,342,0,0" Click="ObjectB_BackgroundColorWhiteButton_Click"/>
+        <Button Content="Aqua" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,342,0,0" Click="ObjectB_BackgroundColorAquaButton_Click"/>
+        <Button Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,342,0,0" Click="ObjectB_BackgroundColorEmptyButton_Click"/>
 
         <Label Content="Object C" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="42,373,0,0"/>
         <Rectangle Name="RectangleC" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="153" Stroke="Black" VerticalAlignment="Top" Width="266" Margin="42,397,0,0"/>
         <Label Content="Parent:" HorizontalAlignment="Left" Margin="42,400,0,0" VerticalAlignment="Top"/>
         <Label Name="ObjectC_ParentLabel" Content="[parent]" HorizontalAlignment="Left" Margin="86,400,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ObjectC_ParentA_Button" Content="Object A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,425,0,0" Click="ObjectC_ParentA_Button_Click"/>
-        <Button x:Name="ObjectC_ParentBButton" Content="Object B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,425,0,0" Click="ObjectC_ParentB_Button_Click"/>
-        <Button x:Name="ObjectC_ParentNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,426,0,0" Click="ObjectC_ParentNullButton_Click"/>
+        <Button Content="Object A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,425,0,0" Click="ObjectC_ParentA_Button_Click"/>
+        <Button Content="Object B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,425,0,0" Click="ObjectC_ParentB_Button_Click"/>
+        <Button Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,426,0,0" Click="ObjectC_ParentNullButton_Click"/>
         <Label Content="Skin:" HorizontalAlignment="Left" Margin="42,446,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.923,3.053"/>
         <Label Name="ObjectC_SkinLabel" Content="[skin]" HorizontalAlignment="Left" Margin="74,446,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ObjectC_Skin1Button" Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,470,0,0" Click="ObjectC_Skin1Button_Click"/>
-        <Button x:Name="ObjectC_Skin2Button" Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,470,0,0" Click="ObjectC_Skin2Button_Click"/>
-        <Button x:Name="ObjectC_SkinNullButton" Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,470,0,0" Click="ObjectC_SkinNullButton_Click"/>
+        <Button Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,470,0,0" Click="ObjectC_Skin1Button_Click"/>
+        <Button Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,470,0,0" Click="ObjectC_Skin2Button_Click"/>
+        <Button Content="Null" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,470,0,0" Click="ObjectC_SkinNullButton_Click"/>
         <Label Content="BackgroundColor:" HorizontalAlignment="Left" Margin="42,496,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.484,-2.537"/>
         <Rectangle x:Name="ObjectC_BackgroundColorRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="54" Margin="139,496,0,0"/>
         <Label x:Name="ObjectC_BackgroundColorEmptyLabel" Content="Empty" HorizontalAlignment="Left" Margin="139,496,0,0" VerticalAlignment="Top" RenderTransformOrigin="-7.138,-0.255"/>
-        <Button x:Name="ObjectC_BackgroundColorFuchsiaButton" Content="Fuchsia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,524,0,0" Click="ObjectC_BackgroundColorFuchsiaButton_Click"/>
-        <Button x:Name="ObjectC_BackgroundColorMaroonButton" Content="Maroon" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,524,0,0" Click="ObjectC_BackgroundColorMaroonButton_Click"/>
-        <Button x:Name="ObjectC_BackgroundColorEmptyButton" Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,524,0,0" Click="ObjectC_BackgroundColorEmptyButton_Click"/>
+        <Button Content="Fuchsia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="52,524,0,0" Click="ObjectC_BackgroundColorFuchsiaButton_Click"/>
+        <Button Content="Maroon" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="132,524,0,0" Click="ObjectC_BackgroundColorMaroonButton_Click"/>
+        <Button Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="212,524,0,0" Click="ObjectC_BackgroundColorEmptyButton_Click"/>
 
         <Label Content="Skin 1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="410,23,0,0"/>
-        <Rectangle Name="Skin1Rectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="120" Stroke="Black" VerticalAlignment="Top" Width="264" Margin="410,47,0,0"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="120" Stroke="Black" VerticalAlignment="Top" Width="264" Margin="410,47,0,0"/>
         <Label Content="BackgroundColor:" HorizontalAlignment="Left" Margin="410,52,0,0" VerticalAlignment="Top"/>
         <Rectangle Name="Skin1BackgroundColorRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="54" Margin="509,52,0,0"/>
         <Label Name="Skin1BackgroundColorEmptyLabel" Content="Empty" HorizontalAlignment="Left" Margin="509,52,0,0" VerticalAlignment="Top"/>
-        <Button Name="Skin1BackgroundColorBlueButton" Content="Blue" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="420,81,0,0" Click="Skin1BackgroundColorBlueButton_Click"/>
-        <Button Name="Skin1BackgroundColorRedButton" Content="Red" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="500,81,0,0" Click="Skin1BackgroundColorRedButton_Click"/>
-        <Button Name="Skin1BackgroundColorEmptyButton" Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="580,81,0,0" Click="Skin1BackgroundColorEmptyButton_Click"/>
+        <Button Content="Blue" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="420,81,0,0" Click="Skin1BackgroundColorBlueButton_Click"/>
+        <Button Content="Red" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="500,81,0,0" Click="Skin1BackgroundColorRedButton_Click"/>
+        <Button Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="580,81,0,0" Click="Skin1BackgroundColorEmptyButton_Click"/>
 
         <Label Content="Skin 2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="410,205,0,0"/>
-        <Rectangle Name="Skin2Rectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="120" Stroke="Black" VerticalAlignment="Top" Width="264" Margin="410,229,0,0"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="120" Stroke="Black" VerticalAlignment="Top" Width="264" Margin="410,229,0,0"/>
         <Label Content="BackgroundColor:" HorizontalAlignment="Left" Margin="410,234,0,0" VerticalAlignment="Top"/>
         <Rectangle Name="Skin2BackgroundColorRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="54" Margin="509,234,0,0"/>
         <Label Name="Skin2BackgroundColorEmptyLabel" Content="Empty" HorizontalAlignment="Left" Margin="509,234,0,0" VerticalAlignment="Top"/>
-        <Button Name="Skin2BackgroundColorGreenButton" Content="Green" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="420,263,0,0" Click="Skin2BackgroundColorGreenButton_Click"/>
-        <Button Name="Skin2BackgroundColorYellowButton" Content="Yellow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="500,263,0,0" Click="Skin2BackgroundColorYellowButton_Click"/>
-        <Button Name="Skin2BackgroundColorEmptyButton" Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="580,263,0,0" Click="Skin2BackgroundColorEmptyButton_Click"/>
+        <Button Content="Green" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="420,263,0,0" Click="Skin2BackgroundColorGreenButton_Click"/>
+        <Button Content="Yellow" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="500,263,0,0" Click="Skin2BackgroundColorYellowButton_Click"/>
+        <Button Content="Empty" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="580,263,0,0" Click="Skin2BackgroundColorEmptyButton_Click"/>
     </Grid>
 </Window>

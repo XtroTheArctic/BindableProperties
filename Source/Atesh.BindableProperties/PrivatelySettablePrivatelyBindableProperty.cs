@@ -59,14 +59,13 @@ namespace Atesh.BindableProperties
         {
             if (BoundProperty != null && !TwoWay) Unbind();
 
-            if (IsEmpty || !ValueEquals(Value))
+            if (!IsEmpty && ValueEquals(Value)) return;
+
+            if (CoerceValueCallback == null) SetAndRaise(Value);
+            else
             {
-                if (CoerceValueCallback == null) SetAndRaise(Value);
-                else
-                {
-                    var Args = new CoerceValueDelegateArgs<T> { Value = Value, IsEmpty = false };
-                    CoerceValue(Args);
-                }
+                var Args = new CoerceValueDelegateArgs<T> { Value = Value, IsEmpty = false };
+                CoerceValue(Args);
             }
         }
 
@@ -93,14 +92,13 @@ namespace Atesh.BindableProperties
         {
             if (BoundProperty != null) Unbind();
 
-            if (!IsEmpty)
+            if (IsEmpty) return;
+
+            if (CoerceValueCallback == null) ClearAndRaise();
+            else
             {
-                if (CoerceValueCallback == null) ClearAndRaise();
-                else
-                {
-                    var Args = new CoerceValueDelegateArgs<T> { IsEmpty = true };
-                    CoerceValue(Args);
-                }
+                var Args = new CoerceValueDelegateArgs<T> { IsEmpty = true };
+                CoerceValue(Args);
             }
         }
 
