@@ -19,20 +19,20 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         // 6) Monitoring system calls the BinderCallback which performs the steps number 2 and 3 so the automated binding/unbinding cycle continues from the step number 4.
 
         // This class gets a visual rectangle object and controls its color according to BackgroundColor property.
-        public readonly Rectangle Rectangle;
+        public Rectangle Rectangle { get; }
 
         // We want the background property to be set publicly and it needs to support the empty value for inherited property system so we use PrivatelyBindablePropertyWithEmptyValue type.
         // No need for a backing field because we will consume the new background color value in BackgroundColor_Changed handler by assigning it to the rectangle object.
-        public readonly PrivatelyBindablePropertyWithEmptyValue<Color> BackgroundColor;
+        public PrivatelyBindablePropertyWithEmptyValue<Color> BackgroundColor { get; }
 
         // Parent property for inherited properties system.
-        public readonly PrivatelyBindableProperty<YourClass> Parent;
+        public PrivatelyBindableProperty<YourClass> Parent { get; }
 
         // Our example inherited properties system also has skinning support.
-        public readonly PrivatelyBindableProperty<Skin> Skin;
+        public PrivatelyBindableProperty<Skin> Skin { get; }
 
         // Delegates to control the bindable property.
-        readonly PrivatelyBindableProperty<Color>.BindDelegates BindBackgroundColorDelegates;
+        readonly PrivatelyBindableProperty<Color>.BindDelegates BackgroundColor_BindDelegates;
 
         readonly Color DefaultBackgroundColor = Colors.Gray;
 
@@ -46,7 +46,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             this.Rectangle = Rectangle;
 
             // Create the bindable property and get the delegates back.
-            BackgroundColor = new PrivatelyBindablePropertyWithEmptyValue<Color>(this, out BindBackgroundColorDelegates, true, BindBackgroundColor);
+            BackgroundColor = new PrivatelyBindablePropertyWithEmptyValue<Color>(this, out BackgroundColor_BindDelegates, true, BindBackgroundColor);
 
             Parent = new PrivatelyBindableProperty<YourClass>(this, out _);
             Parent.Changed += Parent_Changed;
@@ -66,13 +66,13 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             if (BackgroundColor.BoundProperty == null) UnboundBackgroundColorIsEmpty = Args.IsEmpty;
 
             var BoundPropertyIsBoundToo = BackgroundColor.BoundProperty?.BoundProperty != null;
-            if (BoundPropertyIsBoundToo) BindBackgroundColorDelegates.Unbind();
+            if (BoundPropertyIsBoundToo) BackgroundColor_BindDelegates.Unbind();
 
             if (Args.IsEmpty)
             {
                 if (!ExecutingBindBackgroundColor)
                 {
-                    if (BackgroundColor.BoundProperty != null) BindBackgroundColorDelegates.Unbind();
+                    if (BackgroundColor.BoundProperty != null) BackgroundColor_BindDelegates.Unbind();
 
                     BindBackgroundColor();
 
@@ -99,7 +99,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             // If the property have a value and coming from monitoring system(BinderCallback) 
             if (!UnboundBackgroundColorIsEmpty) return;
 
-            if (BackgroundColor.IsMonitoringWithoutBinding) BindBackgroundColorDelegates.StopMonitoring();
+            if (BackgroundColor.IsMonitoringWithoutBinding) BackgroundColor_BindDelegates.StopMonitoring();
 
             var P = this;
 
@@ -115,15 +115,15 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
                     {
                         if (!P.UnboundBackgroundColorIsEmpty)
                         {
-                            BindBackgroundColorDelegates.Bind(P.BackgroundColor);
+                            BackgroundColor_BindDelegates.Bind(P.BackgroundColor);
 
                             return;
                         }
 
-                        BindBackgroundColorDelegates.Monitor(P.BackgroundColor);
+                        BackgroundColor_BindDelegates.Monitor(P.BackgroundColor);
                     }
 
-                    BindBackgroundColorDelegates.Monitor(P.Skin);
+                    BackgroundColor_BindDelegates.Monitor(P.Skin);
 
                     var P_Skin = P.Skin_;
 
@@ -132,15 +132,15 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
                         // Second, we check the BackgroundColor of the skin of current parent step.
                         if (!P_Skin.BackgroundColorIsEmpty)
                         {
-                            BindBackgroundColorDelegates.Bind(P_Skin.BackgroundColor);
+                            BackgroundColor_BindDelegates.Bind(P_Skin.BackgroundColor);
 
                             return;
                         }
 
-                        BindBackgroundColorDelegates.Monitor(P_Skin.BackgroundColor);
+                        BackgroundColor_BindDelegates.Monitor(P_Skin.BackgroundColor);
                     }
 
-                    BindBackgroundColorDelegates.Monitor(P.Parent);
+                    BackgroundColor_BindDelegates.Monitor(P.Parent);
 
                     P = P.Parent_;
                 }
@@ -164,7 +164,7 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
                         }
                     }
 
-                    BindBackgroundColorDelegates.StartMonitoring();
+                    BackgroundColor_BindDelegates.StartMonitoring();
                 }
             }
         }

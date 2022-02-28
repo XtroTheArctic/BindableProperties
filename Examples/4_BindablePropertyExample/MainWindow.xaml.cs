@@ -8,10 +8,10 @@ namespace BindablePropertyExample
     {
         public int AppleHeightTextBoxValue
         {
-            get => AppleHeightTextBoxValue_;
+            get => _AppleHeightTextBoxValue;
             set
             {
-                AppleHeightTextBoxValue_ = value;
+                _AppleHeightTextBoxValue = value;
 
                 OnPropertyChanged(nameof(AppleHeightTextBoxValue));
             }
@@ -24,7 +24,7 @@ namespace BindablePropertyExample
         readonly YourClass Apple;
         readonly YourClass Tomato;
 
-        int AppleHeightTextBoxValue_;
+        int _AppleHeightTextBoxValue;
 
         public MainWindow()
         {

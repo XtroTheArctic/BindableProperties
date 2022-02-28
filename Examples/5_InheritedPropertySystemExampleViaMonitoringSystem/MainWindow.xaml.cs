@@ -8,12 +8,12 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 {
     public partial class MainWindow
     {
-        public readonly YourClass ObjectA;
-        public readonly YourClass ObjectB;
-        public readonly YourClass ObjectC;
+        public YourClass ObjectA { get; }
+        public YourClass ObjectB { get; }
+        public YourClass ObjectC { get; }
 
-        public readonly Skin Skin1 = new Skin();
-        public readonly Skin Skin2 = new Skin();
+        public Skin Skin1 { get; } = new Skin();
+        public Skin Skin2 { get; } = new Skin();
 
         public MainWindow()
         {
@@ -103,38 +103,38 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
             }
         }
 
-        public void ObjectA_Skin1Button_Click(object Sender, RoutedEventArgs E) => ObjectA.Skin.SetValue(Skin1);
-        public void ObjectA_Skin2Button_Click(object Sender, RoutedEventArgs E) => ObjectA.Skin.SetValue(Skin2);
-        public void ObjectA_SkinNullButton_Click(object Sender, RoutedEventArgs E) => ObjectA.Skin.SetValue(null);
+        void ObjectA_Skin1Button_Click(object Sender, RoutedEventArgs E) => ObjectA.Skin.SetValue(Skin1);
+        void ObjectA_Skin2Button_Click(object Sender, RoutedEventArgs E) => ObjectA.Skin.SetValue(Skin2);
+        void ObjectA_SkinNullButton_Click(object Sender, RoutedEventArgs E) => ObjectA.Skin.SetValue(null);
         public void ObjectA_BackgroundColorOrangeButton_Click(object Sender, RoutedEventArgs E) => ObjectA.BackgroundColor.SetValue(Colors.Orange);
-        public void ObjectA_BackgroundColorPurpleButton_Click(object Sender, RoutedEventArgs E) => ObjectA.BackgroundColor.SetValue(Colors.Purple);
-        public void ObjectA_BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => ObjectA.BackgroundColor.ClearValue();
+        void ObjectA_BackgroundColorPurpleButton_Click(object Sender, RoutedEventArgs E) => ObjectA.BackgroundColor.SetValue(Colors.Purple);
+        void ObjectA_BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => ObjectA.BackgroundColor.ClearValue();
          
         public void ObjectB_ParentA_Button_Click(object Sender, RoutedEventArgs E) => ObjectB.Parent.SetValue(ObjectA);
-        public void ObjectB_ParentNullButton_Click(object Sender, RoutedEventArgs E) => ObjectB.Parent.SetValue(null);
+        void ObjectB_ParentNullButton_Click(object Sender, RoutedEventArgs E) => ObjectB.Parent.SetValue(null);
         public void ObjectB_Skin1Button_Click(object Sender, RoutedEventArgs E) => ObjectB.Skin.SetValue(Skin1);
-        public void ObjectB_Skin2Button_Click(object Sender, RoutedEventArgs E) => ObjectB.Skin.SetValue(Skin2);
-        public void ObjectB_SkinNullButton_Click(object Sender, RoutedEventArgs E) => ObjectB.Skin.SetValue(null);
-        public void ObjectB_BackgroundColorWhiteButton_Click(object Sender, RoutedEventArgs E) => ObjectB.BackgroundColor.SetValue(Colors.White);
+        void ObjectB_Skin2Button_Click(object Sender, RoutedEventArgs E) => ObjectB.Skin.SetValue(Skin2);
+        void ObjectB_SkinNullButton_Click(object Sender, RoutedEventArgs E) => ObjectB.Skin.SetValue(null);
+        void ObjectB_BackgroundColorWhiteButton_Click(object Sender, RoutedEventArgs E) => ObjectB.BackgroundColor.SetValue(Colors.White);
         public void ObjectB_BackgroundColorAquaButton_Click(object Sender, RoutedEventArgs E) => ObjectB.BackgroundColor.SetValue(Colors.Aqua);
         public void ObjectB_BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => ObjectB.BackgroundColor.ClearValue();
          
-        public void ObjectC_ParentA_Button_Click(object Sender, RoutedEventArgs E) => ObjectC.Parent.SetValue(ObjectA);
+        void ObjectC_ParentA_Button_Click(object Sender, RoutedEventArgs E) => ObjectC.Parent.SetValue(ObjectA);
         public void ObjectC_ParentB_Button_Click(object Sender, RoutedEventArgs E) => ObjectC.Parent.SetValue(ObjectB);
-        public void ObjectC_ParentNullButton_Click(object Sender, RoutedEventArgs E) => ObjectC.Parent.SetValue(null);
-        public void ObjectC_Skin1Button_Click(object Sender, RoutedEventArgs E) => ObjectC.Skin.SetValue(Skin1);
-        public void ObjectC_Skin2Button_Click(object Sender, RoutedEventArgs E) => ObjectC.Skin.SetValue(Skin2);
-        public void ObjectC_SkinNullButton_Click(object Sender, RoutedEventArgs E) => ObjectC.Skin.SetValue(null);
-        public void ObjectC_BackgroundColorFuchsiaButton_Click(object Sender, RoutedEventArgs E) => ObjectC.BackgroundColor.SetValue(Colors.Fuchsia);
-        public void ObjectC_BackgroundColorMaroonButton_Click(object Sender, RoutedEventArgs E) => ObjectC.BackgroundColor.SetValue(Colors.Maroon);
-        public void ObjectC_BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => ObjectC.BackgroundColor.ClearValue();
+        void ObjectC_ParentNullButton_Click(object Sender, RoutedEventArgs E) => ObjectC.Parent.SetValue(null);
+        void ObjectC_Skin1Button_Click(object Sender, RoutedEventArgs E) => ObjectC.Skin.SetValue(Skin1);
+        void ObjectC_Skin2Button_Click(object Sender, RoutedEventArgs E) => ObjectC.Skin.SetValue(Skin2);
+        void ObjectC_SkinNullButton_Click(object Sender, RoutedEventArgs E) => ObjectC.Skin.SetValue(null);
+        void ObjectC_BackgroundColorFuchsiaButton_Click(object Sender, RoutedEventArgs E) => ObjectC.BackgroundColor.SetValue(Colors.Fuchsia);
+        void ObjectC_BackgroundColorMaroonButton_Click(object Sender, RoutedEventArgs E) => ObjectC.BackgroundColor.SetValue(Colors.Maroon);
+        void ObjectC_BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => ObjectC.BackgroundColor.ClearValue();
          
         public void Skin1BackgroundColorBlueButton_Click(object Sender, RoutedEventArgs E) => Skin1.BackgroundColor.SetValue(Colors.Blue);
-        public void Skin1BackgroundColorRedButton_Click(object Sender, RoutedEventArgs E) => Skin1.BackgroundColor.SetValue(Colors.Red);
+        void Skin1BackgroundColorRedButton_Click(object Sender, RoutedEventArgs E) => Skin1.BackgroundColor.SetValue(Colors.Red);
         public void Skin1BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => Skin1.BackgroundColor.ClearValue();
          
-        public void Skin2BackgroundColorGreenButton_Click(object Sender, RoutedEventArgs E) => Skin2.BackgroundColor.SetValue(Colors.Green);
-        public void Skin2BackgroundColorYellowButton_Click(object Sender, RoutedEventArgs E) => Skin2.BackgroundColor.SetValue(Colors.Yellow);
-        public void Skin2BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => Skin2.BackgroundColor.ClearValue();
+        void Skin2BackgroundColorGreenButton_Click(object Sender, RoutedEventArgs E) => Skin2.BackgroundColor.SetValue(Colors.Green);
+        void Skin2BackgroundColorYellowButton_Click(object Sender, RoutedEventArgs E) => Skin2.BackgroundColor.SetValue(Colors.Yellow);
+        void Skin2BackgroundColorEmptyButton_Click(object Sender, RoutedEventArgs E) => Skin2.BackgroundColor.ClearValue();
     }
 }

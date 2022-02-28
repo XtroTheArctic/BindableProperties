@@ -9,6 +9,6 @@
         public const string MonitoringNotStartedYet = "Monitoring has not started yet.";
         public const string PropertyNotBoundYet = "Property is not bound yet.";
 
-        public static readonly string GetValueMethodIsNotSupposedToBeCalledFrequently = $"{nameof(PrivatelySettablePrivatelyBindableProperty<object>.GetValueVeryExpensively)} method is not supposed to be called frequently. Subscribe to {nameof(PrivatelySettablePrivatelyBindableProperty<object>.Changed)} event if you need to retrieve the value frequently. You can call {nameof(PrivatelySettablePrivatelyBindableProperty<object>.DisableGetValueTimeCheckAsALastResort)} method as a LAST RESORT to bypass this informational error message.";
+        public static string GetValueMethodIsNotSupposedToBeCalledFrequently { get; } = $"{nameof(PrivatelySettablePrivatelyBindableProperty<object>.GetValueVeryExpensively)} method is not supposed to be called frequently. Subscribe to {nameof(PrivatelySettablePrivatelyBindableProperty<object>.Changed)} event if you need to retrieve the value frequently. You can call {nameof(PrivatelySettablePrivatelyBindableProperty<object>.DisableGetValueTimeCheckAsALastResort)} method as a LAST RESORT to bypass this informational error message.";
     }
 }

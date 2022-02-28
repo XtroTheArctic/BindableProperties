@@ -8,11 +8,11 @@ namespace PrivatelyBindablePropertyExample
     {
         // In this example, the height property is defined as a PrivatelyBindableProperty.
         // As the name of PrivatelyBindableProperty class implies, only its owner can bind it to another target. Its value can be set by any source publicly.
-        public readonly PrivatelyBindableProperty<int> Height;
+        public PrivatelyBindableProperty<int> Height { get; }
 
         // Delegates to control the bindable property.
         // Unlike the first example, we don't need SetDelegates here because PrivatelyBindableProperty has its own public SetValue method.
-        readonly PrivatelyBindableProperty<int>.BindDelegates BindHeightDelegates;
+        readonly PrivatelyBindableProperty<int>.BindDelegates Height_BindDelegates;
 
         readonly string Name; // Just the name of the YourClass instance.
 
@@ -21,7 +21,7 @@ namespace PrivatelyBindablePropertyExample
             this.Name = Name;
 
             // Create the bindable property and get the delegates back.
-            Height = new PrivatelyBindableProperty<int>(this, out BindHeightDelegates);
+            Height = new PrivatelyBindableProperty<int>(this, out Height_BindDelegates);
 
             // Subscribe to the Changed event of the bindable property.
             Height.Changed += Height_Changed;
@@ -35,7 +35,7 @@ namespace PrivatelyBindablePropertyExample
         }
 
         // Since the height property is PrivatelyBindableProperty, it can't be bound from outside so we implement BindHeight and UnbindHeight commands for outside access.
-        public void BindHeight(PrivatelyBindableProperty<int> Target) => BindHeightDelegates.Bind(Target);
-        public void UnbindHeight() => BindHeightDelegates.Unbind();
+        public void BindHeight(PrivatelyBindableProperty<int> Target) => Height_BindDelegates.Bind(Target);
+        public void UnbindHeight() => Height_BindDelegates.Unbind();
     }
 }

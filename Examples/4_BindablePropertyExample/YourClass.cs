@@ -7,7 +7,7 @@ namespace BindablePropertyExample
     class YourClass
     {
         // This is the simplest example because BindableProperty class doesn't have any restriction on setting a value or binding to another target.
-        public readonly BindableProperty<int> Height;
+        public BindableProperty<int> Height { get; }
 
         readonly string Name; // Just the name of the YourClass instance.
 
