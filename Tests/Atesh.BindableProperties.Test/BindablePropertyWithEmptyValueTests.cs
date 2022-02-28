@@ -33,8 +33,6 @@ namespace Atesh.BindableProperties.Test
             var Property = new BindablePropertyWithEmptyValue<int>(this, true);
             Property.GetValueVeryExpensively(out var IsEmpty);
             Assert.True(IsEmpty);
-
-            Assert.Fail();
         }
 
         [Test]
