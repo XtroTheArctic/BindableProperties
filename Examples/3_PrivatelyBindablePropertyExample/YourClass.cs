@@ -8,7 +8,7 @@ namespace PrivatelyBindablePropertyExample
     {
         // In this example, the height property is defined as a PrivatelyBindableProperty.
         // As the name of PrivatelyBindableProperty class implies, only its owner can bind it to another target. Its value can be set by any source publicly.
-        public readonly PrivatelyBindableProperty<int> Height;
+        public PrivatelyBindableProperty<int> Height { get; }
 
         // Delegates to control the bindable property.
         // Unlike the first example, we don't need SetDelegates here because PrivatelyBindableProperty has its own public SetValue method.

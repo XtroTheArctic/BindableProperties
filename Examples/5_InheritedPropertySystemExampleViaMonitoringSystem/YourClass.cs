@@ -19,17 +19,17 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
         // 6) Monitoring system calls the BinderCallback which performs the steps number 2 and 3 so the automated binding/unbinding cycle continues from the step number 4.
 
         // This class gets a visual rectangle object and controls its color according to BackgroundColor property.
-        public readonly Rectangle Rectangle;
+        public Rectangle Rectangle { get; }
 
         // We want the background property to be set publicly and it needs to support the empty value for inherited property system so we use PrivatelyBindablePropertyWithEmptyValue type.
         // No need for a backing field because we will consume the new background color value in BackgroundColor_Changed handler by assigning it to the rectangle object.
-        public readonly PrivatelyBindablePropertyWithEmptyValue<Color> BackgroundColor;
+        public PrivatelyBindablePropertyWithEmptyValue<Color> BackgroundColor { get; }
 
         // Parent property for inherited properties system.
-        public readonly PrivatelyBindableProperty<YourClass> Parent;
+        public PrivatelyBindableProperty<YourClass> Parent { get; }
 
         // Our example inherited properties system also has skinning support.
-        public readonly PrivatelyBindableProperty<Skin> Skin;
+        public PrivatelyBindableProperty<Skin> Skin { get; }
 
         // Delegates to control the bindable property.
         readonly PrivatelyBindableProperty<Color>.BindDelegates BackgroundColor_BindDelegates;

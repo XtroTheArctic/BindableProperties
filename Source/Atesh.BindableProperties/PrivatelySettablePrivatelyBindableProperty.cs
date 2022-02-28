@@ -5,6 +5,7 @@ namespace Atesh.BindableProperties
 {
     public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
     {
+        public object Owner { get; }
         public PrivatelySettablePrivatelyBindableProperty<T> BoundProperty { get; private set; }
         public bool IsMonitoringWithoutBinding { get; private set; }
 
@@ -20,8 +21,6 @@ namespace Atesh.BindableProperties
         }
         
         event ChangedEventHandler<T> Changed_;
-
-        public readonly object Owner;
 
         readonly Action BinderCallback;
         readonly CoerceValueDelegate CoerceValueCallback;

@@ -28,7 +28,7 @@ namespace PrivatelySettablePrivatelyBindablePropertyExample
         // In this example, the height property is defined as a PrivatelySettablePrivatelyBindableProperty.
         // As the name of PrivatelySettablePrivatelyBindableProperty class implies, only its owner can set its value or bind it to another target.
         // There are alternative bindable property types such as PrivatelyBindableProperty and BindableProperty if you want it to be settable or bindable by other classes.
-        public readonly PrivatelySettablePrivatelyBindableProperty<int> Height;
+        public PrivatelySettablePrivatelyBindableProperty<int> Height { get; }
 
         // Second, you must define required delegate containers. Please see the comments in class constructor for more info.
         // Keep these as private since you are defining a PrivatelySettablePrivatelyBindableProperty.

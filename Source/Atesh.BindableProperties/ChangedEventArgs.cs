@@ -2,8 +2,8 @@
 {
     public class ChangedEventArgs<T>
     {
-        public readonly bool IsEmpty;
-        public readonly T Value;
+        public bool IsEmpty { get; }
+        public T Value { get; }
 
         public ChangedEventArgs(bool IsEmpty, T Value)
         {

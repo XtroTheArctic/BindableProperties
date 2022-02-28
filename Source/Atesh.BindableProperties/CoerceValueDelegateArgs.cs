@@ -2,7 +2,7 @@
 {
     public class CoerceValueDelegateArgs<T>
     {
-        public bool IsEmpty;
-        public T Value;
+        public bool IsEmpty { get; set; }
+        public T Value { get; set; }
     }
 }

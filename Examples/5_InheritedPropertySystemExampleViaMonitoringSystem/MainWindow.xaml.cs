@@ -8,12 +8,12 @@ namespace InheritedPropertySystemExampleViaMonitoringSystem
 {
     public partial class MainWindow
     {
-        public readonly YourClass ObjectA;
-        public readonly YourClass ObjectB;
-        public readonly YourClass ObjectC;
+        public YourClass ObjectA { get; }
+        public YourClass ObjectB { get; }
+        public YourClass ObjectC { get; }
 
-        public readonly Skin Skin1 = new Skin();
-        public readonly Skin Skin2 = new Skin();
+        public Skin Skin1 { get; } = new Skin();
+        public Skin Skin2 { get; } = new Skin();
 
         public MainWindow()
         {
