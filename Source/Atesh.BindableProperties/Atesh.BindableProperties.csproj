@@ -22,6 +22,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <NoWarn />
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 </Project>

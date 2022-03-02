@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Atesh.BindableProperties
+namespace Atesh.BindableProperties;
+
+public abstract class BindablePropertyBase
 {
-    public abstract class BindablePropertyBase
-    {
-        internal Action Changed;
-    }
+    internal Action Changed;
 }

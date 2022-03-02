@@ -3,254 +3,253 @@
 using System;
 using NUnit.Framework;
 
-namespace Atesh.BindableProperties.Test
+namespace Atesh.BindableProperties.Test;
+
+[TestFixture]
+public class BindablePropertyTests
 {
-    [TestFixture]
-    public class BindablePropertyTests
+    [Test]
+    public void Constructors_ParameterValidation()
     {
-        [Test]
-        public void Constructors_ParameterValidation()
+        var E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null));
+        Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
+
+        E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null, 0));
+        Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
+    }
+
+    [Test]
+    public void Constructor_StoresCorrectValue()
+    {
+        const int Value = 1;
+        var Property = new BindableProperty<int>(this, Value);
+        Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
+        Assert.False(IsEmpty);
+    }
+
+    [Test]
+    public void Bind_ParameterValidation()
+    {
+        var Property = new BindableProperty<int>(this);
+
+        var E = Assert.Throws<ArgumentNullException>(() => Property.Bind(null));
+        Assert.AreEqual(E.ParamName, "Target");
+
+        var E2 = Assert.Throws<ArgumentException>(() => Property.Bind(Property));
+        Assert.AreEqual(E2.ParamName, "Target");
+        Assert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
+    }
+
+    [Test]
+    public void Bind_Binds()
+    {
+        var Property = new BindableProperty<int>(this);
+        var TargetProperty = new BindableProperty<int>(this);
+
+        Assert.Null(Property.BoundProperty);
+        Property.Bind(TargetProperty);
+        Assert.NotNull(Property.BoundProperty);
+    }
+
+    [Test]
+    public void Bind_RaisesChangedEventWithCorrectParameters()
+    {
+        const int ValueOfTarget = 3;
+        var PropertyValueReceivedOnce = false;
+
+        var Property = new BindableProperty<int>(this);
+        var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
+
+        Property.Changed += (Sender, Args) =>
         {
-            var E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null));
-            Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
-
-            E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null, 0));
-            Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
-        }
-
-        [Test]
-        public void Constructor_StoresCorrectValue()
-        {
-            const int Value = 1;
-            var Property = new BindableProperty<int>(this, Value);
-            Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
-            Assert.False(IsEmpty);
-        }
-
-        [Test]
-        public void Bind_ParameterValidation()
-        {
-            var Property = new BindableProperty<int>(this);
-
-            var E = Assert.Throws<ArgumentNullException>(() => Property.Bind(null));
-            Assert.AreEqual(E.ParamName, "Target");
-
-            var E2 = Assert.Throws<ArgumentException>(() => Property.Bind(Property));
-            Assert.AreEqual(E2.ParamName, "Target");
-            Assert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
-        }
-
-        [Test]
-        public void Bind_Binds()
-        {
-            var Property = new BindableProperty<int>(this);
-            var TargetProperty = new BindableProperty<int>(this);
-
-            Assert.Null(Property.BoundProperty);
-            Property.Bind(TargetProperty);
-            Assert.NotNull(Property.BoundProperty);
-        }
-
-        [Test]
-        public void Bind_RaisesChangedEventWithCorrectParameters()
-        {
-            const int ValueOfTarget = 3;
-            var PropertyValueReceivedOnce = false;
-
-            var Property = new BindableProperty<int>(this);
-            var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
-
-            Property.Changed += (Sender, Args) =>
+            if (PropertyValueReceivedOnce)
             {
-                if (PropertyValueReceivedOnce)
-                {
-                    Assert.AreEqual(Sender, Property);
-                    Assert.AreEqual(Args.Value, ValueOfTarget);
-                    Assert.False(Args.IsEmpty);
-                    Assert.Pass();
-                }
-                else PropertyValueReceivedOnce = true;
-            };
-
-            Property.Bind(TargetProperty);
-            Assert.Fail();
-        }
-
-        [Test]
-        public void Unbind_Unbinds()
-        {
-            var Property = new BindableProperty<int>(this);
-            var TargetProperty = new BindableProperty<int>(this);
-
-            Property.Bind(TargetProperty);
-            Property.Unbind();
-            Assert.Null(Property.BoundProperty);
-        }
-
-        [Test]
-        public void Unbind_ThrowsExceptionWhileUnbound()
-        {
-            var Property = new BindableProperty<int>(this);
-
-            var E = Assert.Throws<InvalidOperationException>(() => Property.Unbind());
-            Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
-        }
-
-        [Test]
-        public void Unbind_DoesNotRaiseChangedEvent()
-        {
-            const int ValueOfTarget = 3;
-            var PropertyValueReceivedOnce = false;
-
-            var Property = new BindableProperty<int>(this);
-            var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
-
-            Property.Bind(TargetProperty);
-
-            Property.Changed += (Sender, Args) =>
-            {
-                if (PropertyValueReceivedOnce) Assert.Fail();
-                else PropertyValueReceivedOnce = true;
-            };
-
-            Property.Unbind();
-        }
-
-        [Test]
-        public void BindDelegate_TwoWayBinding()
-        {
-            var Counter = 0;
-            var ValueA = 0;
-            var ValueB = 0;
-
-            void Property_ChangedA(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
-            {
-                // ReSharper disable once AccessToModifiedClosure
-                Counter++;
-                ValueA = Args.Value;
+                Assert.AreEqual(Sender, Property);
+                Assert.AreEqual(Args.Value, ValueOfTarget);
+                Assert.False(Args.IsEmpty);
+                Assert.Pass();
             }
+            else PropertyValueReceivedOnce = true;
+        };
 
-            void Property_ChangedB(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
-            {
-                // ReSharper disable once AccessToModifiedClosure
-                Counter++;
-                ValueB = Args.Value;
-            }
+        Property.Bind(TargetProperty);
+        Assert.Fail();
+    }
 
-            var PropertyA = new BindableProperty<int>(this);
-            var PropertyB = new BindableProperty<int>(this);
+    [Test]
+    public void Unbind_Unbinds()
+    {
+        var Property = new BindableProperty<int>(this);
+        var TargetProperty = new BindableProperty<int>(this);
 
-            PropertyA.Changed += Property_ChangedA;
-            PropertyB.Changed += Property_ChangedB;
+        Property.Bind(TargetProperty);
+        Property.Unbind();
+        Assert.Null(Property.BoundProperty);
+    }
 
-            PropertyA.Bind(PropertyB, true);
+    [Test]
+    public void Unbind_ThrowsExceptionWhileUnbound()
+    {
+        var Property = new BindableProperty<int>(this);
 
-            Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
-            Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
-            Assert.AreEqual(2, Counter);
+        var E = Assert.Throws<InvalidOperationException>(() => Property.Unbind());
+        Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
+    }
 
-            Counter = 0;
-            PropertyA.SetValue(3);
-            Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+    [Test]
+    public void Unbind_DoesNotRaiseChangedEvent()
+    {
+        const int ValueOfTarget = 3;
+        var PropertyValueReceivedOnce = false;
 
-            Assert.AreEqual(2, Counter);
-            Assert.AreEqual(3, ValueA);
-            Assert.AreEqual(3, ValueB);
+        var Property = new BindableProperty<int>(this);
+        var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
 
-            Counter = 0;
-            PropertyB.SetValue(5);
-            Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        Property.Bind(TargetProperty);
 
-            Assert.AreEqual(2, Counter);
-            Assert.AreEqual(5, ValueA);
-            Assert.AreEqual(5, ValueB);
-        }
-
-        [Test]
-        public void StartMonitoring_StartsMonitoring()
+        Property.Changed += delegate
         {
-            var Property = new BindableProperty<int>(this);
+            if (PropertyValueReceivedOnce) Assert.Fail();
+            else PropertyValueReceivedOnce = true;
+        };
 
-            Assert.False(Property.IsMonitoringWithoutBinding);
-            Property.StartMonitoring();
-            Assert.True(Property.IsMonitoringWithoutBinding);
-        }
+        Property.Unbind();
+    }
 
-        [Test]
-        public void StartMonitoring_ThrowsExceptionWhileMonitoringWithoutBinding()
+    [Test]
+    public void BindDelegate_TwoWayBinding()
+    {
+        var Counter = 0;
+        var ValueA = 0;
+        var ValueB = 0;
+
+        void Property_ChangedA(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
-            var Property = new BindableProperty<int>(this);
-
-            Property.StartMonitoring();
-
-            var E = Assert.Throws<InvalidOperationException>(() => Property.StartMonitoring());
-            Assert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
+            // ReSharper disable once AccessToModifiedClosure
+            Counter++;
+            ValueA = Args.Value;
         }
 
-        [Test]
-        public void StopMonitoring_StopsMonitoring()
+        void Property_ChangedB(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
-            var Property = new BindableProperty<int>(this);
-
-            Property.StartMonitoring();
-            Property.StopMonitoring();
-            Assert.False(Property.IsMonitoringWithoutBinding);
+            // ReSharper disable once AccessToModifiedClosure
+            Counter++;
+            ValueB = Args.Value;
         }
 
-        [Test]
-        public void StopMonitoring_ThrowsExceptionWhileNotMonitoringWithoutBinding()
-        {
-            var Property = new BindableProperty<int>(this);
+        var PropertyA = new BindableProperty<int>(this);
+        var PropertyB = new BindableProperty<int>(this);
 
-            var E = Assert.Throws<InvalidOperationException>(() => Property.StopMonitoring());
-            Assert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
-        }
+        PropertyA.Changed += Property_ChangedA;
+        PropertyB.Changed += Property_ChangedB;
 
-        [Test]
-        public void Monitor_ParameterValidation()
-        {
-            var Property = new BindableProperty<int>(this);
+        PropertyA.Bind(PropertyB, true);
 
-            var E = Assert.Throws<ArgumentNullException>(() => Property.Monitor(null));
-            Assert.AreEqual(E.ParamName, "Target");
+        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        Assert.AreEqual(2, Counter);
 
-            var E2 = Assert.Throws<ArgumentException>(() => Property.Monitor(Property));
-            Assert.AreEqual(E2.ParamName, "Target");
-            Assert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
-        }
+        Counter = 0;
+        PropertyA.SetValue(3);
+        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
 
-        [Test]
-        public void Monitor_Monitors()
-        {
-            var Property = new BindableProperty<int>(this);
-            var MonitoredProperty = new BindableProperty<DateTime>(this);
+        Assert.AreEqual(2, Counter);
+        Assert.AreEqual(3, ValueA);
+        Assert.AreEqual(3, ValueB);
 
-            Property.Monitor(MonitoredProperty);
-        }
+        Counter = 0;
+        PropertyB.SetValue(5);
+        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
 
-        [Test]
-        public void Monitor_ThrowsExceptionWhileBound()
-        {
-            var Property = new BindableProperty<int>(this);
-            var TargetProperty = new BindableProperty<int>(this);
-            var MonitoredProperty = new BindableProperty<DateTime>(this);
+        Assert.AreEqual(2, Counter);
+        Assert.AreEqual(5, ValueA);
+        Assert.AreEqual(5, ValueB);
+    }
 
-            Property.Bind(TargetProperty);
+    [Test]
+    public void StartMonitoring_StartsMonitoring()
+    {
+        var Property = new BindableProperty<int>(this);
 
-            var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
-            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
-        }
+        Assert.False(Property.IsMonitoringWithoutBinding);
+        Property.StartMonitoring();
+        Assert.True(Property.IsMonitoringWithoutBinding);
+    }
 
-        [Test]
-        public void Monitor_ThrowsExceptionWhileMonitoringWithoutBinding()
-        {
-            var Property = new BindableProperty<int>(this);
-            var MonitoredProperty = new BindableProperty<DateTime>(this);
+    [Test]
+    public void StartMonitoring_ThrowsExceptionWhileMonitoringWithoutBinding()
+    {
+        var Property = new BindableProperty<int>(this);
 
-            Property.StartMonitoring();
+        Property.StartMonitoring();
 
-            var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
-            Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
-        }
+        var E = Assert.Throws<InvalidOperationException>(() => Property.StartMonitoring());
+        Assert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
+    }
+
+    [Test]
+    public void StopMonitoring_StopsMonitoring()
+    {
+        var Property = new BindableProperty<int>(this);
+
+        Property.StartMonitoring();
+        Property.StopMonitoring();
+        Assert.False(Property.IsMonitoringWithoutBinding);
+    }
+
+    [Test]
+    public void StopMonitoring_ThrowsExceptionWhileNotMonitoringWithoutBinding()
+    {
+        var Property = new BindableProperty<int>(this);
+
+        var E = Assert.Throws<InvalidOperationException>(() => Property.StopMonitoring());
+        Assert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
+    }
+
+    [Test]
+    public void Monitor_ParameterValidation()
+    {
+        var Property = new BindableProperty<int>(this);
+
+        var E = Assert.Throws<ArgumentNullException>(() => Property.Monitor(null));
+        Assert.AreEqual(E.ParamName, "Target");
+
+        var E2 = Assert.Throws<ArgumentException>(() => Property.Monitor(Property));
+        Assert.AreEqual(E2.ParamName, "Target");
+        Assert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
+    }
+
+    [Test]
+    public void Monitor_Monitors()
+    {
+        var Property = new BindableProperty<int>(this);
+        var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+        Property.Monitor(MonitoredProperty);
+    }
+
+    [Test]
+    public void Monitor_ThrowsExceptionWhileBound()
+    {
+        var Property = new BindableProperty<int>(this);
+        var TargetProperty = new BindableProperty<int>(this);
+        var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+        Property.Bind(TargetProperty);
+
+        var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
+        Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
+    }
+
+    [Test]
+    public void Monitor_ThrowsExceptionWhileMonitoringWithoutBinding()
+    {
+        var Property = new BindableProperty<int>(this);
+        var MonitoredProperty = new BindableProperty<DateTime>(this);
+
+        Property.StartMonitoring();
+
+        var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
+        Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
     }
 }

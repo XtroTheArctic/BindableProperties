@@ -1,6 +1,5 @@
-﻿namespace BindablePropertyExample
+﻿namespace BindablePropertyExample;
+
+public partial class App
 {
-    public partial class App
-    {
-    }
 }

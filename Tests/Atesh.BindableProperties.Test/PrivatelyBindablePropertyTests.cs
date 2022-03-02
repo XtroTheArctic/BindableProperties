@@ -3,77 +3,76 @@
 using System;
 using NUnit.Framework;
 
-namespace Atesh.BindableProperties.Test
+namespace Atesh.BindableProperties.Test;
+
+[TestFixture]
+public class PrivatelyBindablePropertyTests
 {
-    [TestFixture]
-    public class PrivatelyBindablePropertyTests
+    [Test]
+    public void Constructors_ParameterValidation()
     {
-        [Test]
-        public void Constructors_ParameterValidation()
+        var E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _));
+        Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
+
+        E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _, 0));
+        Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
+    }
+
+    [Test]
+    public void Constructor_StoresCorrectValue()
+    {
+        const int Value = 1;
+        var Property = new PrivatelyBindableProperty<int>(this, out _, Value);
+        Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
+        Assert.False(IsEmpty);
+    }
+
+    [Test]
+    public void SetValue_DoesNotRaiseChangedEventWithSameValue()
+    {
+        var PropertyValueReceivedOnce = false;
+
+        var Property = new PrivatelyBindableProperty<int>(this, out _);
+        Property.Changed += delegate
         {
-            var E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _));
-            Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
+            if (PropertyValueReceivedOnce) Assert.Fail();
+            else PropertyValueReceivedOnce = true;
+        };
 
-            E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _, 0));
-            Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
-        }
+        Property.SetValue(default);
+    }
 
-        [Test]
-        public void Constructor_StoresCorrectValue()
+    [Test]
+    public void SetValue_RaisesChangedEventWithCorrectParameters()
+    {
+        const int NewValue = 1;
+        var PropertyValueReceivedOnce = false;
+
+        var Property = new PrivatelyBindableProperty<int>(this, out _);
+        Property.Changed += (Sender, Args) =>
         {
-            const int Value = 1;
-            var Property = new PrivatelyBindableProperty<int>(this, out _, Value);
-            Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
-            Assert.False(IsEmpty);
-        }
-
-        [Test]
-        public void SetValue_DoesNotRaiseChangedEventWithSameValue()
-        {
-            var PropertyValueReceivedOnce = false;
-
-            var Property = new PrivatelyBindableProperty<int>(this, out _);
-            Property.Changed += (Sender, Args) =>
+            if (PropertyValueReceivedOnce)
             {
-                if (PropertyValueReceivedOnce) Assert.Fail();
-                else PropertyValueReceivedOnce = true;
-            };
+                Assert.AreEqual(Sender, Property);
+                Assert.AreEqual(Args.Value, NewValue);
+                Assert.False(Args.IsEmpty);
+                Assert.Pass();
+            }
+            else PropertyValueReceivedOnce = true;
+        };
 
-            Property.SetValue(default);
-        }
+        Property.SetValue(NewValue);
+        Assert.Fail();
+    }
 
-        [Test]
-        public void SetValue_RaisesChangedEventWithCorrectParameters()
-        {
-            const int NewValue = 1;
-            var PropertyValueReceivedOnce = false;
+    [Test]
+    public void SetValue_Unbinds()
+    {
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
+        var TargetProperty = new BindableProperty<int>(this);
 
-            var Property = new PrivatelyBindableProperty<int>(this, out _);
-            Property.Changed += (Sender, Args) =>
-            {
-                if (PropertyValueReceivedOnce)
-                {
-                    Assert.AreEqual(Sender, Property);
-                    Assert.AreEqual(Args.Value, NewValue);
-                    Assert.False(Args.IsEmpty);
-                    Assert.Pass();
-                }
-                else PropertyValueReceivedOnce = true;
-            };
-
-            Property.SetValue(NewValue);
-            Assert.Fail();
-        }
-
-        [Test]
-        public void SetValue_Unbinds()
-        {
-            var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
-            var TargetProperty = new BindableProperty<int>(this);
-
-            BindDelegates.Bind(TargetProperty);
-            SetDelegates.SetValue(0);
-            Assert.Null(Property.BoundProperty);
-        }
+        BindDelegates.Bind(TargetProperty);
+        SetDelegates.SetValue(0);
+        Assert.Null(Property.BoundProperty);
     }
 }

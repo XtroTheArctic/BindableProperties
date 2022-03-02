@@ -1,6 +1,5 @@
-﻿namespace InheritedPropertySystemExampleViaMonitoringSystem
+﻿namespace InheritedPropertySystemExampleViaMonitoringSystem;
+
+public partial class App
 {
-    public partial class App
-    {
-    }
 }
