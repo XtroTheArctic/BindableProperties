@@ -14,7 +14,7 @@ public partial class MainWindow
         Tomato = new(nameof(Tomato));
         Apple = new(nameof(Apple));
 
-        ToggleBindingButtons(Apple.Height.BoundProperty != null);
+        ToggleBindingButtons(Apple.Height.BoundProperty is { });
     }
 
     void AppleGrowButton_Click(object Sender, RoutedEventArgs E)

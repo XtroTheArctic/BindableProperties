@@ -56,7 +56,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
     void SetValue(T Value)
     {
-        if (BoundProperty != null && !TwoWay) Unbind();
+        if (BoundProperty is { } && !TwoWay) Unbind();
 
         if (!IsEmpty && ValueEquals(Value)) return;
 
@@ -89,7 +89,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
     void ClearValue()
     {
-        if (BoundProperty != null) Unbind();
+        if (BoundProperty is { }) Unbind();
 
         if (IsEmpty) return;
 
@@ -114,7 +114,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
 
         if (IsMonitoringWithoutBinding) StopMonitoring();
-        else if (BoundProperty != null) Unbind();
+        else if (BoundProperty is { }) Unbind();
 
         StartMonitoring();
         IsMonitoringWithoutBinding = false;
@@ -152,14 +152,14 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
     {
         if (Target == null) throw new ArgumentNullException(nameof(Target));
         if (Target == this) throw new ArgumentException(Strings.PropertyCanNotMonitorItself, nameof(Target));
-        if (IsMonitoringWithoutBinding || BoundProperty != null) throw new InvalidOperationException(Strings.PropertyCanNotMonitorAfterMonitoringStarted);
+        if (IsMonitoringWithoutBinding || BoundProperty is { }) throw new InvalidOperationException(Strings.PropertyCanNotMonitorAfterMonitoringStarted);
 
         MonitoredProperties.Add(Target);
     }
 
     void StartMonitoring()
     {
-        if (IsMonitoringWithoutBinding || BoundProperty != null) throw new InvalidOperationException(Strings.MonitoringAlreadyStarted);
+        if (IsMonitoringWithoutBinding || BoundProperty is { }) throw new InvalidOperationException(Strings.MonitoringAlreadyStarted);
 
         foreach (var MonitoredProperty in MonitoredProperties)
         {

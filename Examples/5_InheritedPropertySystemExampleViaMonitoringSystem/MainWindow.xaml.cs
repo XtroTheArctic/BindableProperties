@@ -90,7 +90,7 @@ public partial class MainWindow
             BackgroundColorRectangle = Skin2BackgroundColorRectangle;
         }
 
-        if (Sender.BoundProperty != null || Args.IsEmpty)
+        if (Sender.BoundProperty is { } || Args.IsEmpty)
         {
             EmptyLabel.Visibility = Visibility.Visible;
             BackgroundColorRectangle.Visibility = Visibility.Hidden;

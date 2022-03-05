@@ -18,7 +18,7 @@ public partial class MainWindow
         Apple.Height.Changed += AppleHeight_Changed;
         Tomato.Height.Changed += TomatoHeight_Changed;
 
-        ToggleBindingButtons(Apple.Height.BoundProperty != null);
+        ToggleBindingButtons(Apple.Height.BoundProperty is { });
     }
 
     void AppleHeight_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => AppleHeightLabel.Content = Args.Value;

@@ -65,19 +65,19 @@ public class YourClass
     {
         if (BackgroundColor.BoundProperty == null) UnboundBackgroundColorIsEmpty = Args.IsEmpty;
 
-        var BoundPropertyIsBoundToo = BackgroundColor.BoundProperty?.BoundProperty != null;
+        var BoundPropertyIsBoundToo = BackgroundColor.BoundProperty is { BoundProperty: { } };
         if (BoundPropertyIsBoundToo) BackgroundColor_BindDelegates.Unbind();
 
         if (Args.IsEmpty)
         {
             if (!ExecutingBindBackgroundColor)
             {
-                if (BackgroundColor.BoundProperty != null) BackgroundColor_BindDelegates.Unbind();
+                if (BackgroundColor.BoundProperty is { }) BackgroundColor_BindDelegates.Unbind();
 
                 BindBackgroundColor();
 
                 // If got bound above
-                if (BackgroundColor.BoundProperty != null) return;
+                if (BackgroundColor.BoundProperty is { }) return;
             }
 
             Rectangle.Fill = new SolidColorBrush(DefaultBackgroundColor);
@@ -127,7 +127,7 @@ public class YourClass
 
                 var P_Skin = P.Skin_;
 
-                if (P_Skin != null)
+                if (P_Skin is { })
                 {
                     // Second, we check the BackgroundColor of the skin of current parent step.
                     if (!P_Skin.BackgroundColorIsEmpty)
