@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -35,6 +36,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrivatelySettableBindablePropertyWithEmptyValueTests.cs" />
+    <Compile Include="PrivatelySettableBindablePropertyTests.cs" />
     <Compile Include="InheritedPropertySystemExampleTests.cs" />
     <Compile Include="BindablePropertyTests.cs" />
     <Compile Include="BindablePropertyWithEmptyValueTests.cs" />

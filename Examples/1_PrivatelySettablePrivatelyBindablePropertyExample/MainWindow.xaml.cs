@@ -1,58 +1,57 @@
 ﻿using System.Windows;
 
-namespace PrivatelySettablePrivatelyBindablePropertyExample
+namespace PrivatelySettablePrivatelyBindablePropertyExample;
+
+public partial class MainWindow
 {
-    public partial class MainWindow
+    readonly YourClass Apple;
+    readonly YourClass Tomato;
+
+    public MainWindow()
     {
-        readonly YourClass Apple;
-        readonly YourClass Tomato;
+        InitializeComponent();
 
-        public MainWindow()
-        {
-            InitializeComponent();
+        Tomato = new(nameof(Tomato));
+        Apple = new(nameof(Apple));
 
-            Tomato = new YourClass(nameof(Tomato));
-            Apple = new YourClass(nameof(Apple));
+        ToggleBindingButtons(Apple.Height.BoundProperty is { });
+    }
 
-            ToggleBindingButtons(Apple.Height.BoundProperty != null);
-        }
+    void AppleGrowButton_Click(object Sender, RoutedEventArgs E)
+    {
+        Apple.GrowRandomly();
 
-        void AppleGrowButton_Click(object Sender, RoutedEventArgs E)
-        {
-            Apple.GrowRandomly();
+        ToggleBindingButtons(false);
+    }
 
-            ToggleBindingButtons(false);
-        }
+    void AppleDieButton_Click(object Sender, RoutedEventArgs E)
+    {
+        Apple.Die();
 
-        void AppleDieButton_Click(object Sender, RoutedEventArgs E)
-        {
-            Apple.Die();
+        ToggleBindingButtons(false);
+    }
 
-            ToggleBindingButtons(false);
-        }
+    void TomatoGrowButton_Click(object Sender, RoutedEventArgs E) => Tomato.GrowRandomly();
 
-        void TomatoGrowButton_Click(object Sender, RoutedEventArgs E) => Tomato.GrowRandomly();
+    void TomatoDieButton_Click(object Sender, RoutedEventArgs E) => Tomato.Die();
 
-        void TomatoDieButton_Click(object Sender, RoutedEventArgs E) => Tomato.Die();
+    void BindButton_Click(object Sender, RoutedEventArgs E)
+    {
+        Apple.BindHeight(Tomato.Height);
 
-        void BindButton_Click(object Sender, RoutedEventArgs E)
-        {
-            Apple.BindHeight(Tomato.Height);
+        ToggleBindingButtons(true);
+    }
 
-            ToggleBindingButtons(true);
-        }
+    void UnbindButton_Click(object Sender, RoutedEventArgs E)
+    {
+        Apple.UnbindHeight();
 
-        void UnbindButton_Click(object Sender, RoutedEventArgs E)
-        {
-            Apple.UnbindHeight();
+        ToggleBindingButtons(false);
+    }
 
-            ToggleBindingButtons(false);
-        }
-
-        void ToggleBindingButtons(bool IsBound)
-        {
-            BindButton.IsEnabled = !IsBound;
-            UnbindButton.IsEnabled = IsBound;
-        }
+    void ToggleBindingButtons(bool IsBound)
+    {
+        BindButton.IsEnabled = !IsBound;
+        UnbindButton.IsEnabled = IsBound;
     }
 }

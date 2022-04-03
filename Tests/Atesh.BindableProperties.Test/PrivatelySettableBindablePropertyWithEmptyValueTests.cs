@@ -6,23 +6,23 @@ using NUnit.Framework;
 namespace Atesh.BindableProperties.Test;
 
 [TestFixture]
-public class PrivatelyBindablePropertyWithEmptyValueTests
+public class PrivatelySettableBindablePropertyWithEmptyValueTests
 {
     [Test]
     public void Constructors_ParameterValidation()
     {
-        var E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindablePropertyWithEmptyValue<int>(null, out _));
-        Assert.AreEqual(E.ParamName, nameof(PrivatelyBindablePropertyWithEmptyValue<int>.Owner));
+        var E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettableBindablePropertyWithEmptyValue<int>(null, out _));
+        Assert.AreEqual(E.ParamName, nameof(PrivatelySettableBindablePropertyWithEmptyValue<int>.Owner));
 
-        E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindablePropertyWithEmptyValue<int>(null, out _, 0));
-        Assert.AreEqual(E.ParamName, nameof(PrivatelyBindablePropertyWithEmptyValue<int>.Owner));
+        E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettableBindablePropertyWithEmptyValue<int>(null, out _, 0));
+        Assert.AreEqual(E.ParamName, nameof(PrivatelySettableBindablePropertyWithEmptyValue<int>.Owner));
     }
 
     [Test]
     public void Constructor_StoresCorrectValue()
     {
         const int Value = 1;
-        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _, Value);
+        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out _, Value);
         Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
         Assert.False(IsEmpty);
     }
@@ -30,7 +30,7 @@ public class PrivatelyBindablePropertyWithEmptyValueTests
     [Test]
     public void Constructor_StoresEmptyValue()
     {
-        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _, true);
+        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out _, true);
         Property.GetValueVeryExpensively(out var IsEmpty);
         Assert.True(IsEmpty);
     }
@@ -40,14 +40,14 @@ public class PrivatelyBindablePropertyWithEmptyValueTests
     {
         var PropertyValueReceivedOnce = false;
 
-        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _, true);
+        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out var SetDelegates, true);
         Property.Changed += delegate
         {
             if (PropertyValueReceivedOnce) Assert.Fail();
             else PropertyValueReceivedOnce = true;
         };
 
-        Property.ClearValue();
+        SetDelegates.ClearValue();
     }
 
     [Test]
@@ -55,7 +55,7 @@ public class PrivatelyBindablePropertyWithEmptyValueTests
     {
         var PropertyValueReceivedOnce = false;
 
-        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out _);
+        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out var SetDelegates);
         Property.Changed += (Sender, Args) =>
         {
             if (PropertyValueReceivedOnce)
@@ -67,7 +67,7 @@ public class PrivatelyBindablePropertyWithEmptyValueTests
             else PropertyValueReceivedOnce = true;
         };
 
-        Property.ClearValue();
+        SetDelegates.ClearValue();
         Assert.Fail();
     }
 

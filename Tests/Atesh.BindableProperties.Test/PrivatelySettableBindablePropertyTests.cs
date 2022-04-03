@@ -6,23 +6,23 @@ using NUnit.Framework;
 namespace Atesh.BindableProperties.Test;
 
 [TestFixture]
-public class BindablePropertyTests
+public class PrivatelySettableBindablePropertyTests
 {
     [Test]
     public void Constructors_ParameterValidation()
     {
-        var E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null));
-        Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
+        var E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettableBindableProperty<int>(null, out _));
+        Assert.AreEqual(E.ParamName, nameof(PrivatelySettableBindableProperty<int>.Owner));
 
-        E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null, 0));
-        Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
+        E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettableBindableProperty<int>(null, out _, 0));
+        Assert.AreEqual(E.ParamName, nameof(PrivatelySettableBindableProperty<int>.Owner));
     }
 
     [Test]
     public void Constructor_StoresCorrectValue()
     {
         const int Value = 1;
-        var Property = new BindableProperty<int>(this, Value);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _, Value);
         Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
         Assert.False(IsEmpty);
     }
@@ -30,7 +30,7 @@ public class BindablePropertyTests
     [Test]
     public void Bind_ParameterValidation()
     {
-        var Property = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
         var E = Assert.Throws<ArgumentNullException>(() => Property.Bind(null));
         Assert.AreEqual(E.ParamName, "Target");
@@ -43,8 +43,8 @@ public class BindablePropertyTests
     [Test]
     public void Bind_Binds()
     {
-        var Property = new BindableProperty<int>(this);
-        var TargetProperty = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
+        var TargetProperty = new PrivatelySettableBindableProperty<int>(this, out _);
 
         Assert.Null(Property.BoundProperty);
         Property.Bind(TargetProperty);
@@ -57,8 +57,8 @@ public class BindablePropertyTests
         const int ValueOfTarget = 3;
         var PropertyValueReceivedOnce = false;
 
-        var Property = new BindableProperty<int>(this);
-        var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
+        var TargetProperty = new PrivatelySettableBindableProperty<int>(this, out _, ValueOfTarget);
 
         Property.Changed += (Sender, Args) =>
         {
@@ -79,8 +79,8 @@ public class BindablePropertyTests
     [Test]
     public void Unbind_Unbinds()
     {
-        var Property = new BindableProperty<int>(this);
-        var TargetProperty = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
+        var TargetProperty = new PrivatelySettableBindableProperty<int>(this, out _);
 
         Property.Bind(TargetProperty);
         Property.Unbind();
@@ -90,7 +90,7 @@ public class BindablePropertyTests
     [Test]
     public void Unbind_ThrowsExceptionWhileUnbound()
     {
-        var Property = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
         var E = Assert.Throws<InvalidOperationException>(() => Property.Unbind());
         Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
@@ -102,8 +102,8 @@ public class BindablePropertyTests
         const int ValueOfTarget = 3;
         var PropertyValueReceivedOnce = false;
 
-        var Property = new BindableProperty<int>(this);
-        var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
+        var TargetProperty = new PrivatelySettableBindableProperty<int>(this, out _, ValueOfTarget);
 
         Property.Bind(TargetProperty);
 
@@ -137,8 +137,8 @@ public class BindablePropertyTests
             ValueB = Args.Value;
         }
 
-        var PropertyA = new BindableProperty<int>(this);
-        var PropertyB = new BindableProperty<int>(this);
+        var PropertyA = new PrivatelySettableBindableProperty<int>(this, out var SetDelegatesA);
+        var PropertyB = new PrivatelySettableBindableProperty<int>(this, out var SetDelegatesB);
 
         PropertyA.Changed += Property_ChangedA;
         PropertyB.Changed += Property_ChangedB;
@@ -150,7 +150,7 @@ public class BindablePropertyTests
         Assert.AreEqual(2, Counter);
 
         Counter = 0;
-        PropertyA.SetValue(3);
+        SetDelegatesA.SetValue(3);
         Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
 
         Assert.AreEqual(2, Counter);
@@ -158,7 +158,7 @@ public class BindablePropertyTests
         Assert.AreEqual(3, ValueB);
 
         Counter = 0;
-        PropertyB.SetValue(5);
+        SetDelegatesB.SetValue(5);
         Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
 
         Assert.AreEqual(2, Counter);
@@ -169,7 +169,7 @@ public class BindablePropertyTests
     [Test]
     public void StartMonitoring_StartsMonitoring()
     {
-        var Property = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
         Assert.False(Property.IsMonitoringWithoutBinding);
         Property.StartMonitoring();
@@ -179,7 +179,7 @@ public class BindablePropertyTests
     [Test]
     public void StartMonitoring_ThrowsExceptionWhileMonitoringWithoutBinding()
     {
-        var Property = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
         Property.StartMonitoring();
 
@@ -190,7 +190,7 @@ public class BindablePropertyTests
     [Test]
     public void StopMonitoring_StopsMonitoring()
     {
-        var Property = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
         Property.StartMonitoring();
         Property.StopMonitoring();
@@ -200,7 +200,7 @@ public class BindablePropertyTests
     [Test]
     public void StopMonitoring_ThrowsExceptionWhileNotMonitoringWithoutBinding()
     {
-        var Property = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
         var E = Assert.Throws<InvalidOperationException>(() => Property.StopMonitoring());
         Assert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
@@ -209,7 +209,7 @@ public class BindablePropertyTests
     [Test]
     public void Monitor_ParameterValidation()
     {
-        var Property = new BindableProperty<int>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
         var E = Assert.Throws<ArgumentNullException>(() => Property.Monitor(null));
         Assert.AreEqual(E.ParamName, "Target");
@@ -222,8 +222,8 @@ public class BindablePropertyTests
     [Test]
     public void Monitor_Monitors()
     {
-        var Property = new BindableProperty<int>(this);
-        var MonitoredProperty = new BindableProperty<DateTime>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
+        var MonitoredProperty = new PrivatelySettableBindableProperty<DateTime>(this, out _);
 
         Property.Monitor(MonitoredProperty);
     }
@@ -231,9 +231,9 @@ public class BindablePropertyTests
     [Test]
     public void Monitor_ThrowsExceptionWhileBound()
     {
-        var Property = new BindableProperty<int>(this);
-        var TargetProperty = new BindableProperty<int>(this);
-        var MonitoredProperty = new BindableProperty<DateTime>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
+        var TargetProperty = new PrivatelySettableBindableProperty<int>(this, out _);
+        var MonitoredProperty = new PrivatelySettableBindableProperty<DateTime>(this, out _);
 
         Property.Bind(TargetProperty);
 
@@ -244,8 +244,8 @@ public class BindablePropertyTests
     [Test]
     public void Monitor_ThrowsExceptionWhileMonitoringWithoutBinding()
     {
-        var Property = new BindableProperty<int>(this);
-        var MonitoredProperty = new BindableProperty<DateTime>(this);
+        var Property = new PrivatelySettableBindableProperty<int>(this, out _);
+        var MonitoredProperty = new PrivatelySettableBindableProperty<DateTime>(this, out _);
 
         Property.StartMonitoring();
 
