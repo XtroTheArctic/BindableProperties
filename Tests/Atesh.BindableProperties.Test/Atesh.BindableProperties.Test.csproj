@@ -36,6 +36,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PrivatelySettableBindablePropertyWithEmptyValueTests.cs" />
+    <Compile Include="PrivatelySettableBindablePropertyTests.cs" />
     <Compile Include="InheritedPropertySystemExampleTests.cs" />
     <Compile Include="BindablePropertyTests.cs" />
     <Compile Include="BindablePropertyWithEmptyValueTests.cs" />

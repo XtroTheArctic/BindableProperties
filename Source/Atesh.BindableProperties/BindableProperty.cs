@@ -7,9 +7,7 @@ public partial class BindableProperty<T> : PrivatelyBindableProperty<T>
     readonly BindDelegates Delegates;
 
     public BindableProperty(object Owner, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
-
     public BindableProperty(object Owner, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, Value, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
-
     internal BindableProperty(object Owner, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, IsEmpty, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
 
     public void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false) => Delegates.Bind(Target, TwoWay);
