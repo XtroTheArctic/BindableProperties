@@ -119,16 +119,15 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         StartMonitoring();
         IsMonitoringWithoutBinding = false;
 
-        this.TwoWay = TwoWay;
-
-        if (TwoWay)
-        {
-            Target.Bind(this);
-            Target.TwoWay = true;
-        }
-
         BoundProperty = Target;
         BoundProperty.Changed += BoundProperty_Changed;
+
+        this.TwoWay = TwoWay;
+
+        if (!TwoWay) return;
+
+        Target.Bind(this);
+        Target.TwoWay = true;
     }
 
     void Unbind()
