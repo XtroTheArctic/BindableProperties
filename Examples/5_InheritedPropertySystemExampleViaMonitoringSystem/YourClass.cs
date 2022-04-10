@@ -65,7 +65,7 @@ public class YourClass
     {
         if (BackgroundColor.BoundProperty == null) UnboundBackgroundColorIsEmpty = Args.IsEmpty;
 
-        var BoundPropertyIsBoundToo = BackgroundColor.BoundProperty is { BoundProperty: { } };
+        var BoundPropertyIsBoundToo = BackgroundColor.BoundProperty is PrivatelySettablePrivatelyBindableProperty<Color> { BoundProperty: { } };
         if (BoundPropertyIsBoundToo) BackgroundColor_BindDelegates.Unbind();
 
         if (Args.IsEmpty)
