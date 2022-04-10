@@ -231,46 +231,6 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
     }
 
     [Test]
-    public void UnbindDelegate_Unbinds()
-    {
-        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-        var TargetProperty = new BindableProperty<int>(this);
-
-        BindDelegates.Bind(TargetProperty);
-        BindDelegates.Unbind();
-        Assert.Null(Property.BoundProperty);
-    }
-
-    [Test]
-    public void UnbindDelegate_ThrowsExceptionWhileUnbound()
-    {
-        new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-
-        var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.Unbind());
-        Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
-    }
-
-    [Test]
-    public void UnbindDelegate_DoesNotRaiseChangedEvent()
-    {
-        const int ValueOfTarget = 3;
-        var PropertyValueReceivedOnce = false;
-
-        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
-        var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
-
-        BindDelegates.Bind(TargetProperty);
-
-        Property.Changed += delegate
-        {
-            if (PropertyValueReceivedOnce) Assert.Fail();
-            else PropertyValueReceivedOnce = true;
-        };
-
-        BindDelegates.Unbind();
-    }
-
-    [Test]
     public void BindDelegate_TwoWayBinding()
     {
         var Counter = 0;
@@ -318,6 +278,174 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         Assert.AreEqual(2, Counter);
         Assert.AreEqual(5, ValueA);
         Assert.AreEqual(5, ValueB);
+    }
+
+    [Test]
+    public void BindExtended_ParameterValidation()
+    {
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+        var TargetProperty = new BindableProperty<string>(this);
+        var TargetProperty2 = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
+
+        var E = Assert.Throws<ArgumentNullException>(() => BindDelegates.BindExtended<string>(null, null));
+        Assert.AreEqual(E.ParamName, "Target");
+
+        var E2 = Assert.Throws<ArgumentNullException>(() => BindDelegates.BindExtended(TargetProperty, null));
+        Assert.AreEqual(E2.ParamName, "PrimaryConverter");
+
+        Assert.DoesNotThrow(() => BindDelegates.BindExtended(TargetProperty, Convert.ToInt32));
+
+        var E3 = Assert.Throws<ArgumentNullException>(() => BindDelegates.BindExtended(TargetProperty, Convert.ToInt32, true));
+        Assert.AreEqual(E3.ParamName, "SecondaryConverter");
+
+        Assert.DoesNotThrow(() => BindDelegates.BindExtended(TargetProperty2, Convert.ToInt32));
+
+        var E4 = Assert.Throws<ArgumentException>(() => BindDelegates.BindExtended(Property, Convert.ToInt32));
+        Assert.AreEqual(E4.ParamName, "Target");
+        Assert.True(E4.Message.Contains(Strings.PropertyCanNotBindToItself));
+    }
+
+    [Test]
+    public void BindExtended_Binds()
+    {
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+        var TargetProperty = new BindableProperty<string>(this);
+
+        Assert.Null(Property.BoundProperty);
+        BindDelegates.BindExtended(TargetProperty, Convert.ToInt32);
+        Assert.NotNull(Property.BoundProperty);
+    }
+
+    [Test]
+    public void BindExtended_RaisesChangedEventWithCorrectParameters()
+    {
+        const string ValueOfTarget = "3";
+        var PropertyValueReceivedOnce = false;
+
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+        var TargetProperty = new BindableProperty<string>(this, ValueOfTarget);
+
+        Property.Changed += (Sender, Args) =>
+        {
+            if (PropertyValueReceivedOnce)
+            {
+                Assert.AreEqual(Sender, Property);
+                Assert.AreEqual(Args.Value, Convert.ToInt32(ValueOfTarget));
+                Assert.False(Args.IsEmpty);
+                Assert.Pass();
+            }
+            else PropertyValueReceivedOnce = true;
+        };
+
+        BindDelegates.BindExtended(TargetProperty, Convert.ToInt32);
+        Assert.Fail();
+    }
+
+    [Test]
+    public void BindExtended_DoesNotRaiseChangedEventWithSameValue()
+    {
+        var PropertyValueReceivedOnce = false;
+
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+        var TargetProperty = new BindableProperty<string>(this);
+
+        Property.Changed += delegate
+        {
+            if (PropertyValueReceivedOnce) Assert.Fail();
+            else PropertyValueReceivedOnce = true;
+        };
+
+        BindDelegates.BindExtended(TargetProperty, Convert.ToInt32);
+    }
+
+    [Test]
+    public void BindExtended_TwoWayBinding()
+    {
+        var Counter = 0;
+        var ValueA = 0;
+        var ValueB = "0";
+
+        void Property_ChangedA(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        {
+            // ReSharper disable once AccessToModifiedClosure
+            Counter++;
+            ValueA = Args.Value;
+        }
+
+        void Property_ChangedB(PrivatelySettablePrivatelyBindableProperty<string> Sender, ChangedEventArgs<string> Args)
+        {
+            // ReSharper disable once AccessToModifiedClosure
+            Counter++;
+            ValueB = Args.Value;
+        }
+
+        var PropertyA = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegatesA, out var BindDelegatesA);
+        var PropertyB = new PrivatelySettablePrivatelyBindableProperty<string>(this, out var SetDelegatesB, out _, "0");
+
+        PropertyA.Changed += Property_ChangedA;
+        PropertyB.Changed += Property_ChangedB;
+
+        BindDelegatesA.BindExtended(PropertyB, Convert.ToInt32, true, A => A.ToString());
+
+        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        Assert.AreEqual(2, Counter);
+
+        Counter = 0;
+        SetDelegatesA.SetValue(3);
+        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+
+        Assert.AreEqual(2, Counter);
+        Assert.AreEqual(3, ValueA);
+        Assert.AreEqual("3", ValueB);
+
+        Counter = 0;
+        SetDelegatesB.SetValue("5");
+        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+
+        Assert.AreEqual(2, Counter);
+        Assert.AreEqual(5, ValueA);
+        Assert.AreEqual("5", ValueB);
+    }
+
+    [Test]
+    public void UnbindDelegate_Unbinds()
+    {
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+        var TargetProperty = new BindableProperty<int>(this);
+
+        BindDelegates.Bind(TargetProperty);
+        BindDelegates.Unbind();
+        Assert.Null(Property.BoundProperty);
+    }
+
+    [Test]
+    public void UnbindDelegate_ThrowsExceptionWhileUnbound()
+    {
+        new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+
+        var E = Assert.Throws<InvalidOperationException>(() => BindDelegates.Unbind());
+        Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
+    }
+
+    [Test]
+    public void UnbindDelegate_DoesNotRaiseChangedEvent()
+    {
+        const int ValueOfTarget = 3;
+        var PropertyValueReceivedOnce = false;
+
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindDelegates);
+        var TargetProperty = new BindableProperty<int>(this, ValueOfTarget);
+
+        BindDelegates.Bind(TargetProperty);
+
+        Property.Changed += delegate
+        {
+            if (PropertyValueReceivedOnce) Assert.Fail();
+            else PropertyValueReceivedOnce = true;
+        };
+
+        BindDelegates.Unbind();
     }
 
     [Test]

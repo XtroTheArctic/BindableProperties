@@ -23,7 +23,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         }
         remove => Changed_ -= value;
     }
-    
+
     event ChangedEventHandler<T> Changed_;
 
     readonly Action BinderCallback;
@@ -136,7 +136,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         Target.TwoWay = true;
     }
 
-    void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<T, TargetType> PrimaryConverter, bool TwoWay = false, Func<TargetType, T> SecondaryConverter = null)
+    void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<TargetType, T> PrimaryConverter, bool TwoWay = false, Func<T, TargetType> SecondaryConverter = null)
     {
         if (Target == null) throw new ArgumentNullException(nameof(Target));
 #pragma warning disable IDE0016 // Use 'throw' expression
@@ -154,9 +154,21 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         IsMonitoringWithoutBinding = false;
 
         BoundProperty = Target;
-        BoundPropertyValueField = Target.GetType().GetField(nameof(Value));
+        var BoundPropertyType = BoundProperty.GetType();
+
+        while (BoundPropertyType.BaseType != typeof(BindablePropertyBase))
+        {
+            BoundPropertyType = BoundPropertyType.BaseType;
+        }
+
+        BoundPropertyValueField = BoundPropertyType.GetField(nameof(Value), BindingFlags.NonPublic | BindingFlags.Instance);
+
         if (BoundProperty is PrivatelySettablePrivatelyBindableProperty<T> BoundPropertyWithSameType) BoundPropertyWithSameType.Changed += BoundProperty_Changed;
-        else BoundProperty.Changed += BoundPropertyWithDifferentType_Changed;
+        else
+        {
+            BoundProperty.Changed += BoundPropertyWithDifferentType_Changed;
+            BoundPropertyWithDifferentType_Changed(BoundProperty, new ChangedEventArgs<T>(IsEmpty, Value));
+        }
 
         this.TwoWay = TwoWay;
 
@@ -245,15 +257,18 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
     void BoundPropertyWithDifferentType_Changed(object Sender, object Args)
     {
+        // If Sender and BoundProperty aren't the same, ignore this Changed call. The new BoundProperty should call Changed event handler with correct value.
+        if (Sender != BoundProperty) return;
+
         if (BoundProperty.IsEmpty)
         {
             if (!IsEmpty) ClearAndRaise();
         }
         else
         {
-            var BoundValue = BoundPropertyValueField.GetValue(BoundProperty);
+            var BoundValue = (T)Converter.DynamicInvoke(BoundPropertyValueField.GetValue(BoundProperty));
 
-            if (IsEmpty || !Value.Equals(BoundValue)) SetAndRaise((T)Converter.DynamicInvoke(BoundValue));
+            if (IsEmpty || !Equals(Value, BoundValue)) SetAndRaise(BoundValue);
         }
     }
 
@@ -291,7 +306,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
         internal PrivatelySettablePrivatelyBindableProperty<T> Owner;
 
-        public readonly void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<T, TargetType> PrimaryConverter, bool TwoWay = false, Func<TargetType, T> SecondaryConverter = null) => Owner.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
+        public readonly void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<TargetType, T> PrimaryConverter, bool TwoWay = false, Func<T, TargetType> SecondaryConverter = null) => Owner.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
     }
 
     public delegate void BindDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
