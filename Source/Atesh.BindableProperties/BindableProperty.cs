@@ -11,7 +11,8 @@ public partial class BindableProperty<T> : PrivatelyBindableProperty<T>
     internal BindableProperty(object Owner, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, IsEmpty, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
 
     public void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false) => Delegates.Bind(Target, TwoWay);
-    public void Unbind() => Delegates.Unbind();
+    public void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<T, TargetType> PrimaryConverter, bool TwoWay = false, Func<TargetType, T> SecondaryConverter = null) => Delegates.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
+    public new void Unbind() => Delegates.Unbind();
     public void Monitor(BindablePropertyBase Target) => Delegates.Monitor(Target);
     public void StartMonitoring() => Delegates.StartMonitoring();
     public void StopMonitoring() => Delegates.StopMonitoring();
