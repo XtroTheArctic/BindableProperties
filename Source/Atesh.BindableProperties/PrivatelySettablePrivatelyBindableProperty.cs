@@ -251,7 +251,9 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         }
         else
         {
-            if (IsEmpty || !ValueEquals(Args.Value)) SetAndRaise(Args.Value);
+            var BoundValue = Converter == null ? Args.Value : (T)Converter.DynamicInvoke(BoundPropertyValueField.GetValue(BoundProperty));
+
+            if (IsEmpty || !ValueEquals(BoundValue)) SetAndRaise(BoundValue);
         }
     }
 
