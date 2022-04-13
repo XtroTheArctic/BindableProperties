@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using NUnit.Framework;
 using InheritedPropertySystemExampleViaMonitoringSystem;
 
