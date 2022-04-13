@@ -234,7 +234,11 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
     void MonitoredProperty_Changed(object Sender, object Args)
     {
-        if (BoundProperty == null) StopMonitoring();
+        if (BoundProperty == null)
+        {
+            IsMonitoringWithoutBinding = true;
+            StopMonitoring();
+        }
         else Unbind();
 
         BinderCallback?.Invoke();
