@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atesh.BindableProperties.Test", "Tests\Atesh.BindableProperties.Test\Atesh.BindableProperties.Test.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atesh.BindableProperties", "Source\Atesh.BindableProperties\Atesh.BindableProperties.csproj", "{8565D922-A241-42D9-841F-ADACB93DF07B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE1CECD7-D04F-4A76-992B-6D4FF811D7C7}"
@@ -24,13 +22,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4_BindablePropertyExample",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5_InheritedPropertySystemExampleViaMonitoringSystem", "Examples\5_InheritedPropertySystemExampleViaMonitoringSystem\5_InheritedPropertySystemExampleViaMonitoringSystem.csproj", "{57DBD52F-9791-4043-8447-09F7A21A92A2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atesh.BindableProperties.Test", "Tests\Atesh.BindableProperties.Test\Atesh.BindableProperties.Test.csproj", "{EF954B8B-4FD0-4450-8DE4-7DA34A5CA17B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8565D922-A241-42D9-841F-ADACB93DF07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8565D922-A241-42D9-841F-ADACB93DF07B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{773E6028-49EE-4A04-8250-C2CCF01BD180}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,6 +41,8 @@ Global
 		{8004F766-3E01-4C01-9DE3-0244EB520758}.Release|Any CPU.Build.0 = Release|Any CPU
 		{57DBD52F-9791-4043-8447-09F7A21A92A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57DBD52F-9791-4043-8447-09F7A21A92A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF954B8B-4FD0-4450-8DE4-7DA34A5CA17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF954B8B-4FD0-4450-8DE4-7DA34A5CA17B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
