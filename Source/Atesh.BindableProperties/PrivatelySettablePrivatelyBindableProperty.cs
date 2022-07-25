@@ -29,7 +29,6 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
     readonly Action BinderCallback;
     readonly CoerceValueDelegate CoerceValueCallback;
     T Value;
-    DateTime? LastGetValueTime = DateTime.MinValue;
     readonly HashSet<BindablePropertyBase> MonitoredProperties = new();
     Delegate Converter;
     FieldInfo BoundPropertyValueField;
@@ -277,24 +276,6 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
             if (IsEmpty || !Equals(Value, BoundValue)) SetAndRaise(BoundValue);
         }
     }
-
-    public T GetValueVeryExpensively(out bool IsEmpty)
-    {
-        if (LastGetValueTime.HasValue)
-        {
-            var Now = DateTime.Now;
-
-            if ((Now - LastGetValueTime.Value).TotalSeconds < 1) throw new InvalidOperationException(Strings.GetValueMethodIsNotSupposedToBeCalledFrequently);
-
-            LastGetValueTime = Now;
-        }
-
-        IsEmpty = this.IsEmpty;
-
-        return Value;
-    }
-
-    public void DisableGetValueTimeCheckAsALastResort() => LastGetValueTime = null;
 
     public struct SetDelegates
     {

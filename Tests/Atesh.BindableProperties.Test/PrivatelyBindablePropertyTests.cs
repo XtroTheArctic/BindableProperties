@@ -22,8 +22,19 @@ public class PrivatelyBindablePropertyTests
     {
         const int Value = 1;
         var Property = new PrivatelyBindableProperty<int>(this, out _, Value);
-        Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
-        Assert.False(IsEmpty);
+        var PropertyValue = int.MinValue;
+        var PropertyIsEmpty = false;
+        Property.Changed += Property_Changed;
+
+        void Property_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        {
+            Property.Changed -= Property_Changed;
+            PropertyValue = Args.Value;
+            PropertyIsEmpty = Args.IsEmpty;
+        }
+
+        Assert.AreEqual(PropertyValue, Value);
+        Assert.False(PropertyIsEmpty);
     }
 
     [Test]
