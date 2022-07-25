@@ -40,16 +40,35 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
     {
         const int Value = 1;
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, Value);
-        Assert.AreEqual(Property.GetValueVeryExpensively(out var IsEmpty), Value);
-        Assert.False(IsEmpty);
+        var PropertyValue = int.MinValue;
+        var PropertyIsEmpty = false;
+        Property.Changed += Property_Changed;
+
+        void Property_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        {
+            Property.Changed -= Property_Changed;
+            PropertyValue = Args.Value;
+            PropertyIsEmpty = Args.IsEmpty;
+        }
+
+        Assert.AreEqual(PropertyValue, Value);
+        Assert.False(PropertyIsEmpty);
     }
 
     [Test]
     public void Constructor_StoresEmptyValue()
     {
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _, true);
-        Property.GetValueVeryExpensively(out var IsEmpty);
-        Assert.True(IsEmpty);
+        var PropertyIsEmpty = false;
+        Property.Changed += Property_Changed;
+
+        void Property_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        {
+            Property.Changed -= Property_Changed;
+            PropertyIsEmpty = Args.IsEmpty;
+        }
+
+        Assert.True(PropertyIsEmpty);
     }
 
     [Test]
@@ -586,25 +605,5 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
 
         MonitoredProperty.SetValue(DateTime.Now);
         Assert.Fail();
-    }
-
-    [Test]
-    public void GetValueVeryExpensively_ThrowsExceptionWhenCalledFrequently()
-    {
-        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
-
-        Property.GetValueVeryExpensively(out _);
-        var E = Assert.Throws<InvalidOperationException>(() => Property.GetValueVeryExpensively(out _));
-        Assert.AreEqual(Strings.GetValueMethodIsNotSupposedToBeCalledFrequently, E.Message);
-    }
-
-    [Test]
-    public void DisableGetValueTimeCheckAsALastResort_DisablesFrequentGetValueException()
-    {
-        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
-        Property.DisableGetValueTimeCheckAsALastResort();
-
-        Property.GetValueVeryExpensively(out _);
-        Property.GetValueVeryExpensively(out _);
     }
 }
