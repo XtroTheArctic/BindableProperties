@@ -149,14 +149,14 @@ public class BindablePropertyTests
         var E2 = Assert.Throws<ArgumentNullException>(() => Property.BindExtended(TargetProperty, null));
         Assert.AreEqual(E2.ParamName, "PrimaryConverter");
 
-        Assert.DoesNotThrow(() => Property.BindExtended(TargetProperty, Convert.ToInt32));
+        Assert.DoesNotThrow(() => Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value))));
 
-        var E3 = Assert.Throws<ArgumentNullException>(() => Property.BindExtended(TargetProperty, Convert.ToInt32, true));
+        var E3 = Assert.Throws<ArgumentNullException>(() => Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)), true));
         Assert.AreEqual(E3.ParamName, "SecondaryConverter");
 
-        Assert.DoesNotThrow(() => Property.BindExtended(TargetProperty2, Convert.ToInt32));
+        Assert.DoesNotThrow(() => Property.BindExtended(TargetProperty2, X => new(false, Convert.ToInt32(X.Value))));
 
-        var E4 = Assert.Throws<ArgumentException>(() => Property.BindExtended(Property, Convert.ToInt32));
+        var E4 = Assert.Throws<ArgumentException>(() => Property.BindExtended(Property, X => new(false, Convert.ToInt32(X.Value))));
         Assert.AreEqual(E4.ParamName, "Target");
         Assert.True(E4.Message.Contains(Strings.PropertyCanNotBindToItself));
     }
@@ -168,7 +168,7 @@ public class BindablePropertyTests
         var TargetProperty = new BindableProperty<string>(this);
 
         Assert.Null(Property.BoundProperty);
-        Property.BindExtended(TargetProperty, Convert.ToInt32);
+        Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)));
         Assert.NotNull(Property.BoundProperty);
     }
 
@@ -193,7 +193,7 @@ public class BindablePropertyTests
             else PropertyValueReceivedOnce = true;
         };
 
-        Property.BindExtended(TargetProperty, Convert.ToInt32);
+        Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)));
         Assert.Fail();
     }
 
@@ -207,11 +207,13 @@ public class BindablePropertyTests
 
         Property.Changed += delegate
         {
+            // ReSharper disable once AccessToModifiedClosure
             if (PropertyValueReceivedOnce) Assert.Fail();
             else PropertyValueReceivedOnce = true;
         };
 
-        Property.BindExtended(TargetProperty, Convert.ToInt32);
+        PropertyValueReceivedOnce = false;
+        Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)));
     }
 
     [Test]

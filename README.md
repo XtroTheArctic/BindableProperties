@@ -6,6 +6,7 @@ BindableProperties is a class library which provides a bindable properties syste
 
 * Privately settable property class as well as publicly settable one,
 * Ability of binding a property to another property (Both privately and publicly),
+* Ability of binding properties with different types (with the help of a converter callback),
 * Support for empty value,
 * Event based value retrieval instead of on-demand value retrieval(classical way) which becomes repetitive and leads to programming errors,
 * Mechanism of monitoring other properties (with different value types) for auto-rebinding,

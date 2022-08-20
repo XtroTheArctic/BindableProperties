@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Atesh.BindableProperties;
 
@@ -31,7 +30,6 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
     T Value;
     readonly HashSet<BindablePropertyBase> MonitoredProperties = new();
     Delegate Converter;
-    FieldInfo BoundPropertyValueField;
 
     public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null)
     {
@@ -135,7 +133,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         Target.TwoWay = true;
     }
 
-    void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<TargetType, T> PrimaryConverter, bool TwoWay = false, Func<T, TargetType> SecondaryConverter = null)
+    void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<ChangedEventArgs<TargetType>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay = false, Func<ChangedEventArgs<T>, ChangedEventArgs<TargetType>> SecondaryConverter = null)
     {
         if (Target == null) throw new ArgumentNullException(nameof(Target));
 #pragma warning disable IDE0016 // Use 'throw' expression
@@ -160,13 +158,11 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
             BoundPropertyType = BoundPropertyType.BaseType;
         }
 
-        BoundPropertyValueField = BoundPropertyType.GetField(nameof(Value), BindingFlags.NonPublic | BindingFlags.Instance);
-
         if (BoundProperty is PrivatelySettablePrivatelyBindableProperty<T> BoundPropertyWithSameType) BoundPropertyWithSameType.Changed += BoundProperty_Changed;
         else
         {
             BoundProperty.Changed += BoundPropertyWithDifferentType_Changed;
-            BoundPropertyWithDifferentType_Changed(BoundProperty, new ChangedEventArgs<T>(IsEmpty, Value));
+            BoundPropertyWithDifferentType_Changed(BoundProperty, new ChangedEventArgs<TargetType>(BoundProperty.IsEmpty, ((PrivatelySettablePrivatelyBindableProperty<TargetType>)BoundProperty).Value));
         }
 
         this.TwoWay = TwoWay;
@@ -248,15 +244,18 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         // If Sender and BoundProperty aren't the same, ignore this Changed call. The new BoundProperty should call Changed event handler with correct value.
         if (Sender != BoundProperty) return;
 
-        if (Args.IsEmpty)
-        {
-            if (!IsEmpty) ClearAndRaise();
-        }
+        if (Converter is { }) BoundPropertyWithDifferentType_Changed(Sender, Args);
         else
         {
-            var BoundValue = Converter == null ? Args.Value : (T)Converter.DynamicInvoke(BoundPropertyValueField.GetValue(BoundProperty));
-
-            if (IsEmpty || !ValueEquals(BoundValue)) SetAndRaise(BoundValue);
+            if (Args.IsEmpty)
+            {
+                if (!IsEmpty) ClearAndRaise();
+            }
+            else
+            {
+                var NewValue = Args.Value;
+                if (IsEmpty || !ValueEquals(NewValue)) SetAndRaise(NewValue);
+            }
         }
     }
 
@@ -265,15 +264,15 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         // If Sender and BoundProperty aren't the same, ignore this Changed call. The new BoundProperty should call Changed event handler with correct value.
         if (Sender != BoundProperty) return;
 
-        if (BoundProperty.IsEmpty)
+        var ConverterResult = (ChangedEventArgs<T>)Converter.DynamicInvoke(Args);
+
+        if (ConverterResult.IsEmpty)
         {
             if (!IsEmpty) ClearAndRaise();
         }
         else
         {
-            var BoundValue = (T)Converter.DynamicInvoke(BoundPropertyValueField.GetValue(BoundProperty));
-
-            if (IsEmpty || !Equals(Value, BoundValue)) SetAndRaise(BoundValue);
+            if (IsEmpty || !Equals(Value, ConverterResult.Value)) SetAndRaise(ConverterResult.Value);
         }
     }
 
@@ -293,7 +292,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
         internal PrivatelySettablePrivatelyBindableProperty<T> Owner;
 
-        public readonly void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<TargetType, T> PrimaryConverter, bool TwoWay = false, Func<T, TargetType> SecondaryConverter = null) => Owner.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
+        public readonly void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<ChangedEventArgs<TargetType>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay = false, Func<ChangedEventArgs<T>, ChangedEventArgs<TargetType>> SecondaryConverter = null) => Owner.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
     }
 
     public delegate void BindDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
