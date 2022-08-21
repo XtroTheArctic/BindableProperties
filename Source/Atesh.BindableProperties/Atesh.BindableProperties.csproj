@@ -15,6 +15,7 @@
     <PackageProjectUrl>https://bitbucket.org/XtroTheArctic/bindableproperties</PackageProjectUrl>
     <RepositoryUrl>git@bitbucket.org:XtroTheArctic/bindableproperties.git</RepositoryUrl>
     <Description>BindableProperties is a class library which provides a bindable properties system similar to "Microsoft WPF Dependency Properties" and "Xamarin Bindable Properties" systems. The biggest difference of BindableProperties to those systems is that it does NOT depend on any other 3rd party platform or framework such as Microsoft WPF and Xamarin so it can be used by almost any kind of .NET projects.</Description>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
