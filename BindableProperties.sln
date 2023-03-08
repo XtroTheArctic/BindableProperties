@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atesh.BindableProperties", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE1CECD7-D04F-4A76-992B-6D4FF811D7C7}"
 	ProjectSection(SolutionItems) = preProject
+		GlobalSuppressions.cs = GlobalSuppressions.cs
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -24,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4_BindablePropertyExample",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "5_InheritedPropertySystemExampleViaMonitoringSystem", "Examples\5_InheritedPropertySystemExampleViaMonitoringSystem\5_InheritedPropertySystemExampleViaMonitoringSystem.csproj", "{9E58D5A2-973A-4A22-90D8-1E108D79F485}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5_InheritedPropertySystemExampleViaMonitoringSystem.Test", "Tests\5_InheritedPropertySystemExampleViaMonitoringSystem.Test\5_InheritedPropertySystemExampleViaMonitoringSystem.Test.csproj", "{1313AB47-423B-4C64-8924-7F670481D4CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "5_InheritedPropertySystemExampleViaMonitoringSystem.Test", "Tests\5_InheritedPropertySystemExampleViaMonitoringSystem.Test\5_InheritedPropertySystemExampleViaMonitoringSystem.Test.csproj", "{1313AB47-423B-4C64-8924-7F670481D4CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4A2F554F-A357-473A-BD3C-151B77A856AD}"
 EndProject
