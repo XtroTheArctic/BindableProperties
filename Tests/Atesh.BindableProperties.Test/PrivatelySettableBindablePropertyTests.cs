@@ -26,7 +26,7 @@ public class PrivatelySettableBindablePropertyTests
         var PropertyIsEmpty = false;
         Property.Changed += Property_Changed;
 
-        void Property_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        void Property_Changed(IBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
             Property.Changed -= Property_Changed;
             PropertyValue = Args.Value;
@@ -93,14 +93,14 @@ public class PrivatelySettableBindablePropertyTests
         var ValueA = 0;
         var ValueB = 0;
 
-        void Property_ChangedA(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        void Property_ChangedA(IBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
             // ReSharper disable once AccessToModifiedClosure
             Counter++;
             ValueA = Args.Value;
         }
 
-        void Property_ChangedB(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        void Property_ChangedB(IBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
             // ReSharper disable once AccessToModifiedClosure
             Counter++;

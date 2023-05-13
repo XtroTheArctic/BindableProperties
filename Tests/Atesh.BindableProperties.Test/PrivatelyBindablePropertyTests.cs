@@ -26,7 +26,7 @@ public class PrivatelyBindablePropertyTests
         var PropertyIsEmpty = false;
         Property.Changed += Property_Changed;
 
-        void Property_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args)
+        void Property_Changed(IBindableProperty<int> Sender, ChangedEventArgs<int> Args)
         {
             Property.Changed -= Property_Changed;
             PropertyValue = Args.Value;

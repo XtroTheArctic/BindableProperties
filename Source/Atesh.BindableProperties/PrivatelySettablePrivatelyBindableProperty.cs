@@ -3,16 +3,28 @@ using System.Collections.Generic;
 
 namespace Atesh.BindableProperties;
 
-public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
+public class PrivatelySettablePrivatelyBindableProperty<T> : IBindableProperty<T>
 {
     public object Owner { get; }
-    public BindablePropertyBase BoundProperty { get; private set; }
+    public IBindableProperty BoundProperty { get; private set; }
     public bool IsMonitoringWithoutBinding { get; private set; }
 
-    protected internal override bool IsEmpty { get; set; }
-    protected internal override bool TwoWay { get; set; }
+    protected internal bool IsEmpty
+    {
+        get => ((IBindableProperty)this).IsEmpty;
+        set => ((IBindableProperty)this).IsEmpty = value;
+    }
+    
+    protected internal bool TwoWay
+    {
+        get => ((IBindableProperty)this).TwoWay;
+        set => ((IBindableProperty)this).TwoWay = value;
+    }
+    
+    bool IBindableProperty.IsEmpty { get; set; }
+    bool IBindableProperty.TwoWay { get; set; }
 
-    public new event ChangedEventHandler<T> Changed
+    public event ChangedEventHandler<T> Changed
     {
         add
         {
@@ -28,7 +40,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
     readonly Action BinderCallback;
     readonly CoerceValueDelegate CoerceValueCallback;
     T Value;
-    readonly HashSet<BindablePropertyBase> MonitoredProperties = new();
+    readonly HashSet<IBindableProperty<object>> MonitoredProperties = new();
     Delegate Converter;
 
     public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null)
@@ -42,7 +54,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         SetDelegates.ClearValue = ClearValue;
         BindDelegates.Owner = this;
         BindDelegates.Bind = Bind;
-        BindDelegates.Unbind = Unbind;
+        BindDelegates.Unbind = ((IBindableProperty)this).Unbind;
         BindDelegates.Monitor = Monitor;
         BindDelegates.StartMonitoring = StartMonitoring;
         BindDelegates.StopMonitoring = StopMonitoring;
@@ -54,12 +66,11 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
     {
         var Args = new ChangedEventArgs<T>(IsEmpty, Value);
         Changed_?.Invoke(this, Args);
-        base.Changed?.Invoke(this, Args);
     }
 
     void SetValue(T Value)
     {
-        if (BoundProperty is { } && !TwoWay) Unbind();
+        if (BoundProperty is { } && !TwoWay) ((IBindableProperty)this).Unbind();
 
         if (!IsEmpty && ValueEquals(Value)) return;
 
@@ -92,7 +103,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
     void ClearValue()
     {
-        if (BoundProperty is { }) Unbind();
+        if (BoundProperty is { }) ((IBindableProperty)this).Unbind();
 
         if (IsEmpty) return;
 
@@ -117,13 +128,13 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
 
         if (IsMonitoringWithoutBinding) StopMonitoring();
-        else if (BoundProperty is { }) Unbind();
+        else if (BoundProperty is { }) ((IBindableProperty)this).Unbind();
 
         StartMonitoring();
         IsMonitoringWithoutBinding = false;
 
         BoundProperty = Target;
-        ((PrivatelySettablePrivatelyBindableProperty<T>)BoundProperty).Changed += BoundProperty_Changed;
+        ((IBindableProperty<T>)BoundProperty).Changed += BoundProperty_Changed;
 
         this.TwoWay = TwoWay;
 
@@ -143,7 +154,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         if (typeof(T) == typeof(TargetType) && Target as PrivatelySettablePrivatelyBindableProperty<T> == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
 
         if (IsMonitoringWithoutBinding) StopMonitoring();
-        else if (BoundProperty is { }) Unbind();
+        else if (BoundProperty is { }) ((IBindableProperty)this).Unbind();
 
         Converter = PrimaryConverter;
 
@@ -151,17 +162,11 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         IsMonitoringWithoutBinding = false;
 
         BoundProperty = Target;
-        var BoundPropertyType = BoundProperty.GetType();
 
-        while (BoundPropertyType.BaseType != typeof(BindablePropertyBase))
-        {
-            BoundPropertyType = BoundPropertyType.BaseType;
-        }
-
-        if (BoundProperty is PrivatelySettablePrivatelyBindableProperty<T> BoundPropertyWithSameType) BoundPropertyWithSameType.Changed += BoundProperty_Changed;
+        if (BoundProperty is IBindableProperty<T> BoundPropertyWithSameType) BoundPropertyWithSameType.Changed += BoundProperty_Changed;
         else
         {
-            BoundProperty.Changed += BoundPropertyWithDifferentType_Changed;
+            ((IBindableProperty<object>)BoundProperty).Changed += BoundPropertyWithDifferentType_Changed;
             BoundPropertyWithDifferentType_Changed(BoundProperty, new ChangedEventArgs<TargetType>(BoundProperty.IsEmpty, ((PrivatelySettablePrivatelyBindableProperty<TargetType>)BoundProperty).Value));
         }
 
@@ -173,7 +178,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         Target.TwoWay = true;
     }
 
-    protected internal override void Unbind()
+    void IBindableProperty.Unbind()
     {
         if (BoundProperty == null) throw new InvalidOperationException(Strings.PropertyNotBoundYet);
 
@@ -186,19 +191,19 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
             BoundProperty.Unbind();
         }
 
-        if (BoundProperty is PrivatelySettablePrivatelyBindableProperty<T> BoundPropertyWithSameType) BoundPropertyWithSameType.Changed -= BoundProperty_Changed;
-        else BoundProperty.Changed -= BoundPropertyWithDifferentType_Changed;
+        if (BoundProperty is IBindableProperty<T> BoundPropertyWithSameType) BoundPropertyWithSameType.Changed -= BoundProperty_Changed;
+        else ((IBindableProperty<object>)BoundProperty).Changed -= BoundPropertyWithDifferentType_Changed;
         BoundProperty = null;
         Converter = null;
     }
 
-    void Monitor(BindablePropertyBase Target)
+    void Monitor(IBindableProperty Target)
     {
         if (Target == null) throw new ArgumentNullException(nameof(Target));
         if (Target == this) throw new ArgumentException(Strings.PropertyCanNotMonitorItself, nameof(Target));
         if (IsMonitoringWithoutBinding || BoundProperty is { }) throw new InvalidOperationException(Strings.PropertyCanNotMonitorAfterMonitoringStarted);
 
-        MonitoredProperties.Add(Target);
+        MonitoredProperties.Add((IBindableProperty<object>)Target);
     }
 
     void StartMonitoring()
@@ -234,12 +239,12 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
             IsMonitoringWithoutBinding = true;
             StopMonitoring();
         }
-        else Unbind();
+        else ((IBindableProperty)this).Unbind();
 
         BinderCallback?.Invoke();
     }
 
-    void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
+    void BoundProperty_Changed(IBindableProperty<T> Sender, ChangedEventArgs<T> Args)
     {
         // If Sender and BoundProperty aren't the same, ignore this Changed call. The new BoundProperty should call Changed event handler with correct value.
         if (Sender != BoundProperty) return;
@@ -301,5 +306,5 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
     public delegate void CoerceValueDelegate(CoerceValueDelegateArgs<T> Args);
 
-    public delegate void MonitorDelegate(BindablePropertyBase Target);
+    public delegate void MonitorDelegate(IBindableProperty Target);
 }

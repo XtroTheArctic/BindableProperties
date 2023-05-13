@@ -12,8 +12,8 @@ public partial class PrivatelySettableBindableProperty<T> : PrivatelySettablePri
 
     public void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false) => Delegates.Bind(Target, TwoWay);
     public void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<ChangedEventArgs<TargetType>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay = false, Func<ChangedEventArgs<T>, ChangedEventArgs<TargetType>> SecondaryConverter = null) => Delegates.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
-    public new void Unbind() => Delegates.Unbind();
-    public void Monitor(BindablePropertyBase Target) => Delegates.Monitor(Target);
+    public void Unbind() => Delegates.Unbind();
+    public void Monitor(IBindableProperty Target) => Delegates.Monitor(Target);
     public void StartMonitoring() => Delegates.StartMonitoring();
     public void StopMonitoring() => Delegates.StopMonitoring();
 }

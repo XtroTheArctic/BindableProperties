@@ -1,6 +1,6 @@
 ﻿namespace Atesh.BindableProperties;
 
-public class ChangedEventArgs<T>
+public class ChangedEventArgs<T> : IChangedEventArgs<T>
 {
     public bool IsEmpty { get; }
     public T Value { get; }
