@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Atesh.BindableProperties;
+﻿namespace Atesh.BindableProperties;
 
 public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBase
 {

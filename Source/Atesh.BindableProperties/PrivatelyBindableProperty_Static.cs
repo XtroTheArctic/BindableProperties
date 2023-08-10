@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Atesh.BindableProperties;
+﻿namespace Atesh.BindableProperties;
 
 // ReSharper disable once UnusedTypeParameter
 public partial class PrivatelyBindableProperty<T>

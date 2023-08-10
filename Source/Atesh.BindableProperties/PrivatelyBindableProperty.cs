@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Atesh.BindableProperties;
+﻿namespace Atesh.BindableProperties;
 
 public partial class PrivatelyBindableProperty<T> : PrivatelySettablePrivatelyBindableProperty<T>
 {
