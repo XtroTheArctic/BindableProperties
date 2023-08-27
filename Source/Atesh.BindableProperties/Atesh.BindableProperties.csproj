@@ -7,7 +7,7 @@
     <Company>Atesh Entertainment Inc.</Company>
     <Product>BindableProperties</Product>
     <Authors>The team members are listed in README.md file on project web page.</Authors>
-    <PackageLicenseUrl>http://unlicense.org</PackageLicenseUrl>
+    <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Property, BindablePropery, Binding</PackageTags>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
