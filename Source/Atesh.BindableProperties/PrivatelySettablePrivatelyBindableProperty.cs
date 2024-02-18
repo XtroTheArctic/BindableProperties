@@ -25,7 +25,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
     readonly Action BinderCallback;
     readonly CoerceValueDelegate CoerceValueCallback;
     T Value;
-    readonly HashSet<BindablePropertyBase> MonitoredProperties = new();
+    readonly HashSet<BindablePropertyBase> MonitoredProperties = [];
     Delegate Converter;
 
     public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null)
