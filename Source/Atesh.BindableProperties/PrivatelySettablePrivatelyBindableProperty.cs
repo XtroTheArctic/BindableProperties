@@ -108,7 +108,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         OnChanged();
     }
 
-    void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false)
+    void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay)
     {
         if (Target == null) throw new ArgumentNullException(nameof(Target));
         if (Target == this) throw new ArgumentException(Strings.PropertyCanNotBindToItself, nameof(Target));
@@ -126,11 +126,11 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
         if (!TwoWay) return;
 
-        Target.Bind(this);
+        Target.Bind(this, false);
         Target.TwoWay = true;
     }
 
-    void BindExtended<TTarget>(PrivatelySettablePrivatelyBindableProperty<TTarget> Target, Func<ChangedEventArgs<TTarget>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay = false, Func<ChangedEventArgs<T>, ChangedEventArgs<TTarget>> SecondaryConverter = null)
+    void BindExtended<TTarget>(PrivatelySettablePrivatelyBindableProperty<TTarget> Target, Func<ChangedEventArgs<TTarget>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay, Func<ChangedEventArgs<T>, ChangedEventArgs<TTarget>> SecondaryConverter = null)
     {
         if (Target == null) throw new ArgumentNullException(nameof(Target));
 #pragma warning disable IDE0016 // Use 'throw' expression
@@ -166,7 +166,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
         if (!TwoWay) return;
 
-        Target.BindExtended(this, SecondaryConverter);
+        Target.BindExtended(this, SecondaryConverter, false);
         Target.TwoWay = true;
     }
 
