@@ -12,7 +12,7 @@ class YourClass
 
     // Method containers to control the bindable property.
     // Unlike the first example, we don't need SetMethods container here because PrivatelyBindableProperty has its own public SetValue method.
-    readonly PrivatelyBindableProperty<int>.BindDelegates Height_BindMethods;
+    readonly PrivatelyBindableProperty<int>.BindMethods Height_BindMethods;
 
     readonly string Name; // Just the name of the YourClass instance.
 

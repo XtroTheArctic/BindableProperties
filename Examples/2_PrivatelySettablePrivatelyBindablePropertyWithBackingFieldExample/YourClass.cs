@@ -14,8 +14,8 @@ class YourClass
     int Height_;
 
     // Method containers to control the bindable property.
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates Height_SetMethods;
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates Height_BindMethods;
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetMethods Height_SetMethods;
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindMethods Height_BindMethods;
 
     public YourClass()
     {
