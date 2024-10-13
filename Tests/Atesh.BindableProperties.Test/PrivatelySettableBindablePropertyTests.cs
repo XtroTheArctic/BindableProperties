@@ -87,7 +87,7 @@ public class PrivatelySettableBindablePropertyTests
     }
 
     [Test]
-    public void BindDelegate_TwoWayBinding()
+    public void Bind_TwoWayBinding()
     {
         var Counter = 0;
         var ValueA = 0;
@@ -107,8 +107,8 @@ public class PrivatelySettableBindablePropertyTests
             ValueB = Args.Value;
         }
 
-        var PropertyA = new PrivatelySettableBindableProperty<int>(this, out var SetDelegatesA);
-        var PropertyB = new PrivatelySettableBindableProperty<int>(this, out var SetDelegatesB);
+        var PropertyA = new PrivatelySettableBindableProperty<int>(this, out var SetMethodsA);
+        var PropertyB = new PrivatelySettableBindableProperty<int>(this, out var SetMethodsB);
 
         PropertyA.Changed += Property_ChangedA;
         PropertyB.Changed += Property_ChangedB;
@@ -120,7 +120,7 @@ public class PrivatelySettableBindablePropertyTests
         Assert.AreEqual(2, Counter);
 
         Counter = 0;
-        SetDelegatesA.SetValue(3);
+        SetMethodsA.SetValue(3);
         Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
 
         Assert.AreEqual(2, Counter);
@@ -128,7 +128,7 @@ public class PrivatelySettableBindablePropertyTests
         Assert.AreEqual(3, ValueB);
 
         Counter = 0;
-        SetDelegatesB.SetValue(5);
+        SetMethodsB.SetValue(5);
         Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
 
         Assert.AreEqual(2, Counter);

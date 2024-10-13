@@ -2,11 +2,11 @@
 
 public partial class PrivatelyBindableProperty<T> : PrivatelySettablePrivatelyBindableProperty<T>
 {
-    protected new SetDelegates SetDelegates;
+    protected new SetMethods SetMethods;
 
-    public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback) => SetDelegates = TempSetDelegates;
-    public PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, Value, BinderCallback, CoerceValueCallback) => SetDelegates = TempSetDelegates;
-    internal PrivatelyBindableProperty(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempSetDelegates, out BindDelegates, IsEmpty, BinderCallback, CoerceValueCallback) => SetDelegates = TempSetDelegates;
+    public PrivatelyBindableProperty(object Owner, out BindMethods BindMethods, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out TempSetMethods, out BindMethods, Binder: Binder, CoerceValue: CoerceValue) => SetMethods = TempSetMethods;
+    public PrivatelyBindableProperty(object Owner, out BindMethods BindMethods, T Value, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out TempSetMethods, out BindMethods, Value, Binder, CoerceValue) => SetMethods = TempSetMethods;
+    internal PrivatelyBindableProperty(object Owner, out BindMethods BindMethods, bool IsEmpty = false, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out TempSetMethods, out BindMethods, IsEmpty, Binder, CoerceValue) => SetMethods = TempSetMethods;
 
-    public void SetValue(T Value) => SetDelegates.SetValue(Value);
+    public void SetValue(T Value) => SetMethods.SetValue(Value);
 }

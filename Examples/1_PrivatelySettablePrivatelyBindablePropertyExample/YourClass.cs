@@ -29,10 +29,10 @@ class YourClass
     // There are alternative bindable property types such as PrivatelyBindableProperty and BindableProperty if you want it to be settable or bindable by other classes.
     public PrivatelySettablePrivatelyBindableProperty<int> Height { get; }
 
-    // Second, you must define required delegate containers. Please see the comments in class constructor for more info.
+    // Second, you must define the required method containers. You will receive some methods via these containers so, you can modify the state of the property by calling those methods. Please see the comments in class constructor for more info.
     // Keep these as private since you are defining a PrivatelySettablePrivatelyBindableProperty.
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates Height_SetDelegates;
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates Height_BindDelegates;
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates Height_SetMethods;
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates Height_BindMethods;
 
     readonly string Name; // We use the Name field to distinguish between multiple instances of this example class. It's not related to property system.
 
@@ -40,11 +40,11 @@ class YourClass
     {
         this.Name = Name;
 
-        // Third, in your constructor, you must create an instance of bindable property and receive its delegates.
-        // These delegates are the only way to control the value of a bindable property. You will call them whenever you need.
+        // Third, in your constructor, you must create an instance of bindable property and receive its methods via the method containers.
+        // These methods are the only way to control the value of a bindable property. You will call them whenever you need.
         // You can provide an initial value or mark it as empty while creating. For this example, we keep its value as default by not providing those options.
         // Yes, bindable properties system supports empty values. Empty is a special value which is required when implementing inherited properties. It's different than null value.
-        Height = new(this, out Height_SetDelegates, out Height_BindDelegates);
+        Height = new(this, out Height_SetMethods, out Height_BindMethods);
 
         // Fourth, you must subscribe to the Changed event of your property because even the owner of the property can't read its value directly.
         Height.Changed += Height_Changed;
@@ -69,11 +69,11 @@ class YourClass
     }
 
     // Since the height property is PrivatelySettablePrivatelyBindableProperty, it can't be set or bound from outside so we implement GrowRandomly, Die, BindHeight and UnbindHeight commands for outside access.
-    public void GrowRandomly() => Height_SetDelegates.SetValue(new Random().Next(5, 15));
-    public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => Height_BindDelegates.Bind(Target);
-    public void UnbindHeight() => Height_BindDelegates.Unbind();
+    public void GrowRandomly() => Height_SetMethods.SetValue(new Random().Next(5, 15));
+    public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => Height_BindMethods.Bind(Target);
+    public void UnbindHeight() => Height_BindMethods.Unbind();
 
     // If you want your bindable property to support empty value, you can simple call ClearValue method according to your class logic.
     // But if you do so, please don't forget to check for empty value in the Changed event handler.
-    public void Die() => Height_SetDelegates.ClearValue();
+    public void Die() => Height_SetMethods.ClearValue();
 }

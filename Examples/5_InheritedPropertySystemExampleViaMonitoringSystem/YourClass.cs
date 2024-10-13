@@ -11,12 +11,12 @@ public class YourClass
 
     // Monitoring system helps you unbind a bindable property and rebind it to the correct target automatically when one of the monitored targets change.
     // Monitoring system works in the order described below.
-    // 1) You provide a callback "BinderCallback" when you first create the bindable property instance. BinderCallback you implement must perform the steps 2 and 3 below.
+    // 1) You pass a callback method "Binder" parameter when you first create the bindable property instance. Binder callback you implement must perform the steps 2 and 3 below.
     // 2) You register the target properties one by one to the monitoring list of a bindable property by calling Monitor method.
     // 3) You bind the bindable property to a target (which isn't monitored). You can't add to the monitoring list after the binding.
     // 4) Monitoring system will detect a change on one of the monitored targets and it will unbind the bindable property automatically.
     // 5) Monitoring system flushes out the old monitoring list of the bindable property.
-    // 6) Monitoring system calls the BinderCallback which performs the steps number 2 and 3 so the automated binding/unbinding cycle continues from the step number 4.
+    // 6) Monitoring system calls the Binder callback which performs the steps number 2 and 3 so the automated binding/unbinding cycle continues from the step number 4.
 
     // This class gets a visual rectangle object and controls its color according to BackgroundColor property.
     public Rectangle Rectangle { get; }
@@ -31,8 +31,8 @@ public class YourClass
     // Our example inherited properties system also has skinning support.
     public PrivatelyBindableProperty<Skin> Skin { get; }
 
-    // Delegates to control the bindable property.
-    readonly PrivatelyBindableProperty<Color>.BindDelegates BackgroundColor_BindDelegates;
+    // Method containers to control the bindable property.
+    readonly PrivatelyBindableProperty<Color>.BindDelegates BackgroundColor_BindMethods;
 
     readonly Color DefaultBackgroundColor = Colors.Gray;
 
@@ -45,8 +45,8 @@ public class YourClass
     {
         this.Rectangle = Rectangle;
 
-        // Create the bindable property and get the delegates back.
-        BackgroundColor = new(this, out BackgroundColor_BindDelegates, true, BindBackgroundColor);
+        // Create the bindable property and receive the methods via the containers.
+        BackgroundColor = new(this, out BackgroundColor_BindMethods, true, BindBackgroundColor);
 
         Parent = new(this, out _);
         Parent.Changed += Parent_Changed;
@@ -66,13 +66,13 @@ public class YourClass
         if (BackgroundColor.BoundProperty == null) UnboundBackgroundColorIsEmpty = Args.IsEmpty;
 
         var BoundPropertyIsBoundToo = BackgroundColor.BoundProperty is PrivatelySettablePrivatelyBindableProperty<Color> { BoundProperty: { } };
-        if (BoundPropertyIsBoundToo) BackgroundColor_BindDelegates.Unbind();
+        if (BoundPropertyIsBoundToo) BackgroundColor_BindMethods.Unbind();
 
         if (Args.IsEmpty)
         {
             if (!ExecutingBindBackgroundColor)
             {
-                if (BackgroundColor.BoundProperty is { }) BackgroundColor_BindDelegates.Unbind();
+                if (BackgroundColor.BoundProperty is { }) BackgroundColor_BindMethods.Unbind();
 
                 BindBackgroundColor();
 
@@ -96,10 +96,10 @@ public class YourClass
     // The monitoring system will let us repeat this operation after unbinding the BackgroundColor property and flushing the monitoring list when anything in the chain changes.
     void BindBackgroundColor()
     {
-        // If the property have a value and coming from monitoring system(BinderCallback) 
+        // If the property have a value and coming from monitoring system(Binder callback) 
         if (!UnboundBackgroundColorIsEmpty) return;
 
-        if (BackgroundColor.IsMonitoringWithoutBinding) BackgroundColor_BindDelegates.StopMonitoring();
+        if (BackgroundColor.IsMonitoringWithoutBinding) BackgroundColor_BindMethods.StopMonitoring();
 
         var P = this;
 
@@ -115,15 +115,15 @@ public class YourClass
                 {
                     if (!P.UnboundBackgroundColorIsEmpty)
                     {
-                        BackgroundColor_BindDelegates.Bind(P.BackgroundColor);
+                        BackgroundColor_BindMethods.Bind(P.BackgroundColor);
 
                         return;
                     }
 
-                    BackgroundColor_BindDelegates.Monitor(P.BackgroundColor);
+                    BackgroundColor_BindMethods.Monitor(P.BackgroundColor);
                 }
 
-                BackgroundColor_BindDelegates.Monitor(P.Skin);
+                BackgroundColor_BindMethods.Monitor(P.Skin);
 
                 var P_Skin = P.Skin_;
 
@@ -132,15 +132,15 @@ public class YourClass
                     // Second, we check the BackgroundColor of the skin of current parent step.
                     if (!P_Skin.BackgroundColorIsEmpty)
                     {
-                        BackgroundColor_BindDelegates.Bind(P_Skin.BackgroundColor);
+                        BackgroundColor_BindMethods.Bind(P_Skin.BackgroundColor);
 
                         return;
                     }
 
-                    BackgroundColor_BindDelegates.Monitor(P_Skin.BackgroundColor);
+                    BackgroundColor_BindMethods.Monitor(P_Skin.BackgroundColor);
                 }
 
-                BackgroundColor_BindDelegates.Monitor(P.Parent);
+                BackgroundColor_BindMethods.Monitor(P.Parent);
 
                 P = P.Parent_;
             }
@@ -164,7 +164,7 @@ public class YourClass
                     }
                 }
 
-                BackgroundColor_BindDelegates.StartMonitoring();
+                BackgroundColor_BindMethods.StartMonitoring();
             }
         }
     }

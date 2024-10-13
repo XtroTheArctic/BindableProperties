@@ -58,14 +58,14 @@ public class PrivatelySettableBindablePropertyWithEmptyValueTests
     {
         var PropertyValueReceivedOnce = false;
 
-        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out var SetDelegates, true);
+        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out var SetMethods, true);
         Property.Changed += delegate
         {
             if (PropertyValueReceivedOnce) Assert.Fail();
             else PropertyValueReceivedOnce = true;
         };
 
-        SetDelegates.ClearValue();
+        SetMethods.ClearValue();
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class PrivatelySettableBindablePropertyWithEmptyValueTests
     {
         var PropertyValueReceivedOnce = false;
 
-        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out var SetDelegates);
+        var Property = new PrivatelySettableBindablePropertyWithEmptyValue<int>(this, out var SetMethods);
         Property.Changed += (Sender, Args) =>
         {
             if (PropertyValueReceivedOnce)
@@ -85,17 +85,17 @@ public class PrivatelySettableBindablePropertyWithEmptyValueTests
             else PropertyValueReceivedOnce = true;
         };
 
-        SetDelegates.ClearValue();
+        SetMethods.ClearValue();
         Assert.Fail();
     }
 
     [Test]
     public void ClearValue_Unbinds()
     {
-        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out var BindDelegates);
+        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out var BindMethods);
         var TargetProperty = new BindableProperty<int>(this);
 
-        BindDelegates.Bind(TargetProperty);
+        BindMethods.Bind(TargetProperty);
         Property.ClearValue();
         Assert.Null(Property.BoundProperty);
     }

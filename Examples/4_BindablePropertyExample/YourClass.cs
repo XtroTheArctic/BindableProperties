@@ -15,7 +15,7 @@ class YourClass
     {
         this.Name = Name;
 
-        // There is no need for any delegates.
+        // There is no need for any method containers here because BindableProperty's methods are public.
         Height = new(this);
 
         // Subscribe to the Changed event of the bindable property.

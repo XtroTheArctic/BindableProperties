@@ -2,8 +2,8 @@
 
 public class PrivatelyBindablePropertyWithEmptyValue<T> : PrivatelyBindableProperty<T>
 {
-    public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out BindDelegates, IsEmpty, BinderCallback, CoerceValueCallback) { }
-    public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out BindDelegates, Value, BinderCallback, CoerceValueCallback) { }
+    public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindMethods BindMethods, bool IsEmpty = false, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out BindMethods, IsEmpty, Binder, CoerceValue) { }
+    public PrivatelyBindablePropertyWithEmptyValue(object Owner, out BindMethods BindMethods, T Value, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out BindMethods, Value, Binder, CoerceValue) { }
 
-    public void ClearValue() => SetDelegates.ClearValue();
+    public void ClearValue() => SetMethods.ClearValue();
 }

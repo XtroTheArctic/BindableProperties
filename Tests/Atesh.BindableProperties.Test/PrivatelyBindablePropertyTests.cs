@@ -78,11 +78,11 @@ public class PrivatelyBindablePropertyTests
     [Test]
     public void SetValue_Unbinds()
     {
-        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetDelegates, out var BindDelegates);
+        var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out var SetMethods, out var BindMethods);
         var TargetProperty = new BindableProperty<int>(this);
 
-        BindDelegates.Bind(TargetProperty);
-        SetDelegates.SetValue(0);
+        BindMethods.Bind(TargetProperty);
+        SetMethods.SetValue(0);
         Assert.Null(Property.BoundProperty);
     }
 }

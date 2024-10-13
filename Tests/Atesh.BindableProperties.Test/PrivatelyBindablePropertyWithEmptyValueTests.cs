@@ -92,10 +92,10 @@ public class PrivatelyBindablePropertyWithEmptyValueTests
     [Test]
     public void ClearValue_Unbinds()
     {
-        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out var BindDelegates);
+        var Property = new PrivatelyBindablePropertyWithEmptyValue<int>(this, out var BindMethods);
         var TargetProperty = new BindableProperty<int>(this);
 
-        BindDelegates.Bind(TargetProperty);
+        BindMethods.Bind(TargetProperty);
         Property.ClearValue();
         Assert.Null(Property.BoundProperty);
     }

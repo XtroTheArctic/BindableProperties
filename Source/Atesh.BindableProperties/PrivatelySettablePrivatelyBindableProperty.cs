@@ -22,30 +22,30 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
     event ChangedEventHandler<T> Changed_;
 
-    readonly Action BinderCallback;
-    readonly CoerceValueDelegate CoerceValueCallback;
+    readonly Action Binder;
+    readonly CoerceValueCallback CoerceValue_;
     T Value;
     readonly HashSet<BindablePropertyBase> MonitoredProperties = [];
     Delegate Converter;
 
-    public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null)
+    public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetMethods SetMethods, out BindMethods BindMethods, bool IsEmpty = false, Action Binder = null, CoerceValueCallback CoerceValue = null)
     {
         this.Owner = Owner ?? throw new ArgumentNullException(nameof(Owner));
         this.IsEmpty = IsEmpty;
-        this.BinderCallback = BinderCallback;
-        this.CoerceValueCallback = CoerceValueCallback;
+        this.Binder = Binder;
+        CoerceValue_ = CoerceValue;
 
-        SetDelegates.SetValue = SetValue;
-        SetDelegates.ClearValue = ClearValue;
-        BindDelegates.Owner = this;
-        BindDelegates.Bind = Bind;
-        BindDelegates.Unbind = Unbind;
-        BindDelegates.Monitor = Monitor;
-        BindDelegates.StartMonitoring = StartMonitoring;
-        BindDelegates.StopMonitoring = StopMonitoring;
+        SetMethods.SetValue = SetValue;
+        SetMethods.ClearValue = ClearValue;
+        BindMethods.Owner = this;
+        BindMethods.Bind = Bind;
+        BindMethods.Unbind = Unbind;
+        BindMethods.Monitor = Monitor;
+        BindMethods.StartMonitoring = StartMonitoring;
+        BindMethods.StopMonitoring = StopMonitoring;
     }
 
-    public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetDelegates SetDelegates, out BindDelegates BindDelegates, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : this(Owner, out SetDelegates, out BindDelegates, BinderCallback: BinderCallback, CoerceValueCallback: CoerceValueCallback) => this.Value = Value;
+    public PrivatelySettablePrivatelyBindableProperty(object Owner, out SetMethods SetMethods, out BindMethods BindMethods, T Value, Action Binder = null, CoerceValueCallback CoerceValue = null) : this(Owner, out SetMethods, out BindMethods, Binder: Binder, CoerceValue: CoerceValue) => this.Value = Value;
 
     void OnChanged()
     {
@@ -60,17 +60,17 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
         if (!IsEmpty && ValueEquals(Value)) return;
 
-        if (CoerceValueCallback == null) SetAndRaise(Value);
+        if (CoerceValue_ == null) SetAndRaise(Value);
         else
         {
-            var Args = new CoerceValueDelegateArgs<T> { Value = Value, IsEmpty = false };
+            var Args = new CoerceValueCallbackArgs<T> { Value = Value, IsEmpty = false };
             CoerceValue(Args);
         }
     }
 
-    void CoerceValue(CoerceValueDelegateArgs<T> Args)
+    void CoerceValue(CoerceValueCallbackArgs<T> Args)
     {
-        CoerceValueCallback(Args);
+        CoerceValue_(Args);
 
         if (Args.IsEmpty) ClearAndRaise();
         else SetAndRaise(Args.Value);
@@ -93,10 +93,10 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
 
         if (IsEmpty) return;
 
-        if (CoerceValueCallback == null) ClearAndRaise();
+        if (CoerceValue_ == null) ClearAndRaise();
         else
         {
-            var Args = new CoerceValueDelegateArgs<T> { IsEmpty = true };
+            var Args = new CoerceValueCallbackArgs<T> { IsEmpty = true };
             CoerceValue(Args);
         }
     }
@@ -233,7 +233,7 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         }
         else Unbind();
 
-        BinderCallback?.Invoke();
+        Binder?.Invoke();
     }
 
     void BoundProperty_Changed(PrivatelySettablePrivatelyBindableProperty<T> Sender, ChangedEventArgs<T> Args)
@@ -273,13 +273,13 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         }
     }
 
-    public struct SetDelegates
+    public struct SetMethods
     {
         public SetValueDelegate SetValue;
         public Action ClearValue;
     }
 
-    public struct BindDelegates
+    public struct BindMethods
     {
         public BindDelegate Bind;
         public Action Unbind;
@@ -292,11 +292,11 @@ public class PrivatelySettablePrivatelyBindableProperty<T> : BindablePropertyBas
         public readonly void BindExtended<TTarget>(PrivatelySettablePrivatelyBindableProperty<TTarget> Target, Func<ChangedEventArgs<TTarget>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay = false, Func<ChangedEventArgs<T>, ChangedEventArgs<TTarget>> SecondaryConverter = null) => Owner.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
     }
 
+    public delegate void CoerceValueCallback(CoerceValueCallbackArgs<T> Args);
+
     public delegate void BindDelegate(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false);
 
     public delegate void SetValueDelegate(T Value);
-
-    public delegate void CoerceValueDelegate(CoerceValueDelegateArgs<T> Args);
 
     public delegate void MonitorDelegate(BindablePropertyBase Target);
 }
