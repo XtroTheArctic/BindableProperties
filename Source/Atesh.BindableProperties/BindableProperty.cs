@@ -1,19 +1,17 @@
-﻿using System;
-
-namespace Atesh.BindableProperties;
+﻿namespace Atesh.BindableProperties;
 
 public partial class BindableProperty<T> : PrivatelyBindableProperty<T>
 {
-    readonly BindDelegates Delegates;
+    new readonly BindMethods BindMethods;
 
-    public BindableProperty(object Owner, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
-    public BindableProperty(object Owner, T Value, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, Value, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
-    internal BindableProperty(object Owner, bool IsEmpty = false, Action BinderCallback = null, CoerceValueDelegate CoerceValueCallback = null) : base(Owner, out TempDelegates, IsEmpty, BinderCallback, CoerceValueCallback) => Delegates = TempDelegates;
+    public BindableProperty(object Owner, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out TempBindMethods, Binder, CoerceValue) => BindMethods = TempBindMethods;
+    public BindableProperty(object Owner, T Value, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out TempBindMethods, Value, Binder, CoerceValue) => BindMethods = TempBindMethods;
+    internal BindableProperty(object Owner, bool IsEmpty = false, Action Binder = null, CoerceValueCallback CoerceValue = null) : base(Owner, out TempBindMethods, IsEmpty, Binder, CoerceValue) => BindMethods = TempBindMethods;
 
-    public void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false) => Delegates.Bind(Target, TwoWay);
-    public void BindExtended<TargetType>(PrivatelySettablePrivatelyBindableProperty<TargetType> Target, Func<ChangedEventArgs<TargetType>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay = false, Func<ChangedEventArgs<T>, ChangedEventArgs<TargetType>> SecondaryConverter = null) => Delegates.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
-    public new void Unbind() => Delegates.Unbind();
-    public void Monitor(BindablePropertyBase Target) => Delegates.Monitor(Target);
-    public void StartMonitoring() => Delegates.StartMonitoring();
-    public void StopMonitoring() => Delegates.StopMonitoring();
+    public void Bind(PrivatelySettablePrivatelyBindableProperty<T> Target, bool TwoWay = false) => BindMethods.Bind(Target, TwoWay);
+    public void BindExtended<TTarget>(PrivatelySettablePrivatelyBindableProperty<TTarget> Target, Func<ChangedEventArgs<TTarget>, ChangedEventArgs<T>> PrimaryConverter, bool TwoWay = false, Func<ChangedEventArgs<T>, ChangedEventArgs<TTarget>> SecondaryConverter = null) => BindMethods.BindExtended(Target, PrimaryConverter, TwoWay, SecondaryConverter);
+    public new void Unbind() => BindMethods.Unbind();
+    public void Monitor(BindablePropertyBase Target) => BindMethods.Monitor(Target);
+    public void StartMonitoring() => BindMethods.StartMonitoring();
+    public void StopMonitoring() => BindMethods.StopMonitoring();
 }

@@ -13,14 +13,14 @@ class YourClass
     // You must define the backing field as private to make sure it's only used by your class.
     int Height_;
 
-    // Delegates to control the bindable property.
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates Height_SetDelegates;
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates Height_BindDelegates;
+    // Method containers to control the bindable property.
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates Height_SetMethods;
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates Height_BindMethods;
 
     public YourClass()
     {
-        // Create the bindable property and get the delegates back.
-        Height = new(this, out Height_SetDelegates, out Height_BindDelegates);
+        // Create the bindable property and receive the methods via the containers.
+        Height = new(this, out Height_SetMethods, out Height_BindMethods);
 
         // Subscribe to the Changed event of the bindable property.
         Height.Changed += Height_Changed;
@@ -32,8 +32,8 @@ class YourClass
     void Height_Changed(PrivatelySettablePrivatelyBindableProperty<int> Sender, ChangedEventArgs<int> Args) => Height_ = Args.Value;
 
     // Commands for outside access.
-    public void GrowByOne() => Height_SetDelegates.SetValue(Height_ + 1);
-    public void Die() => Height_SetDelegates.SetValue(0);
-    public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => Height_BindDelegates.Bind(Target);
-    public void UnbindHeight() => Height_BindDelegates.Unbind();
+    public void GrowByOne() => Height_SetMethods.SetValue(Height_ + 1);
+    public void Die() => Height_SetMethods.SetValue(0);
+    public void BindHeight(PrivatelySettablePrivatelyBindableProperty<int> Target) => Height_BindMethods.Bind(Target);
+    public void UnbindHeight() => Height_BindMethods.Unbind();
 }

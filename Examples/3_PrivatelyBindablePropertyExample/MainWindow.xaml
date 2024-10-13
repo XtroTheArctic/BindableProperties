@@ -14,8 +14,8 @@
         <Label Content="Tomato" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="3.584,7.149" Margin="434.117,229,0,0" Width="75" Height="24" FontWeight="Bold"/>
         <Button x:Name="BindButton" Content="Bind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="294.117,214,0,0" Click="BindButton_Click"/>
         <Button x:Name="UnbindButton" Content="Unbind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="294.117,243,0,0" Click="UnbindButton_Click"/>
-        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/PrivatelyBindablePropertyExample;component/Arrow.png" Margin="383.117,234,0,0"/>
-        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/PrivatelyBindablePropertyExample;component/Arrow.png" Margin="252.117,234,0,0"/>
+        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/Arrow.png" Margin="383.117,234,0,0"/>
+        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/Arrow.png" Margin="252.117,234,0,0"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" Margin="164,258,0,0" Text="{Binding AppleHeightTextBoxValue, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="54" Margin="443,258,0,0" Text="{Binding TomatoHeightTextBoxValue, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>

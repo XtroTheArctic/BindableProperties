@@ -87,7 +87,7 @@ public class BindablePropertyTests
     }
 
     [Test]
-    public void BindDelegate_TwoWayBinding()
+    public void Bind_TwoWayBinding()
     {
         var Counter = 0;
         var ValueA = 0;

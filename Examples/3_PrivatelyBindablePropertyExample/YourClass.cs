@@ -10,9 +10,9 @@ class YourClass
     // As the name of PrivatelyBindableProperty class implies, only its owner can bind it to another target. Its value can be set by any source publicly.
     public PrivatelyBindableProperty<int> Height { get; }
 
-    // Delegates to control the bindable property.
-    // Unlike the first example, we don't need SetDelegates here because PrivatelyBindableProperty has its own public SetValue method.
-    readonly PrivatelyBindableProperty<int>.BindDelegates Height_BindDelegates;
+    // Method containers to control the bindable property.
+    // Unlike the first example, we don't need SetMethods container here because PrivatelyBindableProperty has its own public SetValue method.
+    readonly PrivatelyBindableProperty<int>.BindDelegates Height_BindMethods;
 
     readonly string Name; // Just the name of the YourClass instance.
 
@@ -20,8 +20,8 @@ class YourClass
     {
         this.Name = Name;
 
-        // Create the bindable property and get the delegates back.
-        Height = new(this, out Height_BindDelegates);
+        // Create the bindable property and receive the methods via the containers.
+        Height = new(this, out Height_BindMethods);
 
         // Subscribe to the Changed event of the bindable property.
         Height.Changed += Height_Changed;
@@ -34,7 +34,7 @@ class YourClass
         MessageBox.Show(Text);
     }
 
-    // Since the height property is PrivatelyBindableProperty, it can't be bound from outside so we implement BindHeight and UnbindHeight commands for outside access.
-    public void BindHeight(PrivatelyBindableProperty<int> Target) => Height_BindDelegates.Bind(Target);
-    public void UnbindHeight() => Height_BindDelegates.Unbind();
+    // Since the height property is PrivatelyBindableProperty, it can't be bound from outside so, we implement BindHeight and UnbindHeight commands for outside access.
+    public void BindHeight(PrivatelyBindableProperty<int> Target) => Height_BindMethods.Bind(Target);
+    public void UnbindHeight() => Height_BindMethods.Unbind();
 }

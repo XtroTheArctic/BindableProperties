@@ -15,8 +15,8 @@
         <Button Content="Die" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="419.117,278,0,0" Click="TomatoDieButton_Click"/>
         <Button x:Name="BindButton" Content="Bind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="294.117,214,0,0" Click="BindButton_Click"/>
         <Button x:Name="UnbindButton" Content="Unbind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="294.117,243,0,0" Click="UnbindButton_Click"/>
-        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Margin="383.117,234,0,0" Source="/PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample;component/Arrow.png"/>
-        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/PrivatelySettablePrivatelyBindablePropertyWithBackingFieldExample;component/Arrow.png" Margin="252.117,234,0,0"/>
+        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Margin="383.117,234,0,0" Source="/Arrow.png"/>
+        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/Arrow.png" Margin="252.117,234,0,0"/>
         <Label Content="Height:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="146,303,0,0"/>
         <Label Content="Height:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="419,303,0,0"/>
         <Label x:Name="AppleHeightLabel" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="191,303,0,0"/>

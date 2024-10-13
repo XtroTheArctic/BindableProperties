@@ -15,7 +15,7 @@
         <Button Content="Die" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="419,293,0,0" Click="TomatoDieButton_Click"/>
         <Button x:Name="BindButton" Content="Bind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="294,229,0,0" Click="BindButton_Click"/>
         <Button x:Name="UnbindButton" Content="Unbind" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="294,258,0,0" Click="UnbindButton_Click"/>
-        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="Arrow.png" Margin="383,249,0,0"/>
-        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="Arrow.png" Margin="252,249,0,0"/>
+        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/Arrow.png" Margin="383,249,0,0"/>
+        <Image HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="34" Source="/Arrow.png" Margin="252,249,0,0"/>
     </Grid>
 </Window>
