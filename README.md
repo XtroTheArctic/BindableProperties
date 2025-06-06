@@ -29,19 +29,19 @@ Download it via "manual download" link in [NuGet](https://www.nuget.org/packages
 
 # Examples
 
-Example projects about how to use BindableProperties can be downloaded [here](https://bitbucket.org/XtroTheArctic/bindableproperties/downloads/BindablePropertiesExamples.zip).
+Example projects about how to use BindableProperties can be downloaded [here](https://github.com/XtroTheArctic/BindableProperties/releases/download/1.8/BindablePropertiesExamples.zip).
 
 **Important:** You may need to restore NuGet packages via the solution right-click menu if you get compile errors.
 
 # Contribution
 
-You can easily contribute to the project by just reporting issues to [here](https://bitbucket.org/XtroTheArctic/bindableproperties/issues)
+You can easily contribute to the project by just reporting issues to [here](https://github.com/XtroTheArctic/BindableProperties/issues)
 
-If you want to get involved and actively contribute to the project, you can simply do so by sending pull requests to the project lead via bitbucket.com.
+If you want to get involved and actively contribute to the project, you can simply do so by sending pull requests to the project lead via github.com.
 
-Project page on [Bitbucket](https://bitbucket.org/XtroTheArctic/bindableproperties)
+Project page on [GitHub](https://github.com/XtroTheArctic/BindableProperties)
 
-Git Repo URL: git@bitbucket.org:XtroTheArctic/bindableproperties.git
+Git Repo URL: git@github.com:XtroTheArctic/BindableProperties.git
 
 Please feel free to contact the team members via email at any time.
 
