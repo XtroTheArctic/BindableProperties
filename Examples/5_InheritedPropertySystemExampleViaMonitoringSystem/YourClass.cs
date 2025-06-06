@@ -32,7 +32,7 @@ public class YourClass
     public PrivatelyBindableProperty<Skin> Skin { get; }
 
     // Method containers to control the bindable property.
-    readonly PrivatelyBindableProperty<Color>.BindDelegates BackgroundColor_BindMethods;
+    readonly PrivatelyBindableProperty<Color>.BindMethods BackgroundColor_BindMethods;
 
     readonly Color DefaultBackgroundColor = Colors.Gray;
 

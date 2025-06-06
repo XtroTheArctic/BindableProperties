@@ -31,8 +31,8 @@ class YourClass
 
     // Second, you must define the required method containers. You will receive some methods via these containers so, you can modify the state of the property by calling those methods. Please see the comments in class constructor for more info.
     // Keep these as private since you are defining a PrivatelySettablePrivatelyBindableProperty.
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetDelegates Height_SetMethods;
-    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindDelegates Height_BindMethods;
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.SetMethods Height_SetMethods;
+    readonly PrivatelySettablePrivatelyBindableProperty<int>.BindMethods Height_BindMethods;
 
     readonly string Name; // We use the Name field to distinguish between multiple instances of this example class. It's not related to property system.
 
