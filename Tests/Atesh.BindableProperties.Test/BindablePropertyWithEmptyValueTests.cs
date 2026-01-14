@@ -1,6 +1,7 @@
 ﻿// ReSharper disable ObjectCreationAsStatement
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Atesh.BindableProperties.Test;
 
@@ -11,10 +12,10 @@ public class BindablePropertyWithEmptyValueTests
     public void Constructors_ParameterValidation()
     {
         var E = Assert.Throws<ArgumentNullException>(() => new BindablePropertyWithEmptyValue<int>(null));
-        Assert.AreEqual(E.ParamName, nameof(BindablePropertyWithEmptyValue<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(BindablePropertyWithEmptyValue<>.Owner));
 
         E = Assert.Throws<ArgumentNullException>(() => new BindablePropertyWithEmptyValue<int>(null, 0));
-        Assert.AreEqual(E.ParamName, nameof(BindablePropertyWithEmptyValue<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(BindablePropertyWithEmptyValue<>.Owner));
     }
 
     [Test]
@@ -33,8 +34,8 @@ public class BindablePropertyWithEmptyValueTests
             PropertyIsEmpty = Args.IsEmpty;
         }
 
-        Assert.AreEqual(PropertyValue, Value);
-        Assert.False(PropertyIsEmpty);
+        ClassicAssert.AreEqual(PropertyValue, Value);
+        ClassicAssert.False(PropertyIsEmpty);
     }
 
     [Test]
@@ -50,7 +51,7 @@ public class BindablePropertyWithEmptyValueTests
             PropertyIsEmpty = Args.IsEmpty;
         }
 
-        Assert.True(PropertyIsEmpty);
+        ClassicAssert.True(PropertyIsEmpty);
     }
 
     [Test]
@@ -78,8 +79,8 @@ public class BindablePropertyWithEmptyValueTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.True(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.True(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -97,6 +98,6 @@ public class BindablePropertyWithEmptyValueTests
 
         BindMethods.Bind(TargetProperty);
         Property.ClearValue();
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
     }
 }

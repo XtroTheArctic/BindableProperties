@@ -8,10 +8,10 @@ public partial class MainWindow : INotifyPropertyChanged
 {
     public int AppleHeightTextBoxValue
     {
-        get => _AppleHeightTextBoxValue;
+        get;
         set
         {
-            _AppleHeightTextBoxValue = value;
+            field = value;
 
             OnPropertyChanged(nameof(AppleHeightTextBoxValue));
         }
@@ -23,8 +23,6 @@ public partial class MainWindow : INotifyPropertyChanged
 
     readonly YourClass Apple;
     readonly YourClass Tomato;
-
-    int _AppleHeightTextBoxValue;
 
     public MainWindow()
     {

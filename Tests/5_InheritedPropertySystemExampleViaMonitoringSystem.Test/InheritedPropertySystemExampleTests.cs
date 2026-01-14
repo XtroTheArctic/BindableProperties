@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using NUnit.Framework;
 using InheritedPropertySystemExampleViaMonitoringSystem;
+using NUnit.Framework.Legacy;
 
 namespace Atesh.BindableProperties.Test;
 
@@ -19,7 +20,7 @@ public class InheritedPropertySystemExampleTests
     public void Test1()
     {
         MainWindow.ObjectA_BackgroundColorOrangeButton_Click(null, null);
-        Assert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectA));
+        ClassicAssert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectA));
     }
 
     [Test]
@@ -27,7 +28,7 @@ public class InheritedPropertySystemExampleTests
     {
         MainWindow.ObjectA_BackgroundColorOrangeButton_Click(null, null);
         MainWindow.ObjectB_ParentA_Button_Click(null, null);
-        Assert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectB));
+        ClassicAssert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectB));
     }
 
     [Test]
@@ -38,7 +39,7 @@ public class InheritedPropertySystemExampleTests
         MainWindow.ObjectB_Skin1Button_Click(null, null);
         MainWindow.Skin1BackgroundColorEmptyButton_Click(null, null);
         MainWindow.ObjectB_ParentA_Button_Click(null, null);
-        Assert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectB));
+        ClassicAssert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectB));
     }
 
     [Test]
@@ -49,6 +50,6 @@ public class InheritedPropertySystemExampleTests
         MainWindow.ObjectC_ParentB_Button_Click(null, null);
         MainWindow.ObjectB_BackgroundColorAquaButton_Click(null, null);
         MainWindow.ObjectB_BackgroundColorEmptyButton_Click(null, null);
-        Assert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectC));
+        ClassicAssert.AreEqual(Colors.Orange, GetRectangleColor(MainWindow.ObjectC));
     }
 }

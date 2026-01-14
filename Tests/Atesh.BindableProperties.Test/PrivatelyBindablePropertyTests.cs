@@ -1,6 +1,7 @@
 ﻿// ReSharper disable ObjectCreationAsStatement
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Atesh.BindableProperties.Test;
 
@@ -11,10 +12,10 @@ public class PrivatelyBindablePropertyTests
     public void Constructors_ParameterValidation()
     {
         var E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _));
-        Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<>.Owner));
 
         E = Assert.Throws<ArgumentNullException>(() => new PrivatelyBindableProperty<int>(null, out _, 0));
-        Assert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(PrivatelyBindableProperty<>.Owner));
     }
 
     [Test]
@@ -33,8 +34,8 @@ public class PrivatelyBindablePropertyTests
             PropertyIsEmpty = Args.IsEmpty;
         }
 
-        Assert.AreEqual(PropertyValue, Value);
-        Assert.False(PropertyIsEmpty);
+        ClassicAssert.AreEqual(PropertyValue, Value);
+        ClassicAssert.False(PropertyIsEmpty);
     }
 
     [Test]
@@ -63,9 +64,9 @@ public class PrivatelyBindablePropertyTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.AreEqual(Args.Value, NewValue);
-                Assert.False(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.AreEqual(Args.Value, NewValue);
+                ClassicAssert.False(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -83,6 +84,6 @@ public class PrivatelyBindablePropertyTests
 
         BindMethods.Bind(TargetProperty);
         SetMethods.SetValue(0);
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
     }
 }
