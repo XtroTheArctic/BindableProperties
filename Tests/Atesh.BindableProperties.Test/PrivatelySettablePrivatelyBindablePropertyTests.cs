@@ -1,6 +1,7 @@
 ﻿// ReSharper disable ObjectCreationAsStatement
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Atesh.BindableProperties.Test;
 
@@ -11,10 +12,10 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
     public void Constructors_ParameterValidation()
     {
         var E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettablePrivatelyBindableProperty<int>(null, out _, out _));
-        Assert.AreEqual(E.ParamName, nameof(PrivatelySettablePrivatelyBindableProperty<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(PrivatelySettablePrivatelyBindableProperty<>.Owner));
 
         E = Assert.Throws<ArgumentNullException>(() => new PrivatelySettablePrivatelyBindableProperty<int>(null, out _, out _, 0));
-        Assert.AreEqual(E.ParamName, nameof(PrivatelySettablePrivatelyBindableProperty<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(PrivatelySettablePrivatelyBindableProperty<>.Owner));
     }
 
     [Test]
@@ -51,8 +52,8 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
             PropertyIsEmpty = Args.IsEmpty;
         }
 
-        Assert.AreEqual(PropertyValue, Value);
-        Assert.False(PropertyIsEmpty);
+        ClassicAssert.AreEqual(PropertyValue, Value);
+        ClassicAssert.False(PropertyIsEmpty);
     }
 
     [Test]
@@ -68,7 +69,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
             PropertyIsEmpty = Args.IsEmpty;
         }
 
-        Assert.True(PropertyIsEmpty);
+        ClassicAssert.True(PropertyIsEmpty);
     }
 
     [Test]
@@ -97,9 +98,9 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.AreEqual(Args.Value, NewValue);
-                Assert.False(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.AreEqual(Args.Value, NewValue);
+                ClassicAssert.False(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -117,7 +118,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
 
         BindMethods.Bind(TargetProperty);
         SetMethods.SetValue(0);
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
     }
 
     [Test]
@@ -145,8 +146,8 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.True(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.True(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -164,7 +165,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
 
         BindMethods.Bind(TargetProperty);
         SetMethods.ClearValue();
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
     }
 
     [Test]
@@ -173,9 +174,9 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
         Property.Changed += (Sender, Args) =>
         {
-            Assert.AreEqual(Sender, Property);
-            Assert.AreEqual(Args.Value, default(int));
-            Assert.False(Args.IsEmpty);
+            ClassicAssert.AreEqual(Sender, Property);
+            ClassicAssert.AreEqual(Args.Value, default(int));
+            ClassicAssert.False(Args.IsEmpty);
             Assert.Pass();
         };
 
@@ -188,11 +189,11 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindMethods);
 
         var E = Assert.Throws<ArgumentNullException>(() => BindMethods.Bind(null));
-        Assert.AreEqual(E.ParamName, "Target");
+        ClassicAssert.AreEqual(E.ParamName, "Target");
 
         var E2 = Assert.Throws<ArgumentException>(() => BindMethods.Bind(Property));
-        Assert.AreEqual(E2.ParamName, "Target");
-        Assert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
+        ClassicAssert.AreEqual(E2.ParamName, "Target");
+        ClassicAssert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
     }
 
     [Test]
@@ -201,9 +202,9 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindMethods);
         var TargetProperty = new BindableProperty<int>(this);
 
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
         BindMethods.Bind(TargetProperty);
-        Assert.NotNull(Property.BoundProperty);
+        ClassicAssert.NotNull(Property.BoundProperty);
     }
 
     [Test]
@@ -219,9 +220,9 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.AreEqual(Args.Value, ValueOfTarget);
-                Assert.False(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.AreEqual(Args.Value, ValueOfTarget);
+                ClassicAssert.False(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -277,25 +278,25 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
 
         BindMethodsA.Bind(PropertyB, true);
 
-        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
-        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
-        Assert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        ClassicAssert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        ClassicAssert.AreEqual(2, Counter);
 
         Counter = 0;
         SetMethodsA.SetValue(3);
-        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        ClassicAssert.AreEqual(PropertyB, PropertyA.BoundProperty);
 
-        Assert.AreEqual(2, Counter);
-        Assert.AreEqual(3, ValueA);
-        Assert.AreEqual(3, ValueB);
+        ClassicAssert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(3, ValueA);
+        ClassicAssert.AreEqual(3, ValueB);
 
         Counter = 0;
         SetMethodsB.SetValue(5);
-        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        ClassicAssert.AreEqual(PropertyA, PropertyB.BoundProperty);
 
-        Assert.AreEqual(2, Counter);
-        Assert.AreEqual(5, ValueA);
-        Assert.AreEqual(5, ValueB);
+        ClassicAssert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(5, ValueA);
+        ClassicAssert.AreEqual(5, ValueB);
     }
 
     [Test]
@@ -306,21 +307,21 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         var TargetProperty2 = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out _);
 
         var E = Assert.Throws<ArgumentNullException>(() => BindMethods.BindExtended<string>(null, null));
-        Assert.AreEqual(E.ParamName, "Target");
+        ClassicAssert.AreEqual(E.ParamName, "Target");
 
         var E2 = Assert.Throws<ArgumentNullException>(() => BindMethods.BindExtended(TargetProperty, null));
-        Assert.AreEqual(E2.ParamName, "PrimaryConverter");
+        ClassicAssert.AreEqual(E2.ParamName, "PrimaryConverter");
 
         Assert.DoesNotThrow(() => BindMethods.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value))));
 
         var E3 = Assert.Throws<ArgumentNullException>(() => BindMethods.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)), true));
-        Assert.AreEqual(E3.ParamName, "SecondaryConverter");
+        ClassicAssert.AreEqual(E3.ParamName, "SecondaryConverter");
 
         Assert.DoesNotThrow(() => BindMethods.BindExtended(TargetProperty2, X => new(false, Convert.ToInt32(X.Value))));
 
         var E4 = Assert.Throws<ArgumentException>(() => BindMethods.BindExtended(Property, X => new(false, Convert.ToInt32(X.Value))));
-        Assert.AreEqual(E4.ParamName, "Target");
-        Assert.True(E4.Message.Contains(Strings.PropertyCanNotBindToItself));
+        ClassicAssert.AreEqual(E4.ParamName, "Target");
+        ClassicAssert.True(E4.Message.Contains(Strings.PropertyCanNotBindToItself));
     }
 
     [Test]
@@ -329,9 +330,9 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindMethods);
         var TargetProperty = new BindableProperty<string>(this);
 
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
         BindMethods.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)));
-        Assert.NotNull(Property.BoundProperty);
+        ClassicAssert.NotNull(Property.BoundProperty);
     }
 
     [Test]
@@ -347,9 +348,9 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.AreEqual(Args.Value, Convert.ToInt32(ValueOfTarget));
-                Assert.False(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.AreEqual(Args.Value, Convert.ToInt32(ValueOfTarget));
+                ClassicAssert.False(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -407,25 +408,25 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
 
         BindMethodsA.BindExtended(PropertyB, X => new(false, Convert.ToInt32(X.Value)), true, X => new(false, X.Value.ToString()));
 
-        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
-        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
-        Assert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        ClassicAssert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        ClassicAssert.AreEqual(2, Counter);
 
         Counter = 0;
         SetMethodsA.SetValue(3);
-        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        ClassicAssert.AreEqual(PropertyB, PropertyA.BoundProperty);
 
-        Assert.AreEqual(2, Counter);
-        Assert.AreEqual(3, ValueA);
-        Assert.AreEqual("3", ValueB);
+        ClassicAssert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(3, ValueA);
+        ClassicAssert.AreEqual("3", ValueB);
 
         Counter = 0;
         SetMethodsB.SetValue("5");
-        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        ClassicAssert.AreEqual(PropertyA, PropertyB.BoundProperty);
 
-        Assert.AreEqual(2, Counter);
-        Assert.AreEqual(5, ValueA);
-        Assert.AreEqual("5", ValueB);
+        ClassicAssert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(5, ValueA);
+        ClassicAssert.AreEqual("5", ValueB);
     }
 
     [Test]
@@ -436,7 +437,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
 
         BindMethods.Bind(TargetProperty);
         BindMethods.Unbind();
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
     }
 
     [Test]
@@ -445,7 +446,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindMethods);
 
         var E = Assert.Throws<InvalidOperationException>(() => BindMethods.Unbind());
-        Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
+        ClassicAssert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
     }
 
     [Test]
@@ -473,9 +474,9 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
     {
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindMethods);
 
-        Assert.False(Property.IsMonitoringWithoutBinding);
+        ClassicAssert.False(Property.IsMonitoringWithoutBinding);
         BindMethods.StartMonitoring();
-        Assert.True(Property.IsMonitoringWithoutBinding);
+        ClassicAssert.True(Property.IsMonitoringWithoutBinding);
     }
 
     [Test]
@@ -486,7 +487,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         BindMethods.StartMonitoring();
 
         var E = Assert.Throws<InvalidOperationException>(() => BindMethods.StartMonitoring());
-        Assert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
+        ClassicAssert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
     }
 
     [Test]
@@ -496,7 +497,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
 
         BindMethods.StartMonitoring();
         BindMethods.StopMonitoring();
-        Assert.False(Property.IsMonitoringWithoutBinding);
+        ClassicAssert.False(Property.IsMonitoringWithoutBinding);
     }
 
     [Test]
@@ -505,7 +506,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindMethods);
 
         var E = Assert.Throws<InvalidOperationException>(() => BindMethods.StopMonitoring());
-        Assert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
+        ClassicAssert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
     }
 
     [Test]
@@ -514,11 +515,11 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         var Property = new PrivatelySettablePrivatelyBindableProperty<int>(this, out _, out var BindMethods);
 
         var E = Assert.Throws<ArgumentNullException>(() => BindMethods.Monitor(null));
-        Assert.AreEqual(E.ParamName, "Target");
+        ClassicAssert.AreEqual(E.ParamName, "Target");
 
         var E2 = Assert.Throws<ArgumentException>(() => BindMethods.Monitor(Property));
-        Assert.AreEqual(E2.ParamName, "Target");
-        Assert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
+        ClassicAssert.AreEqual(E2.ParamName, "Target");
+        ClassicAssert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
     }
 
     [Test]
@@ -540,7 +541,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         BindMethods.Bind(TargetProperty);
 
         var E = Assert.Throws<InvalidOperationException>(() => BindMethods.Monitor(MonitoredProperty));
-        Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
+        ClassicAssert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
     }
 
     [Test]
@@ -552,7 +553,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         BindMethods.StartMonitoring();
 
         var E = Assert.Throws<InvalidOperationException>(() => BindMethods.Monitor(MonitoredProperty));
-        Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
+        ClassicAssert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
     }
 
     [Test]
@@ -566,7 +567,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         BindMethods.Bind(TargetProperty);
 
         MonitoredProperty.SetValue(DateTime.Now);
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
     }
 
     [Test]
@@ -579,7 +580,7 @@ public class PrivatelySettablePrivatelyBindablePropertyTests
         BindMethods.StartMonitoring();
 
         MonitoredProperty.SetValue(DateTime.Now);
-        Assert.False(Property.IsMonitoringWithoutBinding);
+        ClassicAssert.False(Property.IsMonitoringWithoutBinding);
     }
 
     [Test]

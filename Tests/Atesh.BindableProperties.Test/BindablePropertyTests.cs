@@ -1,6 +1,7 @@
 ﻿// ReSharper disable ObjectCreationAsStatement
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Atesh.BindableProperties.Test;
 
@@ -11,10 +12,10 @@ public class BindablePropertyTests
     public void Constructors_ParameterValidation()
     {
         var E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null));
-        Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(BindableProperty<>.Owner));
 
         E = Assert.Throws<ArgumentNullException>(() => new BindableProperty<int>(null, 0));
-        Assert.AreEqual(E.ParamName, nameof(BindableProperty<int>.Owner));
+        ClassicAssert.AreEqual(E.ParamName, nameof(BindableProperty<>.Owner));
     }
 
     [Test]
@@ -33,8 +34,8 @@ public class BindablePropertyTests
             PropertyIsEmpty = Args.IsEmpty;
         }
 
-        Assert.AreEqual(PropertyValue, Value);
-        Assert.False(PropertyIsEmpty);
+        ClassicAssert.AreEqual(PropertyValue, Value);
+        ClassicAssert.False(PropertyIsEmpty);
     }
 
     [Test]
@@ -43,11 +44,11 @@ public class BindablePropertyTests
         var Property = new BindableProperty<int>(this);
 
         var E = Assert.Throws<ArgumentNullException>(() => Property.Bind(null));
-        Assert.AreEqual(E.ParamName, "Target");
+        ClassicAssert.AreEqual(E.ParamName, "Target");
 
         var E2 = Assert.Throws<ArgumentException>(() => Property.Bind(Property));
-        Assert.AreEqual(E2.ParamName, "Target");
-        Assert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
+        ClassicAssert.AreEqual(E2.ParamName, "Target");
+        ClassicAssert.True(E2.Message.Contains(Strings.PropertyCanNotBindToItself));
     }
 
     [Test]
@@ -56,9 +57,9 @@ public class BindablePropertyTests
         var Property = new BindableProperty<int>(this);
         var TargetProperty = new BindableProperty<int>(this);
 
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
         Property.Bind(TargetProperty);
-        Assert.NotNull(Property.BoundProperty);
+        ClassicAssert.NotNull(Property.BoundProperty);
     }
 
     [Test]
@@ -74,9 +75,9 @@ public class BindablePropertyTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.AreEqual(Args.Value, ValueOfTarget);
-                Assert.False(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.AreEqual(Args.Value, ValueOfTarget);
+                ClassicAssert.False(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -115,25 +116,25 @@ public class BindablePropertyTests
 
         PropertyA.Bind(PropertyB, true);
 
-        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
-        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
-        Assert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        ClassicAssert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        ClassicAssert.AreEqual(2, Counter);
 
         Counter = 0;
         PropertyA.SetValue(3);
-        Assert.AreEqual(PropertyB, PropertyA.BoundProperty);
+        ClassicAssert.AreEqual(PropertyB, PropertyA.BoundProperty);
 
-        Assert.AreEqual(2, Counter);
-        Assert.AreEqual(3, ValueA);
-        Assert.AreEqual(3, ValueB);
+        ClassicAssert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(3, ValueA);
+        ClassicAssert.AreEqual(3, ValueB);
 
         Counter = 0;
         PropertyB.SetValue(5);
-        Assert.AreEqual(PropertyA, PropertyB.BoundProperty);
+        ClassicAssert.AreEqual(PropertyA, PropertyB.BoundProperty);
 
-        Assert.AreEqual(2, Counter);
-        Assert.AreEqual(5, ValueA);
-        Assert.AreEqual(5, ValueB);
+        ClassicAssert.AreEqual(2, Counter);
+        ClassicAssert.AreEqual(5, ValueA);
+        ClassicAssert.AreEqual(5, ValueB);
     }
 
     [Test]
@@ -144,21 +145,21 @@ public class BindablePropertyTests
         var TargetProperty2 = new BindableProperty<int>(this);
 
         var E = Assert.Throws<ArgumentNullException>(() => Property.BindExtended<string>(null, null));
-        Assert.AreEqual(E.ParamName, "Target");
+        ClassicAssert.AreEqual(E.ParamName, "Target");
 
         var E2 = Assert.Throws<ArgumentNullException>(() => Property.BindExtended(TargetProperty, null));
-        Assert.AreEqual(E2.ParamName, "PrimaryConverter");
+        ClassicAssert.AreEqual(E2.ParamName, "PrimaryConverter");
 
         Assert.DoesNotThrow(() => Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value))));
 
         var E3 = Assert.Throws<ArgumentNullException>(() => Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)), true));
-        Assert.AreEqual(E3.ParamName, "SecondaryConverter");
+        ClassicAssert.AreEqual(E3.ParamName, "SecondaryConverter");
 
         Assert.DoesNotThrow(() => Property.BindExtended(TargetProperty2, X => new(false, Convert.ToInt32(X.Value))));
 
         var E4 = Assert.Throws<ArgumentException>(() => Property.BindExtended(Property, X => new(false, Convert.ToInt32(X.Value))));
-        Assert.AreEqual(E4.ParamName, "Target");
-        Assert.True(E4.Message.Contains(Strings.PropertyCanNotBindToItself));
+        ClassicAssert.AreEqual(E4.ParamName, "Target");
+        ClassicAssert.True(E4.Message.Contains(Strings.PropertyCanNotBindToItself));
     }
 
     [Test]
@@ -167,9 +168,9 @@ public class BindablePropertyTests
         var Property = new BindableProperty<int>(this);
         var TargetProperty = new BindableProperty<string>(this);
 
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
         Property.BindExtended(TargetProperty, X => new(false, Convert.ToInt32(X.Value)));
-        Assert.NotNull(Property.BoundProperty);
+        ClassicAssert.NotNull(Property.BoundProperty);
     }
 
     [Test]
@@ -185,9 +186,9 @@ public class BindablePropertyTests
         {
             if (PropertyValueReceivedOnce)
             {
-                Assert.AreEqual(Sender, Property);
-                Assert.AreEqual(Args.Value, Convert.ToInt32(ValueOfTarget));
-                Assert.False(Args.IsEmpty);
+                ClassicAssert.AreEqual(Sender, Property);
+                ClassicAssert.AreEqual(Args.Value, Convert.ToInt32(ValueOfTarget));
+                ClassicAssert.False(Args.IsEmpty);
                 Assert.Pass();
             }
             else PropertyValueReceivedOnce = true;
@@ -224,7 +225,7 @@ public class BindablePropertyTests
 
         Property.Bind(TargetProperty);
         Property.Unbind();
-        Assert.Null(Property.BoundProperty);
+        ClassicAssert.Null(Property.BoundProperty);
     }
 
     [Test]
@@ -233,7 +234,7 @@ public class BindablePropertyTests
         var Property = new BindableProperty<int>(this);
 
         var E = Assert.Throws<InvalidOperationException>(() => Property.Unbind());
-        Assert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
+        ClassicAssert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
     }
 
     [Test]
@@ -261,9 +262,9 @@ public class BindablePropertyTests
     {
         var Property = new BindableProperty<int>(this);
 
-        Assert.False(Property.IsMonitoringWithoutBinding);
+        ClassicAssert.False(Property.IsMonitoringWithoutBinding);
         Property.StartMonitoring();
-        Assert.True(Property.IsMonitoringWithoutBinding);
+        ClassicAssert.True(Property.IsMonitoringWithoutBinding);
     }
 
     [Test]
@@ -274,7 +275,7 @@ public class BindablePropertyTests
         Property.StartMonitoring();
 
         var E = Assert.Throws<InvalidOperationException>(() => Property.StartMonitoring());
-        Assert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
+        ClassicAssert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
     }
 
     [Test]
@@ -284,7 +285,7 @@ public class BindablePropertyTests
 
         Property.StartMonitoring();
         Property.StopMonitoring();
-        Assert.False(Property.IsMonitoringWithoutBinding);
+        ClassicAssert.False(Property.IsMonitoringWithoutBinding);
     }
 
     [Test]
@@ -293,7 +294,7 @@ public class BindablePropertyTests
         var Property = new BindableProperty<int>(this);
 
         var E = Assert.Throws<InvalidOperationException>(() => Property.StopMonitoring());
-        Assert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
+        ClassicAssert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
     }
 
     [Test]
@@ -302,11 +303,11 @@ public class BindablePropertyTests
         var Property = new BindableProperty<int>(this);
 
         var E = Assert.Throws<ArgumentNullException>(() => Property.Monitor(null));
-        Assert.AreEqual(E.ParamName, "Target");
+        ClassicAssert.AreEqual(E.ParamName, "Target");
 
         var E2 = Assert.Throws<ArgumentException>(() => Property.Monitor(Property));
-        Assert.AreEqual(E2.ParamName, "Target");
-        Assert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
+        ClassicAssert.AreEqual(E2.ParamName, "Target");
+        ClassicAssert.True(E2.Message.Contains(Strings.PropertyCanNotMonitorItself));
     }
 
     [Test]
@@ -328,7 +329,7 @@ public class BindablePropertyTests
         Property.Bind(TargetProperty);
 
         var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
-        Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
+        ClassicAssert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
     }
 
     [Test]
@@ -340,6 +341,6 @@ public class BindablePropertyTests
         Property.StartMonitoring();
 
         var E = Assert.Throws<InvalidOperationException>(() => Property.Monitor(MonitoredProperty));
-        Assert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
+        ClassicAssert.AreEqual(Strings.PropertyCanNotMonitorAfterMonitoringStarted, E.Message);
     }
 }
