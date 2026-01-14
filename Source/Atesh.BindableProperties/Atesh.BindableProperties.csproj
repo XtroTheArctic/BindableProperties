@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Configurations>Release</Configurations>
-    <Version>1.9</Version>
+    <Version>0</Version>
     <Company>Atesh Entertainment Inc.</Company>
     <Product>BindableProperties</Product>
     <Authors>The team members are listed in README.md file on project web page.</Authors>
