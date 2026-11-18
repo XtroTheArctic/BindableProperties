@@ -233,7 +233,7 @@ public class PrivatelySettableBindablePropertyTests
     {
         var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
-        var E = Assert.Throws<InvalidOperationException>(() => Property.Unbind());
+        var E = Assert.Throws<InvalidOperationException>(Property.Unbind);
         ClassicAssert.AreEqual(Strings.PropertyNotBoundYet, E.Message);
     }
 
@@ -274,7 +274,7 @@ public class PrivatelySettableBindablePropertyTests
 
         Property.StartMonitoring();
 
-        var E = Assert.Throws<InvalidOperationException>(() => Property.StartMonitoring());
+        var E = Assert.Throws<InvalidOperationException>(Property.StartMonitoring);
         ClassicAssert.AreEqual(Strings.MonitoringAlreadyStarted, E.Message);
     }
 
@@ -293,7 +293,7 @@ public class PrivatelySettableBindablePropertyTests
     {
         var Property = new PrivatelySettableBindableProperty<int>(this, out _);
 
-        var E = Assert.Throws<InvalidOperationException>(() => Property.StopMonitoring());
+        var E = Assert.Throws<InvalidOperationException>(Property.StopMonitoring);
         ClassicAssert.AreEqual(Strings.MonitoringNotStartedYet, E.Message);
     }
 
